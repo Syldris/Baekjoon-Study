@@ -43,17 +43,14 @@ public class NewEmptyCSharpScript
             {
                 int px = x + dx[i];
                 int py = y + dy[i];
-                if (px < 0 || py < 0 || px >= m || py >= n)
-                    continue;
-
-                if(!visited[px, py, breakNum])
+                if (px >= 0 && py >= 0 && px < m && py < n)
                 {
-                    if (arr[px, py] == 1 && breakNum < k)
+                    if (arr[px, py] == 1 && breakNum < k && !visited[px, py, breakNum + 1])
                     {
                         visited[px, py, breakNum + 1] = true;
                         queue.Enqueue((px, py, time + 1, breakNum + 1));
                     }
-                    else if (arr[px, py] == 0)
+                    else if (arr[px, py] == 0 && !visited[px, py, breakNum])
                     {
                         visited[px, py, breakNum] = true;
                         queue.Enqueue((px, py, time + 1, breakNum));
@@ -61,6 +58,6 @@ public class NewEmptyCSharpScript
                 }
             }
         }
-        Console.WriteLine(-1);
+    Console.WriteLine(-1);
     }
 }
