@@ -12,10 +12,10 @@ public class NewEmptyCSharpScript
         int[,] arr = new int[m, n];
         bool[,,] visited = new bool[m, n, k + 1];
 
-        for(int y = 0; y < n; y++)
+        for (int y = 0; y < n; y++)
         {
             string line = Console.ReadLine();
-            for(int x = 0; x < m; x++)
+            for (int x = 0; x < m; x++)
             {
                 arr[x, y] = line[x] - '0';
             }
@@ -33,7 +33,7 @@ public class NewEmptyCSharpScript
         {
             (int x, int y, int time, int breakNum) = queue.Dequeue();
 
-            if(x == m-1 && y == n-1)
+            if (x == m - 1 && y == n - 1)
             {
                 Console.WriteLine(time);
                 return;
@@ -43,19 +43,19 @@ public class NewEmptyCSharpScript
             {
                 int px = x + dx[i];
                 int py = y + dy[i];
-                if(px < 0 || py < 0 || px >= m || py >= n) 
+                if (px < 0 || py < 0 || px >= m || py >= n)
                     continue;
 
-                if (!visited[px,py,breakNum])
+                if(!visited[px, py, breakNum])
                 {
-                    if (arr[px,py] == 1 && breakNum < k)
+                    if (arr[px, py] == 1 && breakNum < k)
                     {
-                        visited[px,py,breakNum+1] = true;
+                        visited[px, py, breakNum + 1] = true;
                         queue.Enqueue((px, py, time + 1, breakNum + 1));
                     }
-                    else if (arr[px,py] == 0)
+                    else if (arr[px, py] == 0)
                     {
-                        visited[px,py,breakNum] = true;
+                        visited[px, py, breakNum] = true;
                         queue.Enqueue((px, py, time + 1, breakNum));
                     }
                 }
