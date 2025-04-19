@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 public class NewEmptyCSharpScript1
 {
     static void Main()
@@ -19,6 +20,8 @@ public class NewEmptyCSharpScript1
         {
             sb.AppendLine(item.ToString());
         }
-        Console.WriteLine(sb);
+        StreamWriter sw = new(new BufferedStream(Console.OpenStandardOutput()));
+        sw.Write(sb);
+        sw.Close(); 
     }
 }
