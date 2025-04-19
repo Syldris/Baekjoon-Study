@@ -1,0 +1,23 @@
+[백준 1392번: 정수 삼각형]([https://github.com/Syldris/Baekjoon-Study/tree/main/C%23/%EB%B0%B1%EC%A4%80/Gold/12865.%E2%80%85%ED%8F%89%EB%B2%94%ED%95%9C%E2%80%85%EB%B0%B0%EB%82%AD](https://github.com/Syldris/Baekjoon-Study/tree/main/C%23/%EB%B0%B1%EC%A4%80/Silver/1932.%E2%80%85%EC%A0%95%EC%88%98%E2%80%85%EC%82%BC%EA%B0%81%ED%98%95))
+
+```csharp
+        7
+      3   8
+    8   1   0
+  2   7   4   4
+4   5   2   6   5
+```
+✅ 문제 요약
+
+삼각형의 꼭대기에서 아래층으로 내려오며 합을 구할 때, **최댓값**을 구하라.
+
+- 한 칸 내려갈 때, **대각선 왼쪽칸** 또는 **대각선 오른쪽칸**으로만 이동 가능
+
+- 점화식
+
+```csharp
+arr[i, j] += Math.Max(arr[i - 1, j - 1], arr[i - 1, j]);
+```
+
+- `arr[i, j]`: `i행 j열`까지 내려왔을 때의 **최대 경로 합**
+- 아래로 내려오면서 **이전 단계의 최댓값을 누적**
