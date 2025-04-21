@@ -1,5 +1,5 @@
 
-## [백준 2096번: 내려가기](https://www.acmicpc.net/problem/2096)
+## [백준 2096번: 내려가기](https://github.com/Syldris/Baekjoon-Study/tree/main/C%23/%EB%B0%B1%EC%A4%80/Gold/2096.%E2%80%85%EB%82%B4%EB%A0%A4%EA%B0%80%EA%B8%B0)
 
 ### ✅ 문제 요약
 
