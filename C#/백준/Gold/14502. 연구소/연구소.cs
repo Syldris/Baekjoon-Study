@@ -24,11 +24,11 @@ class Program
             }
         }
 
-        int[,] temparr = (int[,])arr.Clone();
-
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
+
         bool[,] visited = new bool[m, n];
+        List<(int, int)> infected = new List<(int, int)>();
 
         int zerocount = zerolist.Count;
         int maxValue = 0;
@@ -78,8 +78,14 @@ class Program
                         value++;
                 }
             }
+
+            foreach (var (x, y) in infected)
+            {
+                arr[x, y] = 0;
+            }
+            infected.Clear();
+
             maxValue = Math.Max(value, maxValue);
-            arr = (int[,])temparr.Clone();
         }
 
         Console.WriteLine(maxValue);
@@ -106,6 +112,7 @@ class Program
                         {
                             arr[px, py] = 2;
                             queue.Enqueue((px, py));
+                            infected.Add((px, py));
                         }
                     }
                 }
