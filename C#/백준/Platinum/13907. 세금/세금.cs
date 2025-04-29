@@ -16,10 +16,10 @@ class Program
         int start = int.Parse(input[0]);
         int end = int.Parse(input[1]);
 
-        List<(long pos, long cost)>[] graph = new List<(long, long)>[n + 1];
+        List<(int pos, int cost)>[] graph = new List<(int, int)>[n + 1];
         for (int i = 1; i <= n; i++)
         {
-            graph[i] = new List<(long, long)>();
+            graph[i] = new List<(int, int)>();
         }
 
         for (int i = 0; i < m; i++)
@@ -32,23 +32,23 @@ class Program
             graph[d].Add((s, cost));
         }
 
-        PriorityQueue<(long pos, long cost, long edgeCount), (long cost, long edgeCount)> queue = new();
+        PriorityQueue<(int pos, int cost, int edgeCount), (int cost, int edgeCount)> queue = new();
         queue.Enqueue((start, 0, 0), (0, 0));
 
-        long[,] distance = new long[n + 1, n + 1];
+        int[,] distance = new int[n + 1, n + 1];
         for (int i = 0; i <= n; i++)
         {
             for (int j = 0; j <= n; j++)
             {
-                distance[i,j] = long.MaxValue;
+                distance[i, j] = int.MaxValue;
             }
         }
 
-        distance[start,0] = 0;
+        distance[start, 0] = 0;
 
         while (queue.Count > 0)
         {
-            (long pos, long cost, long edgeCount) = queue.Dequeue();
+            (int pos, int cost, int edgeCount) = queue.Dequeue();
             if (pos == end)
             {
                 continue;
@@ -56,9 +56,9 @@ class Program
 
             foreach (var next in graph[pos])
             {
-                long curcost = next.cost + cost;
-                long nextEdge = edgeCount + 1;
-                if(nextEdge > n) 
+                int curcost = next.cost + cost;
+                int nextEdge = edgeCount + 1;
+                if (nextEdge > n)
                     continue;
 
                 if (distance[next.pos, nextEdge] > curcost)
@@ -71,7 +71,7 @@ class Program
 
         StringBuilder sb = new StringBuilder();
         StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
-        long min = long.MaxValue;
+        int min = int.MaxValue;
         for (int i = 0; i <= n; i++)
         {
             if (distance[end, i] < min)
@@ -79,17 +79,17 @@ class Program
         }
         sb.AppendLine(min.ToString());
 
-        long totalTax = 0;
+        int totalTax = 0;
 
         for (int i = 0; i < k; i++)
         {
-            long tax = long.Parse(sr.ReadLine());
+            int tax = int.Parse(sr.ReadLine());
             totalTax += tax;
 
-            long taxedMin = long.MaxValue;
+            int taxedMin = int.MaxValue;
             for (int j = 0; j <= n; j++)
             {
-                if (distance[end, j] == long.MaxValue) continue;
+                if (distance[end, j] == int.MaxValue) continue;
                 taxedMin = Math.Min(taxedMin, distance[end, j] + j * totalTax);
             }
             sb.AppendLine(taxedMin.ToString());
