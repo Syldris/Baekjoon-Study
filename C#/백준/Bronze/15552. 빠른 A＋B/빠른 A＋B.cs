@@ -1,19 +1,23 @@
 using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
 using System.Linq;
-public class NewEmptyCSharpScript
+class Program
 {
     static void Main()
     {
-        int count = int.Parse(Console.ReadLine());
+        StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < count; i++)
+        StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+
+        int n = int.Parse(sr.ReadLine());
+        for (int i = 0; i < n; i++)
         {
-            string[] arr = Console.ReadLine().Split(' ');
-            int num = int.Parse(arr[0]) + int.Parse(arr[1]);
-            sb.Append(num).Append("\n");
+            int[] line = sr.ReadLine().Split().Select(int.Parse).ToArray();
+            sb.Append(line[0] + line[1]).Append("\n");
         }
-        Console.WriteLine(sb.ToString());
+        sw.WriteLine(sb);
+        sr.Close();
+        sw.Close();
     }
 }
