@@ -43,6 +43,8 @@ class Program
         {
             (int pos, int cost) = queue.Dequeue();
 
+            if (dist[pos].Count > k && dist[pos].Peek() < cost)
+                continue;
 
             foreach (var next in graph[pos])
             {
