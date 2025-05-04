@@ -19,6 +19,8 @@ class Program
             b = r;
         }
 
-        Console.WriteLine(new String('1', (int)a));
+        StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+        sw.Write(new String('1', (int)a));
+        sw.Close();
     }
 }
