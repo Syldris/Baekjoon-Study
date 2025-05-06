@@ -1,11 +1,7 @@
-using System;
-using System.Text;
-using System.IO;
 public class Program
 {
     static void Main()
     {
-        long n = long.Parse(Console.ReadLine());
-        Console.WriteLine(n*4);
+        Console.WriteLine(long.Parse(Console.ReadLine())* 4);
     }
 }
