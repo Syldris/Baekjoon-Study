@@ -1,0 +1,20 @@
+using System;
+public class Program
+{
+    static void Main()
+    {
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+
+        while (true)
+        {
+            string[] inputs = sr.ReadLine().Split();
+            int a = int.Parse(inputs[0]);
+            int b = int.Parse(inputs[1]);
+
+            if (a == 0 && b == 0)
+                break;
+            sw.WriteLine(a > b ? "Yes" : "No");
+        }
+    }
+}
