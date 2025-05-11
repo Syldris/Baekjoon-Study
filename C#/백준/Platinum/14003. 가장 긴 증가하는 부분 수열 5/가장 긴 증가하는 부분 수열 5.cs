@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 public class Program
 {
     static void Main()
@@ -48,13 +49,19 @@ public class Program
 
         int cur = listIndex[listIndex.Count - 1];
         Stack<int> stack = new Stack<int>();
+        StringBuilder sb = new StringBuilder();
         while (cur != -1)
         {
             stack.Push(arr[cur]);
             cur = prev[cur];
         }
 
+        while (stack.Count > 0)
+        {
+            sb.Append(stack.Pop()).Append(' ');
+        }
+
         sw.WriteLine(list.Count());
-        sw.WriteLine(String.Join(" ", stack));
+        sw.WriteLine(sb);
     }
 }
