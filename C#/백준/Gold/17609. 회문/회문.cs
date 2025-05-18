@@ -8,35 +8,19 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         int tastcaset = int.Parse(sr.ReadLine());
+        string line;
+
         for (int t = 0; t < tastcaset; t++)
         {
-            string line = sr.ReadLine();
+            line = sr.ReadLine();
 
             int start = 0, end = line.Length - 1;
-            int num = 0;
-
-            while (start < end)
-            {
-                if (line[start] == line[end])
-                {
-                    start++;
-                    end--;
-                }
-                else if (Palindrome(line, start + 1, end) || Palindrome(line, start, end - 1))
-                {
-                    num = 1;
-                    break;
-                }
-                else
-                {
-                    num = 2;
-                    break;
-                }
-            }
-            sw.WriteLine(num);
+            sw.WriteLine(Palindrome(start,end,false));
         }
-        bool Palindrome(string line, int start, int end)
+
+        int Palindrome(int start, int end, bool isPseudo)
         {
+            int num = 0;
             while (start < end)
             {
                 if (line[start] == line[end])
@@ -44,10 +28,18 @@ class Program
                     start++;
                     end--;
                 }
+                else if (!isPseudo)
+                {
+                    int a = Palindrome(start + 1, end, true);
+                    int b = Palindrome(start, end - 1, true);
+                    return Math.Min(a, b);
+                }
                 else
-                    return false;
+                {
+                    return 2;
+                }
             }
-            return true;
+            return isPseudo ? 1 : 0;
         }
     }
 }
