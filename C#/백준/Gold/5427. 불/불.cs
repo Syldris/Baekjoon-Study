@@ -85,8 +85,8 @@ class Program
             }
             visited[startPos.x, startPos.y] = 0;
 
-            PriorityQueue<(int x, int y, int sec),int> queue = new PriorityQueue<(int, int, int),int>();
-            queue.Enqueue((startPos.x, startPos.y, 0),0);
+            Queue<(int x, int y, int sec)> queue = new Queue<(int, int, int)>();
+            queue.Enqueue((startPos.x, startPos.y, 0));
             bool escape = false;
 
             while (queue.Count > 0)
@@ -110,7 +110,7 @@ class Program
                     if (board[px, py] == '.' && sec+1 < fireTime[px,py] && sec + 1 < visited[px,py])
                     {
                         visited[px, py] = sec + 1;
-                        queue.Enqueue((px, py, sec + 1), sec + 1);
+                        queue.Enqueue((px, py, sec + 1));
                     }
                 }
             }
