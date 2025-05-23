@@ -57,6 +57,7 @@ class Program
             while (firequeue.Count > 0)
             {
                 (int x, int y, int sec) = firequeue.Dequeue();
+                sec++;
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -67,10 +68,10 @@ class Program
                         continue;
                     }
 
-                    if (board[px, py] == '.' && sec + 1< fireTime[px,py])
+                    if (board[px, py] == '.' && sec< fireTime[px,py])
                     {
-                        fireTime[px,py] = sec + 1;
-                        firequeue.Enqueue((px, py, sec + 1));
+                        fireTime[px,py] = sec;
+                        firequeue.Enqueue((px, py, sec));
                     }
                 }
             }
@@ -96,21 +97,22 @@ class Program
                 if(escape)
                     break;
 
+                sec++;
                 for(int i = 0; i < 4;  i++)
                 {
                     int px = x + dx[i];
                     int py = y + dy[i];
                     if(px < 0 || py < 0 || px >= m || py >= n)
                     {
-                        sw.WriteLine(++sec);
+                        sw.WriteLine(sec);
                         escape = true;
                         break;
                     }
 
-                    if (board[px, py] == '.' && sec+1 < fireTime[px,py] && sec + 1 < visited[px,py])
+                    if (board[px, py] == '.' && sec < fireTime[px,py] && sec < visited[px,py])
                     {
-                        visited[px, py] = sec + 1;
-                        queue.Enqueue((px, py, sec + 1));
+                        visited[px, py] = sec;
+                        queue.Enqueue((px, py, sec));
                     }
                 }
             }
