@@ -9,8 +9,7 @@ class Program
         int sum = 0;
         for(int i = 0; i < 10; i++)
         {
-            int n = int.Parse(sr.ReadLine());
-            sum += n;
+            sum += int.Parse(sr.ReadLine());
         }
         switch(sum%4)
         {
