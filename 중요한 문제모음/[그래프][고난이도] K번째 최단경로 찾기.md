@@ -74,6 +74,6 @@ for (int i = 1; i <= n; i++)
 ```
 ---
 #### 후기
-- 거리를 **MaxHeap**으로 구현해서 효율적으로 코드가 작동된거같아 좋았다!
+- 거리를 우선순위큐를 활용해 **MaxHeap**으로 구현해서 효율적으로 코드가 작동된거같아 좋았다!
 - C#중 **제일 빠른 시간**(1등!)으로 푼것이 매우 놀라웠다!
 ![image](https://github.com/user-attachments/assets/76b53f89-264a-482a-a266-ce4ef6dfe29a)
