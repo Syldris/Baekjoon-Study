@@ -19,8 +19,8 @@ class Program
         {
             for (int x = 0; x < m; x++)
             {
-                watervisited[x,y] = int.MaxValue;
-                visited[x,y] = int.MaxValue;
+                watervisited[x,y] = 2500;
+                visited[x,y] = 2500;
             }
         }
         
@@ -57,9 +57,9 @@ class Program
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
         Queue<(int x, int y, int time)> waterqueue = new();
-        foreach (var water in waterlist)
+        for(int i = 0; i < waterlist.Count; i++)
         {
-            waterqueue.Enqueue((water.x, water.y, 0));
+            waterqueue.Enqueue((waterlist[i].x, waterlist[i].y, 0));
         }
         while (waterqueue.Count > 0)
         {
@@ -97,7 +97,7 @@ class Program
                 if (px < 0 || py < 0 || px >= m || py >= n)
                     continue;
 
-                if (time < visited[px, py] && time < watervisited[px,py] && board[px, py] == '.' || board[px, py] == 'D' )
+                if (time < visited[px, py] && time < watervisited[px,py] && board[px, py] != 'X')
                 {
                     visited[px, py] = time;
                     queue.Enqueue((px, py, time));
