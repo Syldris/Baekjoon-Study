@@ -23,32 +23,30 @@ class Program
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
 
-        int count = 0;
+        int maxCount = 0;
         int startbit = 1 << (board[0, 0] - 'A');
-        Queue<(int x, int y, int value, int bit)> queue = new();
-        queue.Enqueue((0, 0, 1, startbit));
-        while (queue.Count > 0)
+
+        Backtrack(0, 0, startbit, 1);
+
+        void Backtrack(int x,int y, int bit, int count)
         {
-            (int x, int y, int value, int bit) = queue.Dequeue();
-            count = Math.Max(count, value);
-            if (value == 26)
-                break;
+            maxCount = Math.Max(maxCount, count);
+            if(maxCount == 26) return;
+
             for (int i = 0; i < 4; i++)
             {
                 int px = x + dx[i];
                 int py = y + dy[i];
-                if (px < 0 || py < 0 || px >= m || py >= n)
-                {
+
+                if(px < 0 || py < 0 || px >= m || py >= n)
                     continue;
-                }
                 int newbit = 1 << (board[px, py] - 'A');
                 if((bit & newbit) == 0)
                 {
-                    queue.Enqueue((px, py, value + 1, bit | newbit));
+                    Backtrack(px, py, bit | newbit, count + 1);
                 }
             }
         }
-
-        sw.Write(count);
+        sw.Write(maxCount);
     }
 }
