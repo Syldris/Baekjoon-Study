@@ -13,31 +13,25 @@ class Program
         int maxValue = 0;
 
         int start = 0, end = 0;
-        bool[] alphabet = new bool[26]; 
         int alphabetCount = 0;
         int[] count = new int[26];
         while (end < input.Length)
         {
             int index = input[end] - 'a';
-            count[index]++;
-            if(!alphabet[index])
-            {
-                alphabet[index] = true;
+            if (count[index] == 0)
                 alphabetCount++;
-            }
+            count[index]++;
             while (alphabetCount > n)
             {
                 int startIndex = input[start] - 'a';
                 count[startIndex]--;
                 if (count[startIndex] == 0)
                 {
-                    alphabet[startIndex] = false;
                     alphabetCount--;
                 }
                 start++;
             }
-            int value = end - start + 1;
-            maxValue = Math.Max(maxValue, value);
+            maxValue = Math.Max(maxValue, end - start + 1);
             end++;
         }
         sw.Write(maxValue);
