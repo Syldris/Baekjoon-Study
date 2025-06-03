@@ -38,9 +38,6 @@ class Program
         value = 0;
         maxValue = 0;
 
-        Array.Clear(diag1, 0, diag1.Length);
-        Array.Clear(diag2, 0, diag2.Length);
-
         DFS(0, whites);
         whiteValue = maxValue;
         sw.Write(blackValue + whiteValue);
