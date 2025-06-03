@@ -52,6 +52,9 @@ class Program
                 maxValue = Math.Max(maxValue, value);
                 return;
             }
+            if (value + (list.Count - index) <= maxValue)
+                return;
+
             (int x, int y) = list[index];
             if (CanPlace(x, y))
             {
