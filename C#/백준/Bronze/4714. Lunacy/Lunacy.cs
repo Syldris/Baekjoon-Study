@@ -12,7 +12,7 @@ class Program
             if(weight < 0)
                 break;
             float moonWeight = weight * 0.167f;
-            sw.WriteLine($"Objects weighing {weight.ToString("F2")} on Earth will weigh {moonWeight.ToString("F2")} on the moon.");
+            sw.WriteLine($"Objects weighing {weight:F2} on Earth will weigh {moonWeight:F2} on the moon.");
         }
     }
 }
