@@ -43,6 +43,7 @@ class Program
             if (node == n)
             {
                 minValue = Math.Min(minValue, cost);
+                continue;
             }
 
             if (cost > distance[node, kCount])
