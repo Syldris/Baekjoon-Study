@@ -18,7 +18,7 @@ class Program
             graph[i] = new List<(int node, int k, long cost)>();
             for (int j = 0; j <= k; j++)
             {
-                distance[i,j] = long.MaxValue;
+                distance[i, j] = long.MaxValue;
             }
         }
 
@@ -32,8 +32,6 @@ class Program
             graph[end].Add((start, 0, cost));
         }
 
-        long minValue = long.MaxValue;
-
         PriorityQueue<(int node, int kCount, long cost), long> queue = new();
         queue.Enqueue((1, 0, 0), 0);
         while (queue.Count > 0)
@@ -42,8 +40,8 @@ class Program
 
             if (node == n)
             {
-                minValue = Math.Min(minValue, cost);
-                continue;
+                sw.Write(cost);
+                return;
             }
 
             if (cost > distance[node, kCount])
@@ -65,12 +63,11 @@ class Program
                     int curKCount = kCount + 1;
                     if (cost < distance[next.node, curKCount])
                     {
-                        distance[next.node,curKCount] = cost;
+                        distance[next.node, curKCount] = cost;
                         queue.Enqueue((next.node, curKCount, cost), cost);
                     }
                 }
             }
         }
-        sw.Write(minValue);
     }
 }
