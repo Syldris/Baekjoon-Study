@@ -58,8 +58,10 @@ class Program
             {
                 int mid = (start + end) / 2;
 
-                Update(2 * node, start, mid, index, value);
-                Update(2 * node + 1, mid + 1, end, index, value);
+                if(index <= mid) 
+                    Update(2 * node, start, mid, index, value);
+                else
+                    Update(2 * node + 1, mid + 1, end, index, value);
             }
         }
 
