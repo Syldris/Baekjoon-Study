@@ -8,14 +8,9 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         int n = int.Parse(sr.ReadLine());
-        string[] input = sr.ReadLine().Split();
-        long[] arr = new long[n + 1];
+        long[] arr = Array.ConvertAll(sr.ReadLine().Split(), long.Parse);
         long[] tree = new long[n * 4];
 
-        for (int i = 1; i <= n; i++)
-        {
-            arr[i] = long.Parse(input[i-1]);
-        }
         
         int m = int.Parse(sr.ReadLine());
 
@@ -66,7 +61,7 @@ class Program
         {
             if (start == end)
             {
-                return tree[node] = arr[start];
+                return tree[node] = arr[start - 1];
             }
 
             int mid = (start + end) / 2;
