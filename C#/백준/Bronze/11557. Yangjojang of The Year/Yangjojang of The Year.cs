@@ -1,5 +1,6 @@
 #nullable disable
 using System;
+using System.Collections;
 class Program
 {
     static void Main()
@@ -17,8 +18,7 @@ class Program
                 string[] input = sr.ReadLine().Split();
                 school[i] = (input[0], int.Parse(input[1]));
             }
-
-            school = school.OrderByDescending(x => x.value).ToArray();
+            Array.Sort(school,(a, b) => b.value.CompareTo(a.value));
             sw.WriteLine(school[0].name);
         }
     }
