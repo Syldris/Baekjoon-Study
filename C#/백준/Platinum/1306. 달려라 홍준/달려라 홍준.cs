@@ -26,13 +26,13 @@ class Program
 
             deque.AddLast(i);
 
-            if (deque.First.Value < i - (2 * m - 2))
+            if (i >= 2 * m - 2)
+                result.Add(arr[deque.First.Value]);
+
+            if (deque.First.Value < i - (2 * m - 3))
             {
                 deque.RemoveFirst();
             }
-
-            if (i >= 2 * m - 2)
-                result.Add(arr[deque.First.Value]);
         }
 
         sw.Write(string.Join(" ", result));
