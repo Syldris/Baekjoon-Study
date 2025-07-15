@@ -74,8 +74,8 @@ class Program
 
         for (int i = 0; i < n; i++)
         {
-            sw.WriteLine(Query(1, 0, rank, arr[i], rank) + 1);
-            Update(1, 1, rank, arr[i]);
+            sw.WriteLine(Query(1, 0, rank - 1, arr[i], rank - 1) + 1);
+            Update(1, 0, rank - 1, arr[i]);
         }
     }
 }
