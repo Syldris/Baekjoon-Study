@@ -15,13 +15,15 @@ class Program
             int n = int.Parse(inputs[0]);
             int k = int.Parse(inputs[1]);
 
-            int result = n;
-            int cur = n;
-            while (cur >= k)
+            int result = 0;
+            int cur = 0;
+            int coupon = n;
+            while (coupon > 0)
             {
-                result += cur / k;
-                cur = cur / k + cur % k;
-
+                result += coupon;
+                cur += coupon;
+                coupon = cur / k;
+                cur = cur % k;
             }
             sw.WriteLine(result);
         }
