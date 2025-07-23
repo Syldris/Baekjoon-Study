@@ -18,19 +18,25 @@ class Program
                 bools[i] = true;
             }
         }
+        int result = 0;
+        foreach (var item in bools)
+        {
+            if (item)
+                result++;
+        }
+
         for (int i = 0; i < m; i++)
         {
             int value = int.Parse(sr.ReadLine());
             --value;
             bools[value] = !bools[value];
 
-            int result = 0;
-            foreach (var item in bools)
-            {
-                if (item)
-                    result++;
-            }
-            sw.WriteLine(result);
+            if (bools[value])
+                result++;
+            else
+                result--;
+
+                sw.WriteLine(result);
         }
     }
 }
