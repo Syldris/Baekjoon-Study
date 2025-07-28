@@ -7,4 +7,4 @@
 
 ### <솔브드 프로필>
   <a href="https://solved.ac/profile/hojeong6777" target="_blank" rel="noopener noreferrer">
-    <img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=hojeong6777" alt="Solved.ac 프로필">
+    <img src="https://mazassumnida.wtf/api/v2/generate_badge?boj=hojeong6777" alt="Solved.ac프로필">
