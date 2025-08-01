@@ -11,16 +11,22 @@ class Program
         StringBuilder sb = new StringBuilder();
         string line = sr.ReadLine();
         string[] letter = sr.ReadLine().Split(' ');
+        HashSet<char> hash = new HashSet<char>();
+
+        foreach (var item in letter)
+        {
+            hash.Add(item[0]);
+        }
+
         foreach (char c in line)
         {
-            string s = c.ToString();
-            if (letter.Contains(s))
+            if (hash.Contains(c))
             {
-                sb.Append(s.ToLower());
+                sb.Append(char.ToLower(c));
             }
             else
             {
-                sb.Append(s);
+                sb.Append(c);
             }
         }
         sw.Write(sb);
