@@ -15,8 +15,8 @@ class Program
             int num = int.Parse(sr.ReadLine());
             arr[num]++;
         }
-
-        int[] result = arr.Select((value, index) => (value, index)).Where(x => x.value == arr.Max()).Select(x=>x.index).ToArray();
+        int max = arr.Max();
+        int[] result = arr.Select((value, index) => (value, index)).Where(x => x.value == max).Select(x=>x.index).ToArray();
         sw.Write(result[0]);
     }
 }
