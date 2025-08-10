@@ -19,19 +19,14 @@ class Program
 
         for (int i = 1; i <= input.Length; i++)
         {
-            for (int j = 1; j < i; j++)
+            for (int j = 0; j < i; j++)
             {
-                for (int k = 0; k < j; k++)
+                if((i - j) % 2 == 1)
+                    continue;
+                int mid = (i + j) / 2;
+                if (arr[i] - arr[mid] == arr[mid] - arr[j])
                 {
-                    if((i - k) % 2 != 0)
-                        continue;
-                    if ((j - k) == (i - j))
-                    {
-                        if (arr[j] - arr[k] == arr[i] - arr[j])
-                        {
-                            result = Math.Max(result, i - k);
-                        }
-                    }
+                    result = Math.Max(result, i - j);
                 }
             }
         }
