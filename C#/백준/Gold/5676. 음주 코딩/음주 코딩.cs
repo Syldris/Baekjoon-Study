@@ -35,18 +35,7 @@ class Program
                 else
                 {
                     int value = Query(1, 1, n, a, b);
-                    if (value > 0)
-                    {
-                        sw.Write('+');
-                    }
-                    else if (value < 0)
-                    {
-                        sw.Write('-');
-                    }
-                    else
-                    {
-                        sw.Write('0');
-                    }
+                    sw.Write(value > 0 ? '+' : value < 0 ? '-' : '0');
                 }
             }
             sw.WriteLine();
