@@ -21,16 +21,14 @@ class Program
         int[] arr = new int[a + b];
         int aidx = 0, bidx = 0;
 
-        bool order = true;
         for (int i = 0; i < arr.Length; i++)
         {
-            if (order)
+            if (i % 2 == 0)
             {
                 if (aidx < a)
                     arr[i] = alphabet[textA[aidx++] - 'A'];
                 else
                     arr[i] = alphabet[textB[bidx++] - 'A'];
-                order = false;
             }
             else
             {
@@ -38,7 +36,6 @@ class Program
                     arr[i] = alphabet[textB[bidx++] - 'A'];
                 else
                     arr[i] = alphabet[textA[aidx++] - 'A'];
-                order = true;
             }
         }
         for (int i = 0; i < a + b - 2; i++)
