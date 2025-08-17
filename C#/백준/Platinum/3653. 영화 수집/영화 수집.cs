@@ -19,16 +19,16 @@ class Program
 
             int[] pos = new int[n + 1];
             int[] tree = new int[size * 4];
-            
+
+            int[] arr = new int[size + 1];
             for (int i = 1; i <= n; i++)
             {
                 pos[i] = m + i;
-                Update(1, 1, size, pos[i], 1);
+                arr[pos[i]] = 1;
             }
-
+            Build(1, 1, size);
             int[] line = sr.ReadLine().Split().Select(int.Parse).ToArray();
             int top = m;
-
             for (int i = 0; i < m; i++)
             {
                 int value = line[i];
@@ -38,6 +38,16 @@ class Program
                 Update(1, 1, size, top--, 1);
             }
             sw.WriteLine();
+            int Build(int node, int start, int end)
+            {
+                if (start == end)
+                {
+                    return tree[node] = arr[start];
+                }
+                int mid = (start + end) / 2;
+
+                return tree[node] = Build(node * 2, start, mid) + Build(node * 2 + 1, mid + 1, end);
+            }
 
             void Update(int node, int start, int end, int index, int value)
             {
