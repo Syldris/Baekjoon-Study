@@ -19,7 +19,7 @@ class Program
         }
         for (int i = 0; i < m; i++)
         {
-            if (hash.TryGetValue(sr.ReadLine(), out string text))
+            if (hash.Contains(sr.ReadLine()))
             {
                 result++;
             }
