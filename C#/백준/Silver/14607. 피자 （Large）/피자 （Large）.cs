@@ -9,12 +9,6 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         int n = int.Parse(sr.ReadLine());
-
-        long value = 0;
-        for (int i = 2; i < n+1; i++)
-        {
-            value += i - 1;
-        }
-        sw.Write(value);
+        sw.Write((long)n * (n - 1) / 2);
     }
 }
