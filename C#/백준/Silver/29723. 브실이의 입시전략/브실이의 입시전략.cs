@@ -30,10 +30,10 @@ class Program
         List<int> list = hash.Where(x => x.Value.use == false).OrderBy(x => x.Value.value).Select(x => x.Value.value).ToList();
         int min = result;
         int max = result;
-        for (int i = 0; i < m - k; i++)
+        for (int i = 1; i <= m - k; i++)
         {
-            min += list[i];
-            max += list[^(i+1)];
+            min += list[i-1];
+            max += list[^i];
         }
         sw.WriteLine($"{min} {max}");
     }
