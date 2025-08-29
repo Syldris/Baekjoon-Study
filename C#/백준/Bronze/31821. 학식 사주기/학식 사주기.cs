@@ -1,0 +1,26 @@
+#nullable disable
+using System;
+using System.Text;
+class Program
+{
+    static void Main()
+    {
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+
+        int n = int.Parse(sr.ReadLine());
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = int.Parse(sr.ReadLine());
+        }
+        int m = int.Parse(sr.ReadLine());
+        int result = 0;
+        for (int i = 0; i < m; i++)
+        {
+            int k = int.Parse(sr.ReadLine());
+            result += arr[k-1];
+        }
+        sw.Write(result);
+    }
+}
