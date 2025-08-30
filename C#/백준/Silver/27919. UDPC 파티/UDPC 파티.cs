@@ -9,29 +9,27 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         string text = sr.ReadLine();
-        int u = 0;
-        int d = 0;
-        int p = 0;
-        int c = 0;
+        int uc = 0;
+        int dp = 0;;
         foreach (var item in text)
         {
             switch (item)
             {
                 case 'U':
-                    u++; break;
+                    uc++; break;
                 case 'D':
-                    d++; break;
+                    dp++; break;
                 case 'P':
-                    p++; break;
+                    dp++; break;
                 case 'C':
-                    c++; break;
+                    uc++; break;
             }
         }
-        if (u + c > (d+p) / 2 +(d+p) % 2 )
+        if (uc > (dp) / 2 +(dp) % 2 )
         {
             sw.Write('U');
         }
-        if (d + p > 0 || d + p > 0)
+        if (dp > 0)
         {
             sw.Write("DP");
         }
