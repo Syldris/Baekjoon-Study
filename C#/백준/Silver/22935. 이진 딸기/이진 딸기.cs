@@ -39,7 +39,7 @@ class Program
                     sb.Append('V');
                 }
             }
-            Console.WriteLine(sb);
+            sw.WriteLine(sb);
         }
     }
 }
