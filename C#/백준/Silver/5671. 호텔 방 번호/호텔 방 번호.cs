@@ -20,17 +20,17 @@ class Program
             int result = 0;
             for (int i = a; i <= b; i++)
             {
-                HashSet<char> hash = new HashSet<char>();
+                List<char> list = new List<char>();
                 string text = i.ToString();
                 bool plus = true;
                 foreach (var item in text)
                 {
-                    if (hash.Contains(item))
+                    if (list.Contains(item))
                     {
                         plus = false;
                         break;
                     }
-                    hash.Add(item);
+                    list.Add(item);
                 }
                 result += plus ? 1 : 0;
             }
