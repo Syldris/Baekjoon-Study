@@ -13,9 +13,9 @@ class Program
         for (int i = 0; i < n; i++)
         {
             string line = sr.ReadLine();
-            if (hash.TryGetValue(line, out int hashValue))
+            if (hash.ContainsKey(line))
             {
-                hash[line] = hashValue + 1;
+                hash[line]++;
             }
             else
             {
