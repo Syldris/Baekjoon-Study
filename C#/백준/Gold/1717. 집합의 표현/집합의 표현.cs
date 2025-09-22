@@ -50,7 +50,7 @@ class Program
             int rootB = Find(b);
             if (rootA != rootB)
             {
-                parent[rootA] = parent[rootB];
+                parent[rootA] = rootB;
             }
         }
     }
