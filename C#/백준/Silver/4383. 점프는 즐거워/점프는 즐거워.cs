@@ -21,7 +21,7 @@ class Program
             for (int i = 1; i < arr.Length; i++)
             {
                 int value = Math.Abs(arr[i] - arr[i - 1]);
-                if (value >= arr.Length)
+                if (value >= arr.Length || value == 0)
                 {
                     jolly = false;
                     break;
@@ -32,14 +32,6 @@ class Program
                     prev[value] = true;
                 }
                 else
-                {
-                    jolly = false;
-                    break;
-                }
-            }
-            for (int i = 1; i < arr.Length; i++)
-            {
-                if (!prev[i])
                 {
                     jolly = false;
                     break;
