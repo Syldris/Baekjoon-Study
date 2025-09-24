@@ -21,21 +21,13 @@ class Program
             for (int i = 1; i < arr.Length; i++)
             {
                 int value = Math.Abs(arr[i] - arr[i - 1]);
-                if (value >= arr.Length || value == 0)
+                if (value >= arr.Length || value == 0 || prev[value])
                 {
                     jolly = false;
                     break;
                 }
 
-                if (!prev[value])
-                {
-                    prev[value] = true;
-                }
-                else
-                {
-                    jolly = false;
-                    break;
-                }
+                prev[value] = true;
             }
             sw.WriteLine(jolly ? "Jolly" : "Not jolly");
         }
