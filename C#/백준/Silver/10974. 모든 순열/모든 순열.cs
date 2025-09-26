@@ -20,6 +20,7 @@ class Program
             if (depth == n)
             {
                 sw.WriteLine(String.Join(' ', arr));
+                return;
             }
 
             for (int i = 1; i <= n; i++)
