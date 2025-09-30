@@ -21,9 +21,10 @@ class Program
         for (int i = 0; i < n; i++)
         {
             int value = 1;
+            int check = arr[i] + 4;
             for (int j = i+1; j < n; j++)
             {
-                if (arr[j] - arr[i] >= 5)
+                if (arr[j] > check)
                 {
                     break;
                 }
