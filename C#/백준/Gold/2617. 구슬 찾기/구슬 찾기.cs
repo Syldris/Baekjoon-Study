@@ -13,20 +13,16 @@ class Program
         int n = int.Parse(input[0]);
         int m = int.Parse(input[1]);
 
-        bool[,] heavylink = new bool[n + 1, n + 1];
-        bool[,] lightlink = new bool[n + 1, n + 1];
+        bool[,] link = new bool[n + 1, n + 1];
         for (int i = 0; i < m; i++)
         {
             string[] line = sr.ReadLine().Split();
             int a = int.Parse(line[0]);
             int b = int.Parse(line[1]);
-            heavylink[a, b] = true;
-            lightlink[b, a] = true;
+            link[a, b] = true;
         }
 
 
-        int[] heavyvalue = new int[n + 1];
-        int[] lightvalue = new int[n + 1];
 
         int point = n / 2 + n % 2;
         int result = 0;
@@ -34,10 +30,10 @@ class Program
         {
             bool[] visited = new bool[n + 1];
 
-            heavyvalue[i] += heavyDFS(i, visited);
+            int heavy = DFS(i, visited);
             Array.Fill(visited, false);
-            lightvalue[i] += lightDFS(i, visited);
-            if (heavyvalue[i] >= point || lightvalue[i] >= point)
+            int light = DFS(i, visited, false);
+            if (heavy >= point || light >= point)
             {
                 result++;
             }
@@ -45,25 +41,7 @@ class Program
 
         sw.Write(result);
 
-        int heavyDFS(int start, bool[] visited)
-        {
-            int value = 0;
-            for (int i = 1; i <= n; i++)
-            {
-                if(i == start)
-                    continue;
-
-                if (heavylink[start, i] && !visited[i])
-                {
-                    visited[i] = true;
-                    value++;
-                    value += heavyDFS(i,visited);
-                }
-            }
-            return value;
-        }
-
-        int lightDFS(int start, bool[] visited)
+        int DFS(int start, bool[] visited, bool heavy = true)
         {
             int value = 0;
             for (int i = 1; i <= n; i++)
@@ -71,11 +49,23 @@ class Program
                 if (i == start)
                     continue;
 
-                if (lightlink[start, i] && !visited[i])
+                if (heavy)
                 {
-                    visited[i] = true;
-                    value++;
-                    value += lightDFS(i, visited);
+                    if (link[start, i] && !visited[i])
+                    {
+                        visited[i] = true;
+                        value++;
+                        value += DFS(i, visited);
+                    }
+                }
+                else
+                {
+                    if (link[i, start] && !visited[i])
+                    {
+                        visited[i] = true;
+                        value++;
+                        value += DFS(i, visited, false);
+                    }
                 }
             }
             return value;
