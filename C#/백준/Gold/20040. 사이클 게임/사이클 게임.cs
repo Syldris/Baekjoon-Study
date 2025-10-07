@@ -20,11 +20,9 @@ class Program
 
         for (int i = 1; i <= m; i++)
         {
-            string[] line = sr.ReadLine().Split();
-            int a = int.Parse(line[0]);
-            int b = int.Parse(line[1]);
+            int[] line = Array.ConvertAll(sr.ReadLine().Split(),int.Parse);
 
-            if (!Union(a, b))
+            if (!Union(line[0], line[1]))
             {
                 sw.Write(i);
                 return;
