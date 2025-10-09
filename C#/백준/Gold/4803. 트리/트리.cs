@@ -35,8 +35,7 @@ class Program
             int tree = 0;
             for (int i = 1; i <= n; i++)
             {
-                int root = Find(i);
-                if (root == i && !cycle.Contains(root))
+                if (parent[i] == i && !cycle.Contains(i))
                 {
                     tree++;
                 }
@@ -71,11 +70,11 @@ class Program
 
                 if (rootA != rootB)
                 {
+                    parent[rootA] = rootB;
                     if (cycle.Contains(rootA) || cycle.Contains(rootB))
                     {
                         cycle.Add(rootB);
                     }
-                    parent[rootA] = rootB;
                 }
                 else
                 {
