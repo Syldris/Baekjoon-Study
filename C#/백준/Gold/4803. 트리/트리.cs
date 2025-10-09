@@ -73,14 +73,12 @@ class Program
                 {
                     if (cycle.Contains(rootA) || cycle.Contains(rootB))
                     {
-                        cycle.Add(rootA);
                         cycle.Add(rootB);
                     }
                     parent[rootA] = rootB;
                 }
                 else
                 {
-                    cycle.Add(rootA);
                     cycle.Add(rootB);
                 }
             }
