@@ -19,6 +19,7 @@ class Program
         Queue<(int a, int b, int c)> queue = new();
         queue.Enqueue((0, 0, C));
 
+        int[] cap = { A, B, C };
         while (queue.Count > 0)
         {
             (int a, int b, int c) = queue.Dequeue();
@@ -31,24 +32,17 @@ class Program
             {
                 result.Add(c);
             }
-
-            var ab = pour(a, b, B);
-            queue.Enqueue((ab.m, ab.s, c));
-
-            var ac = pour(a, c, C);
-            queue.Enqueue((ac.m, b, ac.s));
-
-            var ba = pour(b, a, A);
-            queue.Enqueue((ba.s, ba.m, c));
-
-            var bc = pour(b, c, C);
-            queue.Enqueue((a, bc.m, bc.s));
-
-            var ca = pour(c, a, A);
-            queue.Enqueue((ca.s, b, ca.m));
-
-            var cb = pour(c, b, B);
-            queue.Enqueue((a, cb.s, cb.m));
+            for (int from = 0; from < 3; from++)
+            {
+                for (int to = 0; to < 3; to++)
+                {
+                    if (from == to)
+                        continue;
+                    int[] cur = { a, b, c };
+                    (cur[from], cur[to]) = pour(cur[from], cur[to], cap[to]);
+                    queue.Enqueue((cur[0], cur[1], cur[2]));
+                }
+            }
 
         }
 
