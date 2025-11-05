@@ -19,9 +19,9 @@ class Program
         {
             if (prime[i])
             {
-                for (int j = i; i * j <= m; j++)
+                for (int j = i * i; j <= m; j += i)
                 {
-                    prime[i * j] = false;
+                    prime[j] = false;
                 }
             }
         }
