@@ -14,14 +14,14 @@ class Program
         Array.Fill(prime, true);
         prime[1] = false;
 
-        for (int i = 2; i < prime.Length; i++)
+        for (int i = 2; i < 566; i++)
         {
             if (!prime[i])
             {
                 continue;
             }
 
-            for (int j = 2; i * j < prime.Length; j++)
+            for (int j = i; i * j < prime.Length; j++)
             {
                 prime[i * j] = false;
             }
