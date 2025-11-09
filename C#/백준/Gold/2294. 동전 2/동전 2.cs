@@ -21,11 +21,7 @@ class Program
         const int max = 1000000;
         Array.Fill(coins, max);
 
-        foreach (var item in arr)
-        {
-            if(item <= k)
-                coins[item] = 1;
-        }
+        coins[0] = 0;
 
         for (int i = 0; i <= k; i++)
         {
