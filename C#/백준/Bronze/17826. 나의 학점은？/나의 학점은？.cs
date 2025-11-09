@@ -19,30 +19,16 @@ class Program
             }
         }
 
-
-        switch (result)
+        string text = result switch
         {
-            case int x when x >= 1 && x <= 5:
-                sw.Write("A+");
-                break;
-            case int x when x >= 6 && x <= 15:
-                sw.Write("A0");
-                break;
-            case int x when x >= 16 && x <= 30:
-                sw.Write("B+");
-                break;
-            case int x when x >= 31 && x <= 35:
-                sw.Write("B0");
-                break;
-            case int x when x >= 36 && x <= 45:
-                sw.Write("C+");
-                break;
-            case int x when x >= 46 && x <= 48:
-                sw.Write("C0");
-                break;
-            case int x when x >= 49 && x <= 50:
-                sw.Write("F");
-                break;
-        }
+            int x when x >= 1 && x <= 5 => "A+",
+            int x when x >= 6 && x <= 15 => "A0",
+            int x when x >= 16 && x <= 30 => "B+",
+            int x when x >= 31 && x <= 35 => "B0",
+            int x when x >= 36 && x <= 45 => "C+",
+            int x when x >= 46 && x <= 48 => "C0",
+            _ => "F",
+        };
+        sw.Write(text);
     }
 }
