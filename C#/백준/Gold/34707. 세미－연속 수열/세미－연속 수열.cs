@@ -12,17 +12,21 @@ class Program
         int k = int.Parse(input[1]);
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
-        
-        SortedSet<int> hash = new SortedSet<int>();
+
+        bool[] visited = new bool[n + 1];
+
+        PriorityQueue<int, int> max = new();
+        PriorityQueue<int, int> min = new();
 
         int start = 0; int end = k;
 
         for (int i = start; i < end; i++)
         {
-            hash.Add(arr[i]);
+            max.Enqueue(arr[i], -arr[i]);
+            min.Enqueue(arr[i], arr[i]);
         }
 
-        if (hash.Max - hash.Min + 1 == k)
+        if (max.Peek() - min.Peek() + 1 == k)
         {
             sw.WriteLine("YES");
             sw.WriteLine(string.Join(' ', arr[start..end]));
@@ -31,9 +35,20 @@ class Program
 
         while (end != n)
         {
-            hash.Remove(arr[start++]);
-            hash.Add(arr[end++]);
-            if (hash.Max - hash.Min + 1 == k)
+            visited[arr[start]] = true;
+            while (visited[max.Peek()])
+            {
+                max.Dequeue();
+            }
+            while (visited[min.Peek()])
+            {
+                min.Dequeue();
+            }
+            max.Enqueue(arr[end], -arr[end]);
+            min.Enqueue(arr[end], arr[end]);
+            start++;
+            end++;
+            if (max.Peek() - min.Peek() + 1 == k)
             {
                 sw.WriteLine("YES");
                 sw.WriteLine(string.Join(' ', arr[start..end]));
