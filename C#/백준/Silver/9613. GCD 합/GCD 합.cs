@@ -10,20 +10,20 @@ class Program
         int testcase = int.Parse(sr.ReadLine());
         for (int t = 0; t < testcase; t++)
         {
-            int[] input = sr.ReadLine().Trim().Split().Select(int.Parse).ToArray();
+            int[] input = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
             int n = input[0];
             long result = 0;
 
             for (int i = 1; i < n; i++)
             {
-                for (int j = i+1; j <= n; j++)
+                for (int j = i + 1; j <= n; j++)
                 {
                     int a = input[i];
                     int b = input[j];
 
                     while (b != 0)
                     {
-                        (a, b) = (b, a % b); 
+                        (a, b) = (b, a % b);
                     }
                     result += a;
                 }
