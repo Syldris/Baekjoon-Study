@@ -17,12 +17,9 @@ class Program
             int m = int.Parse(input[1]);
 
             int[] arr1 = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
-            int[] arr2 = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
+            int[] arr2 = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);;
 
-            Array.Sort(arr1);
-            Array.Sort(arr2);
-
-            sw.WriteLine(arr1[^1] >= arr2[^1] ? "S" : "B");
+            sw.WriteLine(arr1.Max() >= arr2.Max() ? "S" : "B");
         }
     }
 }
