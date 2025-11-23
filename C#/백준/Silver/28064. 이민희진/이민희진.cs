@@ -21,14 +21,17 @@ class Program
             {
                 int len = Math.Min(text[i].Length, text[j].Length);
 
+                ReadOnlySpan<char> spanI = text[i].AsSpan();
+                ReadOnlySpan<char> spanJ = text[j].AsSpan();
+
                 for (int k = 1; k <= len; k++)
                 {
-                    if (text[i][^k..] == text[j][0..k])
+                    if (spanI[^k..].SequenceEqual(spanJ[..k]))
                     {
                         result++;
                         break;
                     }
-                    else if (text[i][0..k] == text[j][^k..])
+                    else if (spanI[..k].SequenceEqual(spanJ[^k..]))
                     {
                         result++;
                         break;
