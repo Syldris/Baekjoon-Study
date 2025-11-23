@@ -9,25 +9,22 @@ class Program
 
         int n = int.Parse(sr.ReadLine());
 
-        bool[] notPrime = new bool[n + 1];
-
+        bool[] isPrime = new bool[n + 1];
+        Array.Fill(isPrime, true);
         int sqrt = (int)Math.Floor(Math.Sqrt(n));
 
         for (int i = 2; i <= sqrt; i++)
         {
             for (int j = i * i; j <= n; j += i)
             {
-                if (!notPrime[j])
-                {
-                    notPrime[j] = true;
-                }
+                isPrime[j] = false;
             }
         }
 
         List<int> prime = new List<int>();
         for (int i = 2; i <= n; i++)
         {
-            if (!notPrime[i])
+            if (isPrime[i])
             {
                 prime.Add(i);
             }
@@ -45,33 +42,17 @@ class Program
 
         while (start < prime.Count)
         {
-            if (end < prime.Count)
+            if (value < n && end < prime.Count)
             {
-                if (value == n)
-                {
-                    result++;
-                    value += prime[end++];
-                }
-                else if (value > n)
-                {
-                    value -= prime[start++];
-                }
-                else
-                {
-                    value += prime[end++];
-                }
+                value += prime[end++];
             }
             else
             {
                 if (value == n)
                 {
                     result++;
-                    break;
                 }
-                else
-                {
-                    value -= prime[start++];
-                }
+                value -= prime[start++];
             }
         }
         sw.Write(result);
