@@ -9,8 +9,7 @@ class Program
 
         int n = int.Parse(sr.ReadLine());
 
-        bool[] isPrime = new bool[n + 1];
-        Array.Fill(isPrime, true);
+        bool[] notPrime = new bool[n + 1];
 
         int sqrt = (int)Math.Floor(Math.Sqrt(n));
 
@@ -18,9 +17,9 @@ class Program
         {
             for (int j = i * i; j <= n; j += i)
             {
-                if (isPrime[j])
+                if (!notPrime[j])
                 {
-                    isPrime[j] = false;
+                    notPrime[j] = true;
                 }
             }
         }
@@ -28,7 +27,7 @@ class Program
         List<int> prime = new List<int>();
         for (int i = 2; i <= n; i++)
         {
-            if (isPrime[i])
+            if (!notPrime[i])
             {
                 prime.Add(i);
             }
