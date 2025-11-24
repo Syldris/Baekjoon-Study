@@ -27,36 +27,24 @@ class Program
         int[] dy = { 0, 0, -1, 1 };
 
         bool[,] visited = new bool[n, n];
-        int start = 0, end = maxValue - minValue;
+        int result = maxValue - minValue;
 
-        int result = end;
+        int start = minValue, end = minValue;
 
-        while (start <= end)
+        while (start <= maxValue)
         {
-            int mid = (start + end) / 2;
-
-            bool found = false;
-
-            for (int left = minValue; left + mid <= maxValue; left++)
+            visitedClear();
+            if (BFS(start, end))
             {
-                visitedClear();
-
-                int right = left + mid;
-                if (BFS(left, right))
-                {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (found)
-            {
-                result = mid;
-                end = mid - 1;
+                result = Math.Min(result, end - start);
+                start++;
             }
             else
             {
-                start = mid + 1;
+                if (end < maxValue)
+                    end++;
+                else
+                    start++;
             }
         }
 
