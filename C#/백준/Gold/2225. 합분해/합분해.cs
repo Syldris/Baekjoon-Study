@@ -12,21 +12,16 @@ class Program
 
         int[,] dp = new int[n + 1, k + 1];
         
-        for (int i = 0; i <= n; i++)
+        for (int j = 1; j <= k; j++)
         {
-            dp[i, 1] = 1;
+            dp[0, j] = 1;
         }
 
-        for (int j = 2; j <= k; j++)
+        for (int j = 1; j <= k; j++)
         {
             for (int i = 1; i <= n; i++)
             {
-                int value = 0;
-                for (int v = i; v > 0; v--)
-                {
-                    value = (value + dp[v, j - 1]) % 1000000000;
-                }
-                dp[i, j] = value + 1;
+                dp[i, j] = (dp[i, j - 1] + dp[i - 1, j]) % 1000000000;
             }
         }
 
