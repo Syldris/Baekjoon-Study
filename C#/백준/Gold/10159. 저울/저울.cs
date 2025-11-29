@@ -9,31 +9,35 @@ class Program
         int n = int.Parse(sr.ReadLine());
         int m = int.Parse(sr.ReadLine());
 
-        bool[,] heavy = new bool[n + 1, n + 1];
-        bool[,] light = new bool[n + 1, n + 1];
+        bool[,] dist = new bool[n + 1, n + 1];
 
         for (int i = 0; i < m; i++)
         {
             string[] line = sr.ReadLine().Split();
             int a = int.Parse(line[0]);
             int b = int.Parse(line[1]);
-            heavy[a, b] = true;
-            light[b, a] = true;
+
+            dist[a, b] = true;
         }
 
         for (int v = 1; v <= n; v++)
         {
             for (int i = 1; i <= n; i++)
             {
+                if (v == i)
+                    continue;
                 for (int j = 1; j <= n; j++)
                 {
-                    if (!heavy[i, j] && heavy[i, v] && heavy[v, j])
+                    if (v == j)
+                        continue;
+
+                    if (!dist[i, j] && dist[i, v] && dist[v, j])
                     {
-                        heavy[i, j] = true;
+                        dist[i, j] = true;
                     }
-                    if (!light[i, j] && light[i, v] && light[v, j])
+                    if (!dist[j, i] && dist[j, v] && dist[v, i])
                     {
-                        light[i, j] = true;
+                        dist[j, i] = true;
                     }
                 }
             }
@@ -47,7 +51,7 @@ class Program
                 if (i == j)
                     continue;
 
-                if (!heavy[i,j] && !light[i,j])
+                if (!dist[i, j] && !dist[j, i])
                 {
                     result++;
                 }
