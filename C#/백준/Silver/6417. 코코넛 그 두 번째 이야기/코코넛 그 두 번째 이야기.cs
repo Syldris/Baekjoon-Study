@@ -17,7 +17,7 @@ class Program
 
             bool solution = false;
 
-            for (int i = 500; i > 1; i--)
+            for (int i = 10; i > 1; i--)
             {
                 int count = 0;
                 int cur = n;
