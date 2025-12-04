@@ -7,17 +7,18 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         string[] input = sr.ReadLine().Split();
-        int n = int.Parse(input[0]);
-        int m = int.Parse(input[1]);
 
-        int[,] visited = new int[m, n];
-        int[,] swanMove = new int[m, n];
+        short n = short.Parse(input[0]);
+        short m = short.Parse(input[1]);
+
+        short[,] visited = new short[m, n];
+        short[,] swanMove = new short[m, n];
         char[,] board = new char[m, n];
 
         (int x, int y) swan1 = (-1, -1);
         (int x, int y) swan2 = (-1, -1);
 
-        Queue<(int x, int y, int day)> waterQueue = new();
+        Queue<(int x, int y, short day)> waterQueue = new();
 
         for (int y = 0; y < n; y++)
         {
@@ -26,7 +27,7 @@ class Program
             {
                 char c = line[x];
                 board[x, y] = c;
-                swanMove[x, y] = int.MaxValue;
+                swanMove[x, y] = short.MaxValue;
 
                 if (c == 'L')
                 {
@@ -42,7 +43,7 @@ class Program
                 }
                 else if (c == 'X')
                 {
-                    visited[x, y] = int.MaxValue;
+                    visited[x, y] = short.MaxValue;
                 }
                 else
                 {
@@ -56,7 +57,7 @@ class Program
 
         while (waterQueue.Count > 0)
         {
-            (int x, int y, int day) = waterQueue.Dequeue();
+            (int x, int y, short day) = waterQueue.Dequeue();
 
             for (int i = 0; i < 4; i++)
             {
@@ -67,22 +68,22 @@ class Program
                 {
                     continue;
                 }
-
-                if (board[px, py] == 'X' && day + 1 < visited[px, py])
+                short curDay = (short)(day + 1);
+                if (board[px, py] == 'X' && curDay < visited[px, py])
                 {
-                    visited[px, py] = day + 1;
-                    waterQueue.Enqueue((px, py, day + 1));
+                    visited[px, py] = curDay;
+                    waterQueue.Enqueue((px, py, curDay));
                 }
             }
         }
 
-        PriorityQueue<(int x, int y, int day), int> swanQueue = new();
+        PriorityQueue<(int x, int y, short day), short> swanQueue = new();
         swanQueue.Enqueue((swan1.x, swan1.y, 0), 0);
         swanMove[swan1.x, swan1.y] = 0;
 
         while (swanQueue.Count > 0)
         {
-            (int x, int y, int day) = swanQueue.Dequeue();
+            (int x, int y, short day) = swanQueue.Dequeue();
             if (x == swan2.x && y == swan2.y)
             {
                 sw.Write(day);
@@ -99,7 +100,7 @@ class Program
                     continue;
                 }
 
-                int curDay = Math.Max(day, visited[px, py]);
+                short curDay = day >= visited[px, py] ? day : visited[px, py];
 
                 if (curDay < swanMove[px, py])
                 {
