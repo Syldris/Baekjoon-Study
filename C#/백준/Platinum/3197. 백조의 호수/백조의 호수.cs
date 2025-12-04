@@ -1,6 +1,4 @@
 #nullable disable
-using static Program;
-
 class Program
 {
 
