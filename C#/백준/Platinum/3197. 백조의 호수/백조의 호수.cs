@@ -1,6 +1,23 @@
 #nullable disable
+using static Program;
+
 class Program
 {
+
+    public readonly struct Node
+    {
+        public readonly int x;
+        public readonly int y;
+        public readonly short day;
+
+        public Node(int x, int y, short day)
+        {
+            this.x = x;
+            this.y = y;
+            this.day = day;
+        }
+    }
+
     static void Main()
     {
         using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
@@ -18,7 +35,7 @@ class Program
         (int x, int y) swan1 = (-1, -1);
         (int x, int y) swan2 = (-1, -1);
 
-        Queue<(int x, int y, short day)> waterQueue = new();
+        Queue<Node> waterQueue = new();
 
         for (int y = 0; y < n; y++)
         {
@@ -39,7 +56,7 @@ class Program
                     {
                         swan2 = (x, y);
                     }
-                    waterQueue.Enqueue((x, y, 0));
+                    waterQueue.Enqueue(new Node(x, y, 0));
                 }
                 else if (c == 'X')
                 {
@@ -47,7 +64,7 @@ class Program
                 }
                 else
                 {
-                    waterQueue.Enqueue((x, y, 0));
+                    waterQueue.Enqueue(new Node(x, y, 0));
                 }
             }
         }
@@ -57,55 +74,55 @@ class Program
 
         while (waterQueue.Count > 0)
         {
-            (int x, int y, short day) = waterQueue.Dequeue();
+            Node node = waterQueue.Dequeue();
 
             for (int i = 0; i < 4; i++)
             {
-                int px = x + dx[i];
-                int py = y + dy[i];
+                int px = node.x + dx[i];
+                int py = node.y + dy[i];
 
                 if (px < 0 || py < 0 || px >= m || py >= n)
                 {
                     continue;
                 }
-                short curDay = (short)(day + 1);
+                short curDay = (short)(node.day + 1);
                 if (board[px, py] == 'X' && curDay < visited[px, py])
                 {
                     visited[px, py] = curDay;
-                    waterQueue.Enqueue((px, py, curDay));
+                    waterQueue.Enqueue(new Node(px, py, curDay));
                 }
             }
         }
 
-        PriorityQueue<(int x, int y, short day), short> swanQueue = new();
-        swanQueue.Enqueue((swan1.x, swan1.y, 0), 0);
+        PriorityQueue<Node, short> swanQueue = new();
+        swanQueue.Enqueue(new Node(swan1.x, swan1.y, 0), 0);
         swanMove[swan1.x, swan1.y] = 0;
 
         while (swanQueue.Count > 0)
         {
-            (int x, int y, short day) = swanQueue.Dequeue();
-            if (x == swan2.x && y == swan2.y)
+            Node node = swanQueue.Dequeue();
+            if (node.x == swan2.x && node.y == swan2.y)
             {
-                sw.Write(day);
+                sw.Write(node.day);
                 return;
             }
 
             for (int i = 0; i < 4; i++)
             {
-                int px = x + dx[i];
-                int py = y + dy[i];
+                int px = node.x + dx[i];
+                int py = node.y + dy[i];
 
                 if (px < 0 || py < 0 || px >= m || py >= n)
                 {
                     continue;
                 }
 
-                short curDay = day >= visited[px, py] ? day : visited[px, py];
+                short curDay = node.day >= visited[px, py] ? node.day : visited[px, py];
 
                 if (curDay < swanMove[px, py])
                 {
                     swanMove[px,py] = curDay;
-                    swanQueue.Enqueue((px, py, curDay), curDay);
+                    swanQueue.Enqueue(new Node(px, py, curDay), curDay);
                 }
             }
         }
