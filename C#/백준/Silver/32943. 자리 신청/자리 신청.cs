@@ -21,7 +21,7 @@ class Program
             info[i] = (line[0], line[1], line[2]);
         }
 
-        info = info.OrderBy(x => x.time).ToArray();
+        Array.Sort(info);
         foreach ((int time, int seat, int num) in info)
         {
             if (!notEmpty[seat])
