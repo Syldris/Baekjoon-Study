@@ -12,27 +12,27 @@ class Program
         int k = int.Parse(input[2]);
 
         int[] student = new int[x + 1];
-        int[] seat = new int[c + 1];
+        bool[] notEmpty = new bool[c + 1];
 
         (int time, int seat, int num)[] info = new (int, int, int)[k];
         for (int i = 0; i < k; i++)
         {
-            int[] line = sr.ReadLine().Split().Select(int.Parse).ToArray();
+            int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
             info[i] = (line[0], line[1], line[2]);
         }
 
         info = info.OrderBy(x => x.time).ToArray();
-        foreach (var item in info)
+        foreach ((int time, int seat, int num) in info)
         {
-            if (seat[item.seat] == 0)
+            if (!notEmpty[seat])
             {
-                int curSeat = student[item.num];
+                int curSeat = student[num];
                 if (curSeat != 0)
                 {
-                    seat[curSeat] = 0;
+                    notEmpty[curSeat] = false;
                 }
-                student[item.num] = item.seat;
-                seat[item.seat] = item.num;
+                student[num] = seat;
+                notEmpty[seat] = true;
             }
         }
 
