@@ -1,4 +1,6 @@
 #nullable disable
+using System.Text;
+
 class Program
 {
     static void Main()
@@ -7,17 +9,16 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         int n = int.Parse(sr.ReadLine());
-        List<(int node, int cost)>[] tree = new List<(int node, int cost)>[n + 1];
-        int[] distance = new int[n + 1];
+
+        List<(int node, int cost)>[] tree = new List<(int, int)>[n + 1];
         for (int i = 1; i <= n; i++)
         {
-            tree[i] = new List<(int node, int cost)>();
-            distance[i] = int.MaxValue;
+            tree[i] = new List<(int, int)>();
         }
-        distance[1] = 0;
-        for (int i = 1; i <= n; i++)
+
+        for (int i = 0; i < n; i++)
         {
-            int[] line = sr.ReadLine().Split().Select(int.Parse).ToArray();
+            int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
             int from = line[0];
             int index = 1;
             while (line[index] != -1)
@@ -25,45 +26,26 @@ class Program
                 tree[from].Add((line[index++], line[index++]));
             }
         }
-        
-        PriorityQueue<(int node, int cost), int> queue = new();
-        queue.Enqueue((1, 0), 0);
 
-        BFS();
-        int maxdist = 0;
-        int maxnode = 0;
-        for (int i = 1; i <= n; i++)
+        int maxDist = 0;
+        int endPoint = -1;
+        DFS(1, -1, 0);
+
+        DFS(endPoint, -1, 0);
+        sw.WriteLine(maxDist);
+
+        void DFS(int node, int parent, int dist)
         {
-            if (distance[i] > maxdist)
+            if (dist > maxDist)
             {
-                maxdist = distance[i];
-                maxnode = i;
+                maxDist = dist;
+                endPoint = node;
             }
-            distance[i] = int.MaxValue;
-        }
-
-        distance[maxnode] = 0;
-        queue.Enqueue((maxnode, 0), 0);
-        BFS();
-        sw.WriteLine(distance.Max());
-
-        void BFS()
-        {
-            while (queue.Count > 0)
+            foreach (var child in tree[node])
             {
-                (int node, int cost) = queue.Dequeue();
-                if (cost > distance[node])
+                if (child.node == parent)
                     continue;
-
-                foreach (var next in tree[node])
-                {
-                    int curcost = cost + next.cost;
-                    if (curcost < distance[next.node])
-                    {
-                        distance[next.node] = curcost;
-                        queue.Enqueue((next.node, curcost), curcost);
-                    }
-                }
+                DFS(child.node, node, dist + child.cost);
             }
         }
     }
