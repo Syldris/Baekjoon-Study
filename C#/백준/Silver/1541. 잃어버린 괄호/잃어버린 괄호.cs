@@ -9,42 +9,23 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         string text = sr.ReadLine();
-        int index = -1;
-        for (int i = 0; i < text.Length; i++)
-        {
-            if (text[i] == '-')
-            {
-                index = i;
-                break;
-            }
-        }
+        string[] split = text.Split('-');
 
         int result = 0;
+        string[] plus = split[0].Split('+');
 
-        if (index == -1)
+        foreach (var item in plus)
         {
-            int[] add = text.Split('+').Select(int.Parse).ToArray();
-            foreach (var item in add)
-            {
-                result += item;
-            }
-            sw.Write(result);
-            return;
-        }
-        else if (index > 0)
-        {
-            int[] plus = text[..index].Split('+', '-').Select(int.Parse).ToArray();
-            foreach (var item in plus)
-            {
-                result += item;
-            }
+            result += int.Parse(item);    
         }
 
-        int[] minus = text[(index+1)..].Split('+', '-').Select(int.Parse).ToArray();
-
-        foreach (var item in minus)
+        for (int i = 1; i < split.Length; i++)
         {
-            result -= item;
+            string[] num = split[i].Split('+');
+            foreach (var item in num)
+            {
+                result -= int.Parse(item);
+            }
         }
 
         sw.Write(result);
