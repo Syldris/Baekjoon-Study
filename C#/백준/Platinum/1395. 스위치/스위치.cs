@@ -31,10 +31,6 @@ class Program
 
         void Update(int node, int start, int end, int left, int right)
         {
-            if (lazy[node])
-            {
-                Push(node, start, end);
-            }
             if (start > right || end < left)
             {
                 return;
@@ -45,10 +41,14 @@ class Program
                 tree[node] = (end - start + 1) - tree[node];
                 if (start != end)
                 {
-                    lazy[node * 2] = !lazy[node * 2];
-                    lazy[node * 2 + 1] = !lazy[node * 2 + 1];
+                    lazy[node] = !lazy[node];
                 }
                 return;
+            }
+
+            if (lazy[node])
+            {
+                Push(node, start, end);
             }
 
             int mid = (start + end) / 2;
@@ -65,13 +65,14 @@ class Program
             {
                 return 0;
             }
-            if (lazy[node])
-            {
-                Push(node, start, end);
-            }
             if (left <= start && end <= right)
             {
                 return tree[node];
+            }
+
+            if (lazy[node])
+            {
+                Push(node, start, end);
             }
 
             int mid = (start + end) / 2;
@@ -80,14 +81,18 @@ class Program
 
         void Push(int node, int start, int end)
         {
-            tree[node] = (end - start + 1) - tree[node];
-            if (start != end)
+            if (start == end)
             {
-                lazy[node * 2] = !lazy[node * 2];
-                lazy[node * 2 + 1] = !lazy[node * 2 + 1];
+                return;
             }
+            int mid = (start + end) / 2;
+            tree[node * 2] = (mid - start + 1) - tree[node * 2];
+            tree[node * 2 + 1] = (end - mid) - tree[node * 2 + 1];
+
+            lazy[node * 2] = !lazy[node * 2];
+            lazy[node * 2 + 1] = !lazy[node * 2 + 1];
+
             lazy[node] = false;
         }
-
     }
 }
