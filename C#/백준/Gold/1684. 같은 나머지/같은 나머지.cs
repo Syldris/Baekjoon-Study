@@ -9,33 +9,24 @@ class Program
         int n = int.Parse(sr.ReadLine());
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
-        for (int i = 1000000; i > 0; i--)
+        int result = Math.Abs(arr[1] - arr[0]);
+        for (int i = 2; i < n; i++)
         {
-            bool find = true;
-            int num = arr[0] % i;
+            int value = Math.Abs(arr[i] - arr[0]);
+            result = Gcd(result, value);
+        }
 
-            if (num < 0)
-                num = i + num;
+        sw.Write(result);
 
-            for (int j = 1; j < n; j++)
+        int Gcd(int a, int b)
+        {
+            while (b != 0)
             {
-                int value = arr[j] % i;
-                if (value < 0)
-                    value = i + value;
-
-                if (num != value)
-                {
-                    find = false;
-                    break;
-                }
+                int r = a % b;
+                a = b;
+                b = r;
             }
-
-            if (find)
-            {
-                sw.WriteLine(i);
-                return;
-            }
-
+            return a;
         }
     }
 }
