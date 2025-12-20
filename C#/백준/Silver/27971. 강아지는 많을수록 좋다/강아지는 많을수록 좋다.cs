@@ -25,23 +25,36 @@ class Program
         }
         int[] dp = new int[n + 1];
 
-        const int max = 200000;
-        Array.Fill(dp, max);
-        dp[a] = 1;
-        dp[b] = 1;
-
-
-        for (int i = 0; i <= n; i++)
+        Queue<int> queue = new Queue<int>();
+        if (!delete[a])
         {
-            if (i >= a && !delete[i - a] && dp[i - a] != max)
+            queue.Enqueue(a);
+            dp[a] = 1;
+        }
+        if (!delete[b])
+        {
+            queue.Enqueue(b);
+            dp[b] = 1;
+        }
+
+        while (queue.Count > 0)
+        {
+            int value = queue.Dequeue();
+
+            int rootA = value + a;
+            int rootB = value + b;
+            if (rootA <= n && !delete[rootA] && dp[rootA] == 0)
             {
-                dp[i] = Math.Min(dp[i - a] + 1, dp[i]);
+                dp[rootA] = dp[value] + 1;
+                queue.Enqueue(rootA);
             }
-            if (i >= b && !delete[i - b] && dp[i - b] != max)
+            if (rootB <= n && !delete[rootB] && dp[rootB] == 0)
             {
-                dp[i] = Math.Min(dp[i - b] + 1, dp[i]);
+                dp[rootB] = dp[value] + 1;
+                queue.Enqueue(rootB);
             }
         }
-        sw.Write(dp[n] == max ? -1 : dp[n]);
+
+        sw.Write(dp[n] == 0 ? -1 : dp[n]);
     }
 }
