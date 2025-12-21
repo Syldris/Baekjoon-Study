@@ -7,11 +7,6 @@ class Program
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         int n = int.Parse(sr.ReadLine());
-        if (n < 4)
-        {
-            sw.Write(0);
-            return;
-        }
         int rank = n / 4;
         long result = 0;
         for (int i = 1; i <= rank; i++)
