@@ -42,12 +42,7 @@ class Program
             }
             else if (value == result)
             {
-                if (range.start == start && end > range.end)
-                {
-                    end = Math.Min(queue.Peek().end, end);
-                    range = (start, end);
-                }
-                else if (start == range.end)
+                if (start == range.end)
                 {
                     range.end = Math.Min(queue.Peek().end, end);
                 }
