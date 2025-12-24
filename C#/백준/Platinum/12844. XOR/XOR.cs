@@ -43,10 +43,6 @@ class Program
 
         void Update(int node, int start, int end, int left, int right, int value)
         {
-            if (lazy[node] != 0)
-            {
-                Push(node, start, end);
-            }
             if (right < start || end < left)
             {
                 return;
@@ -60,10 +56,14 @@ class Program
                 }
                 if (start != end)
                 {
-                    lazy[node * 2] ^= value;
-                    lazy[node * 2 + 1] ^= value;
+                    lazy[node] ^= value;
                 }
                 return;
+            }
+
+            if (lazy[node] != 0)
+            {
+                Push(node, start, end);
             }
             int mid = (start + end) / 2;
 
@@ -74,10 +74,6 @@ class Program
 
         int Query(int node, int start, int end, int left, int right)
         {
-            if (lazy[node] != 0)
-            {
-                Push(node, start, end);
-            }
             if (end < left || right < start)
             {
                 return 0;
@@ -87,6 +83,11 @@ class Program
                 return tree[node];
             }
 
+            if (lazy[node] != 0)
+            {
+                Push(node, start, end);
+            }
+
             int mid = (start + end) / 2;
 
             return Query(node * 2, start, mid, left, right) ^ Query(node * 2 + 1, mid + 1, end, left, right);
@@ -94,14 +95,18 @@ class Program
 
         void Push(int node, int start, int end)
         {
-            if ((end - start) % 2 == 0)
-            {
-                tree[node] ^= lazy[node];
-            }
             if (start != end)
             {
+                int mid = (start + end) / 2;
+
                 lazy[node * 2] ^= lazy[node];
                 lazy[node * 2 + 1] ^= lazy[node];
+
+                if ((mid - start) % 2 == 0)
+                    tree[node * 2] ^= lazy[node];
+
+                if ((end - mid + 1) % 2 == 0)
+                    tree[node * 2 + 1] ^= lazy[node];
             }
             lazy[node] = 0;
         }
