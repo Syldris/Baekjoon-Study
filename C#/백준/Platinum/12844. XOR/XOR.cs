@@ -3,8 +3,8 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 262144));
-        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 262144));
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 65536));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 65536));
 
         int n = int.Parse(sr.ReadLine());
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
