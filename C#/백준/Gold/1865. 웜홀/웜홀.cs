@@ -34,16 +34,7 @@ class Program
                 graph.Add((from, to, -cost));
             }
 
-            for (int i = 1; i <= n; i++)
-            {
-                foreach (var (from, to, cost) in graph)
-                {
-                    if (distance[from] + cost < distance[to])
-                    {
-                        distance[to] = distance[from] + cost;
-                    }
-                }
-            }
+            
             bool isCycle = false;
             for (int i = 1; i <= n; i++)
             {
