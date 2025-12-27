@@ -28,8 +28,6 @@ class Program
 
             int value = Query(1, 1, n, order);
             list.Add(value);
-
-            Update(1, 1, n, value);
             num--;
         }
 
@@ -46,32 +44,11 @@ class Program
             return tree[node] = Build(node * 2, start, mid) + Build(node * 2 + 1, mid + 1, end);
         }
 
-        void Update(int node, int start, int end, int index)
-        {
-            if (start == end)
-            {
-                tree[node]--;
-                return;
-            }
-
-            int mid = (start + end) / 2;
-
-            if (mid >= index)
-            {
-                Update(node * 2, start, mid, index);
-            }
-            else
-            {
-                Update(node * 2 + 1, mid + 1, end, index);
-            }
-
-            tree[node] = tree[node * 2] + tree[node * 2 + 1];
-        }
-
         int Query(int node, int start, int end, int index)
         {
             if (start == end)
             {
+                tree[node]--;
                 return start;
             }
 
@@ -79,11 +56,17 @@ class Program
 
             if (tree[node * 2] >= index)
             {
-                return Query(node * 2, start, mid, index);
+                int value = Query(node * 2, start, mid, index);
+                tree[node] = tree[node * 2] + tree[node * 2 + 1];
+
+                return value;
             }
             else
             {
-                return Query(node * 2 + 1, mid + 1, end, index - tree[node * 2]);
+                int value = Query(node * 2 + 1, mid + 1, end, index - tree[node * 2]);
+                tree[node] = tree[node * 2] + tree[node * 2 + 1];
+
+                return value;
             }
         }
     }
