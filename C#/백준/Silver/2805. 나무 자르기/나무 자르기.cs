@@ -3,7 +3,7 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(),131072));
         using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
 
         string[] input = sr.ReadLine().Split();
