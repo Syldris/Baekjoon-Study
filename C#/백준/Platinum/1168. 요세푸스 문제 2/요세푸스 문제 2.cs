@@ -4,7 +4,7 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
-        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 65536));
 
         string[] input = sr.ReadLine().Split();
         int n = int.Parse(input[0]);
@@ -15,12 +15,8 @@ class Program
         Build(1, 1, n);
 
         List<int> list = new List<int>();
-        int num = n - 1;
-        int order = k;
-        int temp = Query(1, 1, n, order);
-
-        list.Add(temp);
-        Update(1, 1, n, temp);
+        int num = n;
+        int order = 1;
 
         while (num > 0)
         {
@@ -47,7 +43,7 @@ class Program
             }
             int mid = (start + end) / 2;
 
-            return tree[node] =  Build(node * 2, start, mid) + Build(node * 2 + 1, mid + 1, end);
+            return tree[node] = Build(node * 2, start, mid) + Build(node * 2 + 1, mid + 1, end);
         }
 
         void Update(int node, int start, int end, int index)
