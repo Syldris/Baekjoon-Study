@@ -4,7 +4,7 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 65535));
-        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 65535));
 
         string[] input = sr.ReadLine().Split();
         int n = int.Parse(input[0]);
@@ -33,9 +33,8 @@ class Program
             query[i] = (line[0], line[1], i);
         }
 
-        link = link.OrderByDescending(x => x.r).ToArray();
-        query = query.OrderByDescending(x => x.k).ToArray();
-
+        Array.Sort(link, (u, v) => v.r.CompareTo(u.r));
+        Array.Sort(query, (u, v) => v.k.CompareTo(u.k));
         int[] result = new int[q];
 
         int update = 0;
@@ -77,12 +76,12 @@ class Program
             {
                 if (size[rootA] < size[rootB])
                 {
-                    parent[rootA] = parent[rootB];
+                    parent[rootA] = rootB;
                     size[rootB] += size[rootA];
                 }
                 else
                 {
-                    parent[rootB] = parent[rootA];
+                    parent[rootB] = rootA;
                     size[rootA] += size[rootB];
                 }
             }
