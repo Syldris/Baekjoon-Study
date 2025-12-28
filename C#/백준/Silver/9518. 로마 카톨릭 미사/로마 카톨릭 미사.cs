@@ -11,7 +11,6 @@ class Program
         int m = int.Parse(input[1]);
 
         bool[,] board = new bool[m, n];
-        bool[,] visited = new bool[m, n];
         bool seat = false;
 
         for (int y = 0; y < n; y++)
@@ -29,22 +28,8 @@ class Program
                 }
             }
         }
-        int index = 0;
-        int[] dx = new int[8];
-        int[] dy = new int[8];
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                if (x == 0 && y == 0)
-                {
-                    continue;
-                }
-                dx[index] = x;
-                dy[index] = y;
-                index++;
-            }
-        }
+        int[] dx = new int[8] { 1, 1, 1, 0, 0, -1, -1, -1 };
+        int[] dy = new int[8] { 1, 0, -1, 1, -1, 1, 0, -1 };
 
         int result = 0;
         for (int y = 0; y < n; y++)
@@ -53,7 +38,6 @@ class Program
             {
                 if (!board[x, y])
                     continue;
-                visited[x,y] = true;
                 for (int i = 0; i < 8; i++)
                 {
                     int px = x + dx[i];
@@ -62,13 +46,14 @@ class Program
                     if (px < 0 || py < 0 || px >= m || py >= n)
                         continue;
 
-                    if (board[px, py] && !visited[px, py])
+                    if (board[px, py])
                     {
                         result++;
                     }
                 }
             }
         }
+        result /= 2;
 
         if (seat)
         {
