@@ -3,8 +3,8 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 65535));
-        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 65535));
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 1 << 18));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 1 << 18));
 
         int n = int.Parse(sr.ReadLine());
         List<int> odd = new List<int>();
@@ -24,9 +24,9 @@ class Program
         if (odd.Count > 0 && even.Count > 0)
         {
             sw.WriteLine("YES");
-            sw.Write(String.Join(' ', even));
-            sw.Write(' ');
             sw.Write(String.Join(' ', odd));
+            sw.Write(' ');
+            sw.Write(String.Join(' ', even));
         }
         else
         {
