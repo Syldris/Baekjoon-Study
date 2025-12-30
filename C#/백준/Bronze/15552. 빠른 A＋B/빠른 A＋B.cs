@@ -3,8 +3,8 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 65535);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 65535);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
 
         int n = int.Parse(sr.ReadLine());
         for (int i = 0; i < n; i++)
