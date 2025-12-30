@@ -1,23 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+#nullable disable
 class Program
 {
     static void Main()
     {
-        StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput()));
-        StringBuilder sb = new StringBuilder();
-        StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput()));
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 65535));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 65535));
 
         int n = int.Parse(sr.ReadLine());
         for (int i = 0; i < n; i++)
         {
-            int[] line = sr.ReadLine().Split().Select(int.Parse).ToArray();
-            sb.Append(line[0] + line[1]).Append("\n");
+            int[] line = Array.ConvertAll(sr.ReadLine().Split(),int.Parse);
+            sw.WriteLine(line[0] + line[1]);
         }
-        sw.WriteLine(sb);
-        sr.Close();
-        sw.Close();
     }
 }
