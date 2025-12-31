@@ -1,12 +1,10 @@
 #nullable disable
-using System;
-
 class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 1 << 18));
-        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 1 << 18));
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
 
         int n = int.Parse(sr.ReadLine());
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
@@ -69,7 +67,7 @@ class Program
 
             int mid = (start + end) / 2;
 
-            if (lazy[node].num !=0)
+            if (lazy[node].num != 0)
                 Push(node, start, end);
 
             Update(node * 2, start, mid, left, right);
