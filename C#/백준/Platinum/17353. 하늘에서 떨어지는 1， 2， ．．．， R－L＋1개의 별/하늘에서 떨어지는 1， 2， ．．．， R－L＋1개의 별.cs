@@ -69,7 +69,8 @@ class Program
 
             int mid = (start + end) / 2;
 
-            Push(node, start, end);
+            if (lazy[node].num !=0)
+                Push(node, start, end);
 
             Update(node * 2, start, mid, left, right);
             Update(node * 2 + 1, mid + 1, end, left, right);
@@ -84,7 +85,10 @@ class Program
             }
 
             int mid = (start + end) / 2;
-            Push(node, start, end);
+
+            if (lazy[node].num != 0)
+                Push(node, start, end);
+
             if (index <= mid)
             {
                 return Query(node * 2, start, mid, index);
