@@ -1,10 +1,12 @@
 #nullable disable
+using System;
+
 class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 1 << 16));
-        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 1 << 16));
+        using StreamReader sr = new StreamReader(new BufferedStream(Console.OpenStandardInput(), 1 << 18));
+        using StreamWriter sw = new StreamWriter(new BufferedStream(Console.OpenStandardOutput(), 1 << 18));
 
         int n = int.Parse(sr.ReadLine());
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
@@ -49,23 +51,25 @@ class Program
 
         void Update(int node, int start, int end, int left, int right)
         {
-            if (lazy[node].num != 0)
-            {
-                Push(node, start, end);
-            }
             if (start > right || end < left)
             {
                 return;
             }
             if (left <= start && end <= right)
             {
-                lazy[node].offset += (start - left + 1);
+                int len = end - start + 1;
+                int offset = start - left + 1;
+
+                tree[node] += len * offset + prefix[len - 1];
+
+                lazy[node].offset += offset;
                 lazy[node].num++;
-                Push(node, start, end);
                 return;
             }
 
             int mid = (start + end) / 2;
+
+            Push(node, start, end);
 
             Update(node * 2, start, mid, left, right);
             Update(node * 2 + 1, mid + 1, end, left, right);
@@ -74,16 +78,13 @@ class Program
 
         long Query(int node, int start, int end, int index)
         {
-            if (lazy[node].num != 0)
-            {
-                Push(node, start, end);
-            }
             if (start == end)
             {
                 return tree[node];
             }
 
             int mid = (start + end) / 2;
+            Push(node, start, end);
             if (index <= mid)
             {
                 return Query(node * 2, start, mid, index);
@@ -97,16 +98,22 @@ class Program
         void Push(int node, int start, int end)
         {
             (long offset, int num) = lazy[node];
-            int len = end - start + 1;
-            tree[node] += len * offset + prefix[len - 1] * num;
 
             if (start != end)
             {
                 int mid = (start + end) / 2;
+
+                int leftlen = mid - start + 1;
+                int rightlen = end - mid;
+                long rightoffset = (mid + 1 - start) * num + offset;
+
+                tree[node * 2] += leftlen * offset + prefix[leftlen - 1] * num;
+                tree[node * 2 + 1] += rightlen * rightoffset + prefix[rightlen - 1] * num;
+
                 lazy[node * 2].offset += offset;
                 lazy[node * 2].num += num;
 
-                lazy[node * 2 + 1].offset += (mid + 1 - start) * num + offset;
+                lazy[node * 2 + 1].offset += rightoffset;
                 lazy[node * 2 + 1].num += num;
             }
             lazy[node] = (0, 0);
