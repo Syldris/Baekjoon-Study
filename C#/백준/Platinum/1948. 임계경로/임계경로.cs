@@ -68,25 +68,30 @@ class Program
                 }
             }
         }
+        
+        prev = prev.Distinct().ToArray();
 
-        HashSet<(int from, int to)> hash = new HashSet<(int from, int to)>();
+        int count = 0;
+        bool[] visited = new bool[n + 1];
+
         Queue<int> trackBack = new();
-
         trackBack.Enqueue(end);
+
         while (trackBack.Count > 0)
         {
             int node = trackBack.Dequeue();
             foreach (var next in prev[node])
             {
-                if (!hash.Contains((node, next)))
+                count++;
+                if (!visited[next])
                 {
-                    hash.Add((node, next));
                     trackBack.Enqueue(next);
+                    visited[next] = true;
                 }
             }
         }
 
         sw.WriteLine(value);
-        sw.WriteLine(hash.Count);
+        sw.WriteLine(count);
     }
 }
