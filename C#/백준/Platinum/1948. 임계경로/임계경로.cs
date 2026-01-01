@@ -12,6 +12,7 @@ class Program
         List<(int node, int cost)>[] graph = new List<(int node, int cost)>[n + 1];
         List<int>[] prev = new List<int>[n + 1];
 
+        int[] indegree = new int[n + 1];
         int[] dist = new int[n + 1];
         for (int i = 1; i <= n; i++)
         {
@@ -25,53 +26,44 @@ class Program
             int a = line[0];
             int b = line[1];
             int cost = line[2];
+
+            indegree[b]++;
             graph[a].Add((b, cost));
         }
 
         string[] input = sr.ReadLine().Split();
         int start = int.Parse(input[0]);
         int end = int.Parse(input[1]);
-        int value = 0;
 
-        Queue<(int node, int cost)> queue = new();
-        queue.Enqueue((start, 0));
+        Queue<int> queue = new();
+        queue.Enqueue(start);
         while (queue.Count > 0)
         {
-            (int node, int cost) = queue.Dequeue();
-
-            if (cost < dist[node])
-                continue;
-
-            if (node == end)
-            {
-                if (cost > value)
-                {
-                    value = cost;
-                }
-                continue;
-            }
+            int node = queue.Dequeue();
 
             foreach (var next in graph[node])
             {
-                int nextcost = cost + next.cost;
+                int nextcost = dist[node] + next.cost;
                 if (nextcost > dist[next.node])
                 {
                     prev[next.node].Clear();
                     prev[next.node].Add(node);
 
                     dist[next.node] = nextcost;
-                    queue.Enqueue((next.node, nextcost));
                 }
                 else if (nextcost == dist[next.node])
                 {
                     prev[next.node].Add(node);
                 }
+
+                indegree[next.node]--;
+                if (indegree[next.node] == 0)
+                    queue.Enqueue(next.node);
             }
         }
 
         int count = 0;
         bool[] visited = new bool[n + 1];
-
         Queue<int> trackBack = new();
         trackBack.Enqueue(end);
 
@@ -89,7 +81,7 @@ class Program
             }
         }
 
-        sw.WriteLine(value);
+        sw.WriteLine(dist[n]);
         sw.WriteLine(count);
     }
 }
