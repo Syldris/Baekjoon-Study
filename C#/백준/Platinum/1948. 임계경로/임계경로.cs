@@ -33,8 +33,8 @@ class Program
         int end = int.Parse(input[1]);
         int value = 0;
 
-        PriorityQueue<(int node, int cost), int> queue = new();
-        queue.Enqueue((start, 0), 0);
+        Queue<(int node, int cost)> queue = new();
+        queue.Enqueue((start, 0));
         while (queue.Count > 0)
         {
             (int node, int cost) = queue.Dequeue();
@@ -60,7 +60,7 @@ class Program
                     prev[next.node].Add(node);
 
                     dist[next.node] = nextcost;
-                    queue.Enqueue((next.node, nextcost), -nextcost);
+                    queue.Enqueue((next.node, nextcost));
                 }
                 else if (nextcost == dist[next.node])
                 {
