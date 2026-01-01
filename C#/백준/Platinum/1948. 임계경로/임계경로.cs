@@ -3,7 +3,7 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 16);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         int n = int.Parse(sr.ReadLine());
@@ -68,8 +68,6 @@ class Program
                 }
             }
         }
-        
-        prev = prev.Distinct().ToArray();
 
         int count = 0;
         bool[] visited = new bool[n + 1];
