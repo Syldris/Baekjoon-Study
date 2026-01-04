@@ -112,8 +112,8 @@ sparse[node][3] = sparse[sparse[node][2], 2]       //2^3 8번이동은 4번이�
 
 #### 📌 관련 문제
 
-- **[백준 11437번: LCA](https://www.acmicpc.net/problem/11437)** - 기본 LCA
-- **[백준 11438번: LCA 2](https://www.acmicpc.net/problem/11438)** - 쿼리 개수가 많은 LCA
+- **[백준 11437번: LCA](https://github.com/Syldris/Baekjoon-Study/tree/main/C%23/%EB%B0%B1%EC%A4%80/Gold/11437.%E2%80%85LCA)** - 기본 LCA
+- **[백준 11438번: LCA 2](https://github.com/Syldris/Baekjoon-Study/tree/main/C%23/%EB%B0%B1%EC%A4%80/Platinum/11438.%E2%80%85LCA%E2%80%852)** - 쿼리 개수가 많아 logN에 구해야하는 LCA
 
 #### 💡 핵심 아이디어
 
@@ -182,7 +182,7 @@ return sparse[a, 0];  // LCA의 바로 아래 → 한 칸 위
 dist(a, b) = dist[a] + dist[b] - 2 × dist[LCA(a, b)]
 ```
 
-**공식 해석**
+**거리 구하기**
 
 ```
         루트(0)
