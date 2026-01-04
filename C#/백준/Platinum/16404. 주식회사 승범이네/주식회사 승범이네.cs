@@ -4,7 +4,7 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 17);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 17);
 
         string[] input = sr.ReadLine().Split();
         int n = int.Parse(input[0]);
@@ -74,9 +74,14 @@ class Program
 
             if (left <= start && end <= right)
             {
-                segTree[node] += value;
                 if (start != end)
+                {
                     lazy[node] += value;
+                }
+                else
+                {
+                    segTree[node] += value;
+                }
                 return;
             }
 
@@ -88,7 +93,6 @@ class Program
 
             Update(node * 2, start, mid, left, right, value);
             Update(node * 2 + 1, mid + 1, end, left, right, value);
-            segTree[node] = segTree[node * 2] + segTree[node * 2 + 1];
         }
 
         int Query(int node, int start, int end, int index)
