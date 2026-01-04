@@ -142,10 +142,11 @@ for (int k = 0; k < maxLog; k++)
 if (a == b)
     return a;  // 이미 만남
 
-// 큰 점프부터 시도
+// 큰 점프부터 시도함
+// 같은 조상으로 점프하면 LCA를 넘어가므로 X
 for (int k = maxLog - 1; k >= 0; k--)
 {
-    if (sparse[a, k] != sparse[b, k])  // 아직 안 만남
+    if (sparse[a, k] != sparse[b, k])  // 아직 안 만남 
     {
         a = sparse[a, k];
         b = sparse[b, k];
