@@ -83,10 +83,10 @@ log N ≈ 17
 **점화식**
 ```cs
 // 1단계: 1번째 조상 (부모) 저장
-sparse[node, 0] = parent
+sparse[node, 0] = parent;
 
 // 2단계: 2^k번째 조상 계산
-sparse[node, k] = sparse[sparse[node, k-1], k-1]
+sparse[node, k] = sparse[sparse[node, k-1], k-1];
 ```
 
 **점화식 해석**
@@ -98,8 +98,8 @@ sparse[node, k] = sparse[sparse[node, k-1], k-1]
 8 = 4 + 4 
 8번째(k) 조상 = 4번째(k-1) 조상의 4번째(k-1) 조상
 
-sparse[node][3] = sparse[sparse[node][2], 2]       //2^3 8번이동은 4번이동한 자리에서 추가로 4번이동
-└──[8칸이동)──┘           └─[4칸이동)─┘└─[4칸이동)─┘
+sparse[node, 3] = sparse[sparse[node, 2], 2]          //2^3 8번이동은 4번이동한 자리에서 추가로 4번이동
+└──[8칸이동)──┘           └─[4칸이동)─┘ └[4칸이동)┘
 ```
 
 ---
@@ -152,7 +152,7 @@ for (int k = maxLog - 1; k >= 0; k--)
     }
 }
 
-return sparse[a, 0];  // LCA의 바로 아래 → 한 칸 위
+return sparse[a, 0];  // a는 LCA의 바로 아래이므로 → 한 칸 위 반환
 ```
 
 **핵심 규칙**
@@ -207,7 +207,7 @@ dist(a, b) = dist[a] + dist[b] - 2 × dist[LCA(a, b)]
 **점화식**
 ```cs
 // DFS/BFS로 거리 계산
-dist[child] = dist[node] + cost
+dist[child] = dist[node] + cost;
 
 // 쿼리 처리
 int lca = LCA(a, b);
