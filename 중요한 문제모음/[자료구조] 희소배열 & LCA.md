@@ -152,7 +152,7 @@ for (int k = maxLog - 1; k >= 0; k--)
     }
 }
 
-return sparse[a, 0];  // a는 LCA의 바로 아래이므로 → 한 칸 위 반환
+return sparse[a, 0];  // a와 b가 다르며 LCA의 바로 아래인칸이므로 → 한 칸 위 반환
 ```
 
 **핵심 규칙**
