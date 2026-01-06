@@ -3,8 +3,8 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 19);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 19);
         while (true)
         {
             string[] input = sr.ReadLine().Split();
@@ -77,9 +77,9 @@ class Program
 
             void DFS(int start)
             {
-                PriorityQueue<(int node, long value), long> queue = new();
+                Queue<(int node, long value)> queue = new();
                 dist[start] = 0;
-                queue.Enqueue((start, 0), 0);
+                queue.Enqueue((start, 0));
 
                 while (queue.Count > 0)
                 {
@@ -90,7 +90,7 @@ class Program
                         if (!dist[next.node].HasValue || nextValue < dist[next.node])
                         {
                             dist[next.node] = nextValue;
-                            queue.Enqueue((next.node, nextValue), nextValue);
+                            queue.Enqueue((next.node, nextValue));
                         }
                     }
                 }
