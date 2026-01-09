@@ -55,18 +55,7 @@ class Program
                 int value = line[3] - 1;
 
                 int lca = LCA(a, b);
-                if (a == lca)
-                {
-                    int diff = level[b] - level[a] - value;
-                    for (int i = 0; i < logN; i++)
-                    {
-                        bool bit = ((diff >> i) & 1) == 1;
-
-                        if (bit) b = sparse[b, i];
-                    }
-                    sw.WriteLine(b);
-                }
-                else if (value <= level[a] - level[lca])
+                if (value <= level[a] - level[lca]) // A => LCA로 가는경우
                 {
                     for (int i = 0; i < logN; i++)
                     {
@@ -76,7 +65,7 @@ class Program
                     }
                     sw.WriteLine(a);
                 }
-                else
+                else // A => LCA => B 혹은 A == LCA => B인 경우
                 {
                     value -= level[a] - level[lca];
 
