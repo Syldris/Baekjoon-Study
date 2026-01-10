@@ -23,6 +23,16 @@ class Program
             }
         }
 
+        int[,] sum = new int[m + 1, n + 1];
+        for (int y = 1; y <= n; y++)
+        {
+            for (int x = 1; x <= m; x++)
+            {
+                int value = board[x - 1, y - 1] ? 0 : 1;
+                sum[x, y] = sum[x - 1, y] + sum[x, y - 1] - sum[x - 1, y - 1] + value;
+            }
+        }
+
         string[] input2 = sr.ReadLine().Split();
         int h = int.Parse(input2[0]);
         int w = int.Parse(input2[1]);
@@ -34,6 +44,7 @@ class Program
 
         int[] dx = new int[] { -1, 1, 0, 0 };
         int[] dy = new int[] { 0, 0, -1, 1 };
+
 
         Queue<(int x, int y, int value)> queue = new();
 
@@ -62,15 +73,7 @@ class Program
                 if (value >= visited[px, py])
                     continue;
 
-                bool check = i switch
-                {
-                    0 => CheckY(px, py),
-                    1 => CheckY(px + w - 1, py),
-                    2 => CheckX(px, py),
-                    3 => CheckX(px, py + h - 1)
-                };
-
-                if (check)
+                if (Check(px, py))
                 {
                     visited[px, py] = value;
                     queue.Enqueue((px, py, value + 1));
@@ -80,36 +83,16 @@ class Program
 
         sw.Write(-1);
 
-        bool CheckY(int x, int y)
+        bool Check(int x, int y)
         {
-            if (x >= m) return false;
+            int px = x + w - 1;
+            int py = y + h - 1;
 
-            for (int i = y; i < y + h; i++)
-            {
-                if (i >= n) return false;
+            if (px >= m || py >= n) return false;
 
-                if (!board[x, i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+            int value = sum[px + 1, py + 1] - sum[x, py + 1] - sum[px + 1, y] + sum[x, y];
 
-        bool CheckX(int x, int y)
-        {
-            if (y >= n) return false;
-
-            for (int i = x; i < x + w; i++)
-            {
-                if (i >= m) return false;
-
-                if (!board[i, y])
-                {
-                    return false;
-                }
-            }
-            return true;
+            return value == 0;
         }
     }
 }
