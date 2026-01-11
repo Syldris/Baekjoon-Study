@@ -29,14 +29,13 @@ class Program
         {
             int item = arr[i];
             int index = pos[item];
-
-            result += Query(index, range);
-            Update(index);
+            result += Query(1, 1, range, index, range);
+            Update(1, 1, range, index);
         }
 
         sw.Write(result);
 
-        void Update(int index, int node = 1, int start = 1, int end = range)
+        void Update(int node, int start, int end, int index)
         {
             if (start == end)
             {
@@ -48,17 +47,17 @@ class Program
 
             if (index <= mid)
             {
-                Update(index, node << 1, start, mid);
+                Update(node << 1, start, mid, index);
             }
             else
             {
-                Update(index, (node << 1) + 1, mid + 1, end);
+                Update((node << 1) + 1, mid + 1, end, index);
             }
 
             tree[node] = tree[node << 1] + tree[(node << 1) + 1];
         }
 
-        int Query(int left, int right, int node = 1, int start = 1, int end = range)
+        int Query(int node, int start, int end, int left, int right)
         {
             if (start > right || end < left)
             {
@@ -72,8 +71,7 @@ class Program
 
             int mid = (start + end) / 2;
 
-            return Query(left, right, node << 1, start, mid) + Query(left, right, (node << 1) + 1, mid + 1, end);
+            return Query(node << 1, start, mid, left, right) + Query((node << 1) + 1, mid + 1, end, left, right);
         }
-
     }
 }
