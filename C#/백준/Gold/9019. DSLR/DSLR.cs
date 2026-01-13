@@ -1,5 +1,4 @@
 #nullable disable
-using System.Text;
 class Program
 {
     static void Main()
@@ -21,13 +20,13 @@ class Program
             int start = line[0];
             int end = line[1];
 
-            DFS(start, end);
+            BFS(start, end);
             sw.WriteLine(BackTrack(start, end));
             Reset();
         }
 
 
-        void DFS(int start, int end)
+        void BFS(int start, int end)
         {
             Queue<int> queue = new Queue<int>();
             queue.Enqueue(start);
@@ -69,24 +68,14 @@ class Program
 
         string BackTrack(int start, int end)
         {
-            StringBuilder sb = new StringBuilder();
+            Stack<char> stack = new Stack<char>();
 
-            Queue<int> queue = new Queue<int>();
-            queue.Enqueue(end);
-            while (queue.Count > 0)
+            for (int i = end; i != start; i = prev[i])
             {
-                int item = queue.Dequeue();
-                sb.Append(command[item]);
-
-                int value = prev[item];
-                if (value != start)
-                {
-                    queue.Enqueue(value);
-                }
+                stack.Push(command[i]);
             }
 
-            char[] arr = sb.ToString().ToCharArray();
-            string result = new string(arr.Reverse().ToArray());
+            string result = new string(stack.ToArray());
 
             return result;
         }
