@@ -7,13 +7,11 @@ class Program
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 20);
 
         int n = int.Parse(sr.ReadLine());
-        char[,] board = new char[n, n];
-        for (int y = 0; y < n; y++)
+        char[][] board = new char[n][];
+        for (int i = 0; i < n; i++)
         {
-            for (int x = 0; x < n; x++)
-            {
-                board[x, y] = ' ';
-            }
+            board[i] = new char[n];
+            Array.Fill(board[i], ' ');
         }
 
         int m = Log3(n);
@@ -24,7 +22,7 @@ class Program
         {
             if (size == 0)
             {
-                board[x - 1, y - 1] = '*';
+                board[x - 1][y - 1] = '*';
                 return;
             }
 
@@ -42,11 +40,7 @@ class Program
 
         for (int y = 0; y < n; y++)
         {
-            for (int x = 0; x < n; x++)
-            {
-                sw.Write(board[x, y]);
-            }
-            if (y < n - 1) sw.WriteLine();
+            sw.WriteLine(new string(board[y]));
         }
 
         int Pow3(int n)
