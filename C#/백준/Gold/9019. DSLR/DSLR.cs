@@ -1,4 +1,6 @@
 #nullable disable
+using System.Text;
+
 class Program
 {
     static void Main()
@@ -11,8 +13,6 @@ class Program
         bool[] visited = new bool[10001];
         int[] prev = new int[10001];
         char[] command = new char[10001];
-        Array.Fill(prev, -1);
-
 
         for (int t = 0; t < testcase; t++)
         {
@@ -68,16 +68,20 @@ class Program
 
         string BackTrack(int start, int end)
         {
-            Stack<char> stack = new Stack<char>();
-
+            int len = 0;
             for (int i = end; i != start; i = prev[i])
             {
-                stack.Push(command[i]);
+                len++;
             }
 
-            string result = new string(stack.ToArray());
+            char[] result = new char[len];
+            int index = len;
+            for (int i = end; i != start; i = prev[i])
+            {
+                result[--index] = command[i];
+            }
 
-            return result;
+            return new string(result);
         }
 
         void Reset()
