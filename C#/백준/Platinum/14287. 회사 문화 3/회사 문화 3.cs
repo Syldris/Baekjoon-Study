@@ -13,7 +13,6 @@ class Program
         int m = int.Parse(input[1]);
 
         int[] tree = new int[n * 4];
-        int[] lazy = new int[n * 4];
 
         List<int>[] graph = new List<int>[n + 1];
         for (int i = 1; i <= n; i++)
@@ -40,7 +39,7 @@ class Program
             {
                 int index = line[1];
                 int value = line[2];
-                Update(1, 1, n, range[index].start, range[index].start, value);
+                Update(1, 1, n, range[index].start, value);
             }
             else
             {
@@ -59,25 +58,23 @@ class Program
             range[node].end = rank;
         }
 
-        void Update(int node, int start, int end, int left, int right, int value)
+        void Update(int node, int start, int end, int index, int value)
         {
-            if (start > right || end < left)
-            {
-                return;
-            }
-            if (left <= start && end <= right)
+            if (start == end)
             {
                 tree[node] += value;
-                lazy[node] += value;
                 return;
             }
 
-            Push(node, start, end);
-
             int mid = (start + end) / 2;
-
-            Update(node << 1, start, mid, left, right, value);
-            Update((node << 1) + 1, mid + 1, end, left, right, value);
+            if (index <= mid)
+            {
+                Update(node << 1, start, mid, index, value);
+            }
+            else
+            {
+                Update((node << 1) + 1, mid + 1, end, index, value);
+            }
 
             tree[node] = tree[node << 1] + tree[(node << 1) + 1];
         }
@@ -93,24 +90,9 @@ class Program
                 return tree[node];
             }
 
-            Push(node, start, end);
-
             int mid = (start + end) / 2;
 
             return Query(node << 1, start, mid, left, right) + Query((node << 1) + 1, mid + 1, end, left, right);
-
-        }
-
-        void Push(int node, int start, int end)
-        {
-            if (lazy[node] == 0) return;
-
-            tree[node << 1] += lazy[node];
-            tree[(node << 1) + 1] += lazy[node];
-            lazy[node << 1] += lazy[node];
-            lazy[(node << 1) + 1] += lazy[node];
-
-            lazy[node] = 0;
         }
     }
 }
