@@ -7,7 +7,7 @@ class Program
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         int n = int.Parse(sr.ReadLine());
-        int logN = 30;
+        int logN = (int)Math.Log(n, 2) + 1;
 
         int[,] sparse = new int[n + 1, logN];
         int[] level = new int[n + 1];
