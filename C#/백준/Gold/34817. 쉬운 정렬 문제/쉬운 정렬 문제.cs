@@ -12,9 +12,6 @@ class Program
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
-        int[] sorted = arr.ToArray();
-        Array.Sort(sorted);
-
         int max = arr[0];
         for (int i = 0; i < n; i++)
         {
