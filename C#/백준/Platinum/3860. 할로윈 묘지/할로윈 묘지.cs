@@ -70,7 +70,12 @@ class Program
             {
                 (int x, int y, int time) = queue.Dequeue();
 
-                if (never) break;
+                count[x, y]++;
+                if (count[x, y] > m * n)
+                {
+                    never = true;
+                    break;
+                }
 
                 if (visited[x, y] < time) continue;
 
@@ -82,14 +87,6 @@ class Program
                     if (arrivalTime < visited[wx, wy])
                     {
                         visited[wx, wy] = arrivalTime;
-
-                        count[wx, wy]++;
-                        if (count[wx, wy] > m * n)
-                        {
-                            never = true;
-                            break;
-                        }
-
                         queue.Enqueue((wx, wy, arrivalTime));
                     }
                     continue;
@@ -122,27 +119,11 @@ class Program
                         if (nextTime < visited[px, py])
                         {
                             visited[px, py] = nextTime;
-
-                            count[px, py]++;
-                            if (count[px, py] > m * n)
-                            {
-                                never = true;
-                                break;
-                            }
-
                             int arrivalTime = nextTime + warpTime;
 
                             if (arrivalTime < visited[wx, wy])
                             {
                                 visited[wx, wy] = arrivalTime;
-
-                                count[wx, wy]++;
-                                if (count[wx, wy] > m * n)
-                                {
-                                    never = true;
-                                    break;
-                                }
-
                                 queue.Enqueue((wx, wy, arrivalTime));
                             }
                         }
@@ -150,14 +131,6 @@ class Program
                     else if (nextTime < visited[px, py])
                     {
                         visited[px, py] = nextTime;
-
-                        count[px, py]++;
-                        if (count[px, py] > m * n)
-                        {
-                            never = true;
-                            break;
-                        }
-
                         queue.Enqueue((px, py, nextTime));
                     }
                 }
