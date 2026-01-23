@@ -31,23 +31,10 @@ class Program
                 left++;
             }
 
-            for (int k = 0; k < left; k++)
-            {
-                int node = deque.Last();
-                deque.RemoveLast();
-                deque.AddFirst(node);
-            }
-
-            int right = 0;
-            while (deque.First() != arr[i])
-            {
-                int node = deque.Last();
-                deque.RemoveLast();
-                deque.AddFirst(node);
-                right++;
-            }
+            int right = n - i - left;
 
             deque.RemoveFirst();
+
             result += Math.Min(left, right);
         }
 
