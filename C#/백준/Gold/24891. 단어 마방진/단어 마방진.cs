@@ -34,28 +34,12 @@ class Program
 
             if (depth == n)
             {
-                bool pass = true;
+                find = true;
                 for (int i = 0; i < n; i++)
                 {
-                    for (int j = 0; j < n; j++)
-                    {
-                        if (board[i][j] != board[j][i]) // 가로 세로 최종 확인
-                        {
-                            pass = false;
-                            break;
-                        }
-                    }
+                    sw.WriteLine(board[i]);
                 }
-
-                if (pass)
-                {
-                    find = true;
-                    for (int i = 0; i < n; i++)
-                    {
-                        sw.WriteLine(board[i]);
-                    }
-                    return;
-                }
+                return;
             }
 
             for (int i = 0; i < m; i++)
