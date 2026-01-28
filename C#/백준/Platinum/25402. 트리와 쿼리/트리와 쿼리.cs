@@ -1,4 +1,6 @@
 #nullable disable
+using System.Xml.Linq;
+
 class Program
 {
     static void Main()
@@ -11,6 +13,10 @@ class Program
         List<int>[] tree = new List<int>[n + 1];
         int[] parent = new int[n + 1];
         int[] size = new int[n + 1];
+        int[] nodeParent = new int[n + 1];
+
+        bool[] selected = new bool[n + 1];
+        bool[] visited = new bool[n + 1];
 
         for (int i = 1; i <= n; i++)
         {
@@ -29,6 +35,8 @@ class Program
             tree[b].Add(a);
         }
 
+        DFS(1, 0);
+
 
         int query = int.Parse(sr.ReadLine());
         for (int q = 0; q < query; q++)
@@ -36,19 +44,20 @@ class Program
             int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
             int k = line[0];
 
-            HashSet<int> hash = new HashSet<int>();
             for (int i = 1; i <= k; i++)
             {
                 int node = line[i];
+                selected[node] = true;
+            }
 
-                foreach (var child in tree[node])
+            for (int i = 1; i <= k; i++)
+            {
+                int node = line[i];
+                int p = nodeParent[node];
+                if (selected[p])
                 {
-                    if (hash.Contains(child))
-                    {
-                        Union(node, child);
-                    }
+                    Union(node, nodeParent[node]);
                 }
-                hash.Add(node);
             }
 
             long result = 0;
@@ -61,19 +70,37 @@ class Program
                     long value = size[node];
                     result += value * (value - 1) / 2;
                 }
+            }
+
+            for (int i = 1; i <= k; i++)
+            {
+                int node = line[i];
 
                 parent[node] = node; // 초기화
                 size[node] = 1;
+                selected[node] = false;
+                visited[node]= false;
             }
-
             sw.WriteLine(result);
+        }
+
+        void DFS(int node, int parent)
+        {
+            nodeParent[node] = parent;
+            foreach (var child in tree[node])
+            {
+                if (child == parent) continue;
+
+                DFS(child, node);
+            }
         }
 
         int Find(int x)
         {
-            if (x != parent[x])
+            while (x != parent[x])
             {
-                parent[x] = Find(parent[x]);
+                parent[x] = parent[parent[x]];
+                x = parent[x];
             }
             return parent[x];
         }
