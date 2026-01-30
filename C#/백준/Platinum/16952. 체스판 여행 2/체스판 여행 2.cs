@@ -41,7 +41,7 @@ class Program
         int max = n * n;
         int[,] board = new int[n, n];
 
-        int[,,,,] visited = new int[n, n, max + 1, max + 1, 3];
+        (int time, int change)[,,,] visited = new (int, int)[n, n, max + 1, 3];
 
         State basicState = State.knight;
 
@@ -59,10 +59,9 @@ class Program
                     startY = y;
                 }
 
-                for (int u = 1; u <= max; u++)
-                    for (int v = 0; v <= max; v++)
-                        for (int w = 0; w < 3; w++)
-                            visited[x, y, u, v, w] = int.MaxValue;
+                for (int v = 1; v <= max; v++)
+                    for (int w = 0; w < 3; w++)
+                        visited[x, y, v, w] = (int.MaxValue, 0);
 
             }
         }
@@ -74,11 +73,14 @@ class Program
             Node node = new Node(startX, startY, 1, 0, 0, curState);
 
             queue.Enqueue(node);
-            visited[startX, startY, 1, 0, (int)curState] = 0;
+            visited[startX, startY, 1, (int)curState] = (0, 0);
         }
 
         int minTime = int.MaxValue;
         int minChange = int.MaxValue;
+
+        int[] kx = new int[] { -2, -1, 1, 2, 2, 1, -1, -2 };
+        int[] ky = new int[] { -1, -2, -2, -1, 1, 2, 2, 1 };
 
         while (queue.Count > 0)
         {
@@ -118,9 +120,6 @@ class Program
 
         void KnightMove(int x, int y, int value, int change, int time)
         {
-            int[] kx = new int[] { -2, -1, 1, 2, 2, 1, -1, -2 };
-            int[] ky = new int[] { -1, -2, -2, -1, 1, 2, 2, 1 };
-
             for (int i = 0; i < 8; i++)
             {
                 int dx = x + kx[i];
@@ -179,9 +178,11 @@ class Program
             int nextTime = time + 1;
             int curValue = board[x, y] == value + 1 ? value + 1 : value;
 
-            if (nextTime < visited[x, y, curValue, change, (int)state])
+            bool betterChange = nextTime == visited[x, y, curValue, (int)state].time && change < visited[x, y, curValue, (int)state].change;
+
+            if (nextTime < visited[x, y, curValue, (int)state].time || betterChange)
             {
-                visited[x, y, curValue, change, (int)state] = nextTime;
+                visited[x, y, curValue, (int)state] = (nextTime, change);
                 queue.Enqueue(new Node(x, y, curValue, change, nextTime, state));
             }
         }
