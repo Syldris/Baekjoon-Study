@@ -29,7 +29,7 @@ class Program
             for (int x = 0; x < m; x++)
             {
                 int num = board[x, y];
-                int size = Math.Max(m - x, n - y);
+                int size = Math.Min(m - x, n - y);
 
                 for (int i = result; i < size; i++)
                 {
@@ -48,7 +48,6 @@ class Program
         {
             int dx = x + dist;
             int dy = y + dist;
-            if(dx >= m || dy >= n) return false;
 
             if (board[dx, y] == num && board[x, dy] == num && board[dx, dy] == num)
             {
