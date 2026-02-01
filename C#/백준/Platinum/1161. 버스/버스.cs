@@ -27,7 +27,7 @@ class Program
             arr[i] = (start, end, people);
         }
 
-        arr = arr.OrderBy(x => x.end).OrderByDescending(x => x.start).ToArray();
+        Array.Sort(arr, (a, b) => a.end.CompareTo(b.end));
 
         for (int i = 0; i < k; i++)
         {
