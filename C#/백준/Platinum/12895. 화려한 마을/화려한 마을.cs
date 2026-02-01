@@ -14,7 +14,10 @@ class Program
         int[] tree = new int[n << 2];
         int[] lazy = new int[n << 2];
 
-        Build(1, 1, n);
+        for (int i = 1; i < tree.Length; i++)
+        {
+            tree[i] = 1 << 1;
+        }
 
         for (int i = 0; i < q; i++)
         {
@@ -42,20 +45,6 @@ class Program
 
                 sw.WriteLine(result);
             }
-        }
-
-        void Build(int node, int start, int end)
-        {
-            tree[node] = 1 << 1;
-
-            if (start == end)
-            {
-                return;
-            }
-
-            int mid = (start + end) / 2;
-            Build(node << 1, start, mid);
-            Build((node << 1) + 1, mid + 1, end);
         }
 
         void Update(int node, int start, int end, int left, int right, int color)
