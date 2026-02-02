@@ -15,7 +15,6 @@ class Program
         Array.Sort(arr);
 
         char[] password = new char[l];
-        bool[] select = new bool[c];
         BackTrack(0, 0);
 
         void BackTrack(int depth, int prev)
@@ -40,14 +39,8 @@ class Program
 
             for (int i = prev; i < c; i++)
             {
-                if (!select[i])
-                {
-                    select[i] = true;
-                    password[depth] = arr[i];
-                    BackTrack(depth + 1, i);
-
-                    select[i] = false;
-                }
+                password[depth] = arr[i];
+                BackTrack(depth + 1, i + 1);
             }
         }
 
