@@ -74,7 +74,7 @@ class Program
         for (int i = 1; i < n; i++)
         {
             int value = board[0, i] == 0 ? 1 : 0;
-            if (Dijkstra(0, i, m - 1, 0, value))
+            if (Dijkstra(0, i, value))
             {
                 sw.Write(1);
                 return;
@@ -84,7 +84,7 @@ class Program
         for (int i = 0; i < m - 1; i++)
         {
             int value = board[i, n - 1] == 0 ? 1 : 0;
-            if (Dijkstra(i, n - 1, m - 1, 0, value))
+            if (Dijkstra(i, n - 1, value))
             {
                 sw.Write(1);
                 return;
@@ -93,7 +93,7 @@ class Program
 
         sw.Write(2);
 
-        bool Dijkstra(int startX, int startY, int endX, int endY, int startValue)
+        bool Dijkstra(int startX, int startY, int startValue)
         {
             Queue<(int x, int y, int value)> queue = new Queue<(int, int, int)>();
             queue.Enqueue((startX, startY, startValue));
@@ -105,7 +105,7 @@ class Program
             while (queue.Count > 0)
             {
                 (int x, int y, int value) = queue.Dequeue();
-                if (x == endX || y == endY)
+                if (x == m - 1 || y == 0)
                 {
                     DijkstarClear(visitedList);
                     return true;
