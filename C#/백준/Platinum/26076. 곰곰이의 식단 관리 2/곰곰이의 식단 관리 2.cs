@@ -71,34 +71,20 @@ class Program
         int[] rx = new int[] { 1, 1, 1, 0, 0, -1, -1, -1 };
         int[] ry = new int[] { 1, 0, -1, 1, -1, 1, 0, -1 };
 
-        for (int i = 0; i < n; i++)
+        for (int i = 1; i < n; i++)
         {
-            int value1 = board[0, i] == 0 ? 1 : 0;
-            if (i != 0 && Dijkstra(0, i, m - 1, 0, value1))
-            {
-                sw.Write(1);
-                return;
-            }
-
-            int value2 = board[m - 1, i] == 0 ? 1 : 0;
-            if (i != n - 1 && Dijkstra(m - 1, i, 0, n - 1, value2))
+            int value = board[0, i] == 0 ? 1 : 0;
+            if (Dijkstra(0, i, m - 1, 0, value))
             {
                 sw.Write(1);
                 return;
             }
         }
 
-        for (int i = 0; i < m; i++)
+        for (int i = 0; i < m - 1; i++)
         {
-            int value1 = board[i, 0] == 0 ? 1 : 0;
-            int value2 = board[i, n - 1] == 0 ? 1 : 0;
-            if (i != 0 && Dijkstra(i, 0, 0, n - 1, value1))
-            {
-                sw.Write(1);
-                return;
-            }
-
-            if (i != m - 1 && Dijkstra(i, n - 1, m - 1, 0, value2))
+            int value = board[i, n - 1] == 0 ? 1 : 0;
+            if (Dijkstra(i, n - 1, m - 1, 0, value))
             {
                 sw.Write(1);
                 return;
