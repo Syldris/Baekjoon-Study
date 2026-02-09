@@ -35,6 +35,7 @@ class Program
             int k = int.Parse(input[1]);
 
             Node[] tree = new Node[n * 4];
+            int[] reafNodePos = new int[n + 1];
             Build(1, 1, n);
 
             for (int i = 0; i < k; i++)
@@ -46,8 +47,11 @@ class Program
 
                 if (line[0] == 0)
                 {
-                    int aValue = (int)Query(1, 1, n, a, a).value;
-                    int bValue = (int)Query(1, 1, n, b, b).value;
+                    int reafA = reafNodePos[a];
+                    int reafB = reafNodePos[b];
+
+                    int aValue = (int)tree[reafA].value;
+                    int bValue = (int)tree[reafB].value;
 
                     Update(1, 1, n, a, bValue);
                     Update(1, 1, n, b, aValue);
@@ -71,6 +75,7 @@ class Program
             {
                 if (start == end)
                 {
+                    reafNodePos[start] = node;
                     return tree[node] = new Node(start, start, start);
                 }
                 int mid = (start + end) / 2;
