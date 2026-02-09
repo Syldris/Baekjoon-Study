@@ -22,11 +22,17 @@ class Program
 
         int testcase = int.Parse(sr.ReadLine());
 
-        long[] sum = new long[100001];
-        for (int i = 1; i <= 100000; i++)
+        const int size = 100000;
+
+        long[] sum = new long[size + 1];
+        for (int i = 1; i <= size; i++)
         {
             sum[i] = sum[i - 1] + i;
         }
+
+
+        Node[] tree = new Node[size * 4];
+        int[] reafNodePos = new int[size + 1];
 
         for (int t = 0; t < testcase; t++)
         {
@@ -34,8 +40,6 @@ class Program
             int n = int.Parse(input[0]);
             int k = int.Parse(input[1]);
 
-            Node[] tree = new Node[n * 4];
-            int[] reafNodePos = new int[n + 1];
             Build(1, 1, n);
 
             for (int i = 0; i < k; i++)
