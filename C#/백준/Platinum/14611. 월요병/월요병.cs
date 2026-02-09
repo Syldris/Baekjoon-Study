@@ -3,7 +3,7 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 20);
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         string[] input = sr.ReadLine().Split();
@@ -23,65 +23,57 @@ class Program
             }
         }
 
+        PriorityQueue<(int x, int y, long cost), long> queue = new();
+
+        for (int i = 1; i < n; i++)
+        {
+            if (board[0, i] == -1) continue;
+            long cost = board[0, i] == -2 ? 0 : board[0, i];
+
+            queue.Enqueue((0, i, cost), cost);
+            visited[0, i] = cost;
+        }
+
+        for (int i = 1; i < m - 1; i++)
+        {
+            if (board[i, n - 1] == -1) continue;
+            long cost = board[i, n - 1] == -2 ? 0 : board[i, n - 1];
+
+            queue.Enqueue((i, n - 1, cost), cost);
+            visited[i, n - 1] = cost;
+        }
+
         int[] dx = new int[] { -1, -1, -1, 0, 0, 1, 1, 1 };
         int[] dy = new int[] { -1, 0, 1, -1, 1, -1, 0, 1 };
 
-        long result = long.MaxValue;
-        for (int i = 1; i < n; i++)
+        while (queue.Count > 0)
         {
-            long value = Dijkstra(0, i);
-            result = Math.Min(result, value);
-        }
-        for (int i = 1; i < m - 1; i++)
-        {
-            long value = Dijkstra(i, n - 1);
-            result = Math.Min(result, value);
-        }
-
-        sw.Write(result == long.MaxValue ? -1 : result);
-
-
-        long Dijkstra(int startX, int startY)
-        {
-            if (board[startX, startY] == -1) return long.MaxValue;
-
-            PriorityQueue<(int x, int y, long cost), long> queue = new();
-
-            long startCost = board[startX, startY] == -2 ? 0 : board[startX, startY];
-
-            if (startCost < visited[startX, startY])
+            (int x, int y, long cost) = queue.Dequeue();
+            if (x == m - 1 || y == 0)
             {
-                queue.Enqueue((startX, startY, startCost), startCost);
+                sw.Write(cost);
+                return;
             }
-
-            while (queue.Count > 0)
+            for (int i = 0; i < 8; i++)
             {
-                (int x, int y, long cost) = queue.Dequeue();
-                if (x == m - 1 || y == 0)
+                int px = x + dx[i];
+                int py = y + dy[i];
+
+                if (px < 0 || py < 0 || px >= m || py >= n)
+                    continue;
+
+                if (board[px, py] == -1)
+                    continue;
+
+                long curCost = board[px, py] == -2 ? cost : cost + board[px, py];
+                if (curCost < visited[px, py])
                 {
-                    return cost;
-                }
-                for (int i = 0; i < 8; i++)
-                {
-                    int px = x + dx[i];
-                    int py = y + dy[i];
-
-                    if (px < 0 || py < 0 || px >= m || py >= n)
-                        continue;
-
-                    if (board[px, py] == -1)
-                        continue;
-
-                    long curCost = board[px, py] == -2 ? cost : cost + board[px, py];
-                    if (curCost < visited[px, py])
-                    {
-                        visited[px, py] = curCost;
-                        queue.Enqueue((px, py, curCost), curCost);
-                    }
+                    visited[px, py] = curCost;
+                    queue.Enqueue((px, py, curCost), curCost);
                 }
             }
-
-            return long.MaxValue;
         }
+
+        sw.Write(-1);
     }
 }
