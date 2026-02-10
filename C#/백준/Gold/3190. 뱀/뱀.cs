@@ -3,8 +3,8 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 22);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 20);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 16);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         int n = int.Parse(sr.ReadLine());
         int k = int.Parse(sr.ReadLine());
@@ -13,9 +13,9 @@ class Program
         for (int i = 0; i < k; i++)
         {
             int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
-            int row = line[0] - 1;
-            int col = line[1] - 1;
-            board[col, row] = 2;
+            int r = line[0] - 1;
+            int c = line[1] - 1;
+            board[c, r] = 2;
         }
 
         int l = int.Parse(sr.ReadLine());
@@ -39,7 +39,6 @@ class Program
 
             while (time < rotationTime)
             {
-                time++;
                 Move();
                 if (gameOver)
                 {
@@ -54,15 +53,12 @@ class Program
             }
             else
             {
-                dir--;
-                if (dir < 0)
-                    dir = 3;
+                dir = (dir + 3) % 4;
             }
         }
 
         while (true)
         {
-            time++;
             Move();
             if (gameOver)
             {
@@ -75,6 +71,8 @@ class Program
         {
             x = x + dx[dir];
             y = y + dy[dir];
+            time++;
+
             if (x < 0 || y < 0 || x >= n || y >= n || board[x, y] == 1)
             {
                 gameOver = true;
