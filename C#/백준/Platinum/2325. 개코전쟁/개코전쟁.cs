@@ -72,26 +72,26 @@ class Program
             Array.Fill(visited, int.MaxValue);
             visited[1] = 0;
 
-            PriorityQueue<(int node, int ignoreFrom, int ignoreTo, int time), int> ignoreQueue = new();
-            ignoreQueue.Enqueue((1, from, to, 0), 0);
+            PriorityQueue<(int node, int time), int> ignoreQueue = new();
+            ignoreQueue.Enqueue((1, 0), 0);
 
             while (ignoreQueue.Count > 0)
             {
-                (int node, int ignoreFrom, int ignoreTo, int time) = ignoreQueue.Dequeue();
+                (int node, int time) = ignoreQueue.Dequeue();
 
                 if (node == n)
                     return time;
 
                 foreach (var next in graph[node])
                 {
-                    if (node == ignoreFrom && next.node == ignoreTo) continue;
+                    if (node == from && next.node == to) continue;
 
                     int nextTime = time + next.time;
 
                     if (nextTime < visited[next.node])
                     {
                         visited[next.node] = nextTime;
-                        ignoreQueue.Enqueue((next.node, ignoreFrom, ignoreTo, nextTime), nextTime);
+                        ignoreQueue.Enqueue((next.node, nextTime), nextTime);
                     }
                 }
             }
