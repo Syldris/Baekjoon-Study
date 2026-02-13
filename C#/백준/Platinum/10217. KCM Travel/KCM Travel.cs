@@ -45,14 +45,19 @@ class Program
             queue.Enqueue((1, 0, 0), 0);
             visited[1, 0] = 0;
 
+            bool find = false;
+
             while (queue.Count > 0)
             {
                 (int node, int cost, int time) = queue.Dequeue();
 
+                if (time > visited[node, cost]) continue;
+
                 if (node == n)
                 {
                     sw.Write(time);
-                    return;
+                    find = true;
+                    break;
                 }
 
                 foreach (var next in graph[node])
@@ -72,7 +77,8 @@ class Program
                 }
             }
 
-            sw.Write("Poor KCM");
+            if (!find)
+                sw.Write("Poor KCM");
         }
 
     }
