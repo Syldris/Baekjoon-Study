@@ -1,4 +1,18 @@
 #nullable disable
+public readonly struct Node
+{
+    public readonly int pos;
+    public readonly int cost;
+    public readonly int time;
+
+    public Node(int pos, int cost, int time)
+    {
+        this.pos = pos;
+        this.cost = cost;
+        this.time = time;
+    }
+}
+
 class Program
 {
     static void Main()
@@ -16,7 +30,7 @@ class Program
             int m = int.Parse(input[1]);
             int k = int.Parse(input[2]);
 
-            List<(int node, int cost, int time)>[] graph = new List<(int, int, int)>[n + 1];
+            List<Node>[] graph = new List<Node>[n + 1];
             for (int i = 1; i <= n; i++)
                 graph[i] = new();
 
@@ -24,7 +38,7 @@ class Program
             {
                 int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
-                graph[line[0]].Add((line[1], line[2], line[3])); // 출발지역 => (도착지점, 비용, 시간)
+                graph[line[0]].Add(new Node(line[1], line[2], line[3])); // 출발지역 => (도착지점, 비용, 시간)
             }
 
             for (int i = 1; i <= n; i++)
@@ -41,45 +55,44 @@ class Program
                 }
             }
 
-            PriorityQueue<(int node, int cost, int time), int> queue = new();
-            queue.Enqueue((1, 0, 0), 0);
+            PriorityQueue<Node, int> queue = new();
+            queue.Enqueue(new Node(1, 0, 0), 0);
             visited[1, 0] = 0;
 
             bool find = false;
 
             while (queue.Count > 0)
             {
-                (int node, int cost, int time) = queue.Dequeue();
+                Node node = queue.Dequeue();
 
-                if (time > visited[node, cost]) continue;
+                if (node.time > visited[node.pos, node.cost]) continue;
 
-                if (node == n)
+                if (node.pos == n)
                 {
-                    sw.Write(time);
+                    sw.WriteLine(node.time);
                     find = true;
                     break;
                 }
 
-                foreach (var next in graph[node])
+                foreach (var next in graph[node.pos])
                 {
-                    int nextCost = cost + next.cost;
-                    int nextTime = time + next.time;
+                    int nextCost = node.cost + next.cost;
+                    int nextTime = node.time + next.time;
 
                     if (nextCost > m) // 총 비용이 돈을 넘으면 못감
                         continue;
 
-                    if (nextTime < visited[next.node, nextCost])
+                    if (nextTime < visited[next.pos, nextCost])
                     {
-                        visited[next.node, nextCost] = nextTime;
+                        visited[next.pos, nextCost] = nextTime;
 
-                        queue.Enqueue((next.node, nextCost, nextTime), nextTime);
+                        queue.Enqueue(new Node(next.pos, nextCost, nextTime), nextTime);
                     }
                 }
             }
 
             if (!find)
-                sw.Write("Poor KCM");
+                sw.WriteLine("Poor KCM");
         }
-
     }
 }
