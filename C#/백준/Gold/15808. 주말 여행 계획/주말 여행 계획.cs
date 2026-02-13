@@ -13,6 +13,7 @@ class Program
             graph[i] = new();
 
         int[] visited = new int[n];
+        Array.Fill(visited, int.MinValue);
 
         for (int i = 0; i < n; i++)
         {
@@ -33,76 +34,52 @@ class Program
         int p = int.Parse(input[0]);
         int q = int.Parse(input[1]);
 
-        (int pos, int value)[] travel = new (int, int)[p];
-        (int pos, int value)[] hotel = new (int, int)[q];
+        PriorityQueue<(int node, int cost), int> queue = new();
+
+        int[] hotel = new int[n];
 
         for (int i = 0; i < p; i++)
         {
             int[] line = Array.ConvertAll(sr.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries), int.Parse);
-            travel[i] = (line[0] - 1, line[1]);
+
+            int pos = line[0] - 1;
+            int value = line[1];
+            queue.Enqueue((pos, value), -value);
+            visited[pos] = value;
         }
 
         for (int i = 0; i < q; i++)
         {
             int[] line = Array.ConvertAll(sr.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries), int.Parse);
-            hotel[i] = (line[0] - 1, line[1]);
+            int pos = line[0] - 1;
+            int value = line[1];
+
+            hotel[pos] = value;
         }
 
-        if (p <= q) // 여행지 => 숙소
+        while (queue.Count > 0)
         {
-            for (int i = 0; i < p; i++)
-            {
-                Array.Fill(visited, int.MaxValue);
-                Dijkstra(travel[i].pos);
+            (int node, int cost) = queue.Dequeue();
 
-                for (int j = 0; j < q; j++)
-                {
-                    int value = travel[i].value + hotel[j].value - visited[hotel[j].pos];
-                    maxValue = Math.Max(maxValue, value);
-                }
+            if (cost < visited[node]) continue;
+
+            if (hotel[node] != 0)
+            {
+                maxValue = Math.Max(cost + hotel[node], maxValue);
             }
-        }
-        else // 숙소 => 여행지
-        {
-            for (int i = 0; i < q; i++)
-            {
-                Array.Fill(visited, int.MaxValue);
-                Dijkstra(hotel[i].pos);
 
-                for (int j = 0; j < p; j++)
+            foreach (var next in graph[node])
+            {
+                int nextCost = cost - next.cost;
+
+                if (nextCost > visited[next.node])
                 {
-                    int value = hotel[i].value + travel[j].value - visited[travel[j].pos];
-                    maxValue = Math.Max(maxValue, value);
+                    visited[next.node] = nextCost;
+                    queue.Enqueue((next.node, nextCost), -nextCost);
                 }
             }
         }
 
         sw.Write(maxValue);
-
-
-        void Dijkstra(int start)
-        {
-            PriorityQueue<(int node, int cost), int> queue = new();
-            queue.Enqueue((start, 0), 0);
-            visited[start] = 0;
-
-            while (queue.Count > 0)
-            {
-                (int node, int cost) = queue.Dequeue();
-
-                if (cost > visited[node]) continue;
-
-                foreach (var next in graph[node])
-                {
-                    int nextCost = next.cost + cost;
-
-                    if (nextCost < visited[next.node])
-                    {
-                        visited[next.node] = nextCost;
-                        queue.Enqueue((next.node, nextCost), nextCost);
-                    }
-                }
-            }
-        }
     }
 }
