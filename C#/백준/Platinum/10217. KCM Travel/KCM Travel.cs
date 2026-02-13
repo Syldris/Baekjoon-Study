@@ -1,11 +1,11 @@
 #nullable disable
-public readonly struct Node
+public readonly struct Edge
 {
     public readonly int pos;
     public readonly int cost;
     public readonly int time;
 
-    public Node(int pos, int cost, int time)
+    public Edge(int pos, int cost, int time)
     {
         this.pos = pos;
         this.cost = cost;
@@ -17,7 +17,7 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 16);
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         int testcase = int.Parse(sr.ReadLine());
@@ -30,7 +30,7 @@ class Program
             int m = int.Parse(input[1]);
             int k = int.Parse(input[2]);
 
-            List<Node>[] graph = new List<Node>[n + 1];
+            List<Edge>[] graph = new List<Edge>[n + 1];
             for (int i = 1; i <= n; i++)
                 graph[i] = new();
 
@@ -38,8 +38,9 @@ class Program
             {
                 int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
-                graph[line[0]].Add(new Node(line[1], line[2], line[3])); // 출발지역 => (도착지점, 비용, 시간)
+                graph[line[0]].Add(new Edge(line[1], line[2], line[3])); // 출발지역 => (도착지점, 비용, 시간)
             }
+
 
             int[,] dp = new int[n + 1, m + 1]; // [지역, 현재 비용] => 시간
             for (int i = 1; i <= n; i++)
@@ -52,7 +53,7 @@ class Program
 
             dp[1, 0] = 0;
 
-            for (int cost = 0; cost <= m; cost++)
+            for (int cost = 0; cost < m; cost++)
             {
                 for (int node = 1; node <= n; node++)
                 {
@@ -74,7 +75,13 @@ class Program
                     }
                 }
             }
-
+            /*
+                cost => node 순서로 처리하면 cost 기준으로 
+                작은 비용 => 큰 비용순서로 차곡 차곡 갱신되지만
+                
+                node => cost 순서로 처리하면 정점1 전부처리, 정점2,3,4 순으로 처리되면서
+                나중에 갱신된 상태를 놓쳐 버릴수 있다. 
+            */
             int minTime = int.MaxValue;
             for (int cost = 0; cost <= m; cost++)
             {
