@@ -32,15 +32,15 @@ class Program
 
         int TSP(int current, int visited)
         {
-            if (visited == (1 << n) - 1) // 전부 방문하면 0번으로 돌아오는 비용만 필요
-            {
-                if(dist[current, 0] == 0) return int.MaxValue / 2; // 길이 없으면 못감
-
-                else return dist[current, 0];
-            }
-
             if (dp[current, visited] != -1) // 이미 계산되면 바로 반환
                 return dp[current, visited];
+
+            if (visited == (1 << n) - 1) // 전부 방문하면 0번으로 돌아오는 비용만 필요
+            {
+                if(dist[current, 0] == 0) return dp[current,visited] = int.MaxValue / 2; // 길이 없으면 못감
+
+                else return dp[current,visited] = dist[current, 0]; // dp 테이블을 채우면서 반환
+            }
 
             int result = int.MaxValue / 2;
 
