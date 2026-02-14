@@ -39,12 +39,12 @@ class Program
 
             for (int j = start; j < end; j++)
             {
-                if (arr[j] <= x) // start => end 까지 x 와 비교하며  ++i위치에 j와 스왑하여 정렬
+                if (arr[j] <= x) // start => end 까지 x 와 비교하며 ++i위치에 j와 스왑하여 정렬
                 {
                     k--;
                     if (k == 0)
                     {
-                        sw.Write(arr[++i] < arr[j] ? $"{arr[i]} {arr[j]}" : $"{arr[j]} {arr[i]}");
+                        sw.Write($"{arr[j]} {arr[++i]}"); // 교환되는수 j의 원소는 <= i 바꾸는원소보다 같거나 작음을 만족할듯. (큰 원소는 index가 넘어가면서 나중에 스왑됨을 알수있음)
                         return -1;
                     }
                     (arr[++i], arr[j]) = (arr[j], arr[i]);
@@ -56,7 +56,7 @@ class Program
                 k--;
                 if (k == 0)
                 {
-                    sw.Write(arr[i + 1] < arr[end] ? $"{arr[i + 1]} {arr[end]}" : $"{arr[end]} {arr[i + 1]}");
+                    sw.Write($"{arr[end]} {arr[i + 1]}");
                     return -1;
                 }
                 (arr[i + 1], arr[end]) = (arr[end], arr[i + 1]);
