@@ -3,7 +3,7 @@ class Program
 {
     static void Main()
     {
-        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 16);
+        using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         string[] input = sr.ReadLine().Split();
@@ -33,18 +33,19 @@ class Program
         int startPos = int.Parse(input2[0]);
         int endPos = int.Parse(input2[1]);
 
-        PriorityQueue<(int node, int cost, int maxCost, bool isRemove), int> queue = new();
-        queue.Enqueue((startPos, 0, 0, false), 0);
+        PriorityQueue<(int node, int cost, bool isRemove), int> queue = new();
+        queue.Enqueue((startPos, 0, false), 0);
         visited[startPos, 0] = 0;
 
         int removeCost = 0;
-        // 테스트용
+
         while (queue.Count > 0)
         {
-            (int node, int cost, int maxCost, bool isRemove) = queue.Dequeue();
+            (int node, int cost, bool isRemove) = queue.Dequeue();
+
             if (node == endPos)
             {
-                removeCost = cost; 
+                removeCost = cost; // 남겨야 하는 간선들의 가중치 합
                 break;
             }
 
@@ -54,18 +55,15 @@ class Program
 
                 if (!isRemove) // 아직 제거 안했을때
                 {
-                    int nextMaxCost = Math.Max(next.cost, maxCost);
-                    int nextRemoveCost = nextCost - nextMaxCost; // 경로중에서 가중치가 가장 큰 간선 하나만 제거
-
-                    if (nextRemoveCost < visited[next.node, 1]) // 제거하면서 가는 경우
+                    if (cost < visited[next.node, 1]) // 제거하면서 가는 경우
                     {
-                        visited[next.node, 1] = nextRemoveCost;
-                        queue.Enqueue((next.node, nextRemoveCost, nextMaxCost, true), nextRemoveCost);
+                        visited[next.node, 1] = cost; // 이번 간선은 더하지 않고 그대로 감
+                        queue.Enqueue((next.node, cost, true), cost);
                     }
                     if (nextCost < visited[next.node, 0]) // 제거 안하고 그대로 두는 경우
                     {
                         visited[next.node, 0] = nextCost;
-                        queue.Enqueue((next.node, nextCost, nextMaxCost, false), nextCost);
+                        queue.Enqueue((next.node, nextCost, false), nextCost);
                     }
                 }
                 else // 이미 제거 했을때
@@ -73,7 +71,7 @@ class Program
                     if (nextCost < visited[next.node, 1])
                     {
                         visited[next.node, 1] = nextCost;
-                        queue.Enqueue((next.node, nextCost, maxCost, isRemove), nextCost);
+                        queue.Enqueue((next.node, nextCost, isRemove), nextCost);
                     }
                 }
             }
