@@ -12,7 +12,6 @@ class Program
         Array.Sort(arr, (a, b) =>
         {
             int len = Math.Min(a.Length, b.Length); // 둘의 길이중 짧은쪽까지 같이 비교
-            char firstDiffValue = a[0];
 
             for (int i = 0; i < len; i++)
             {
@@ -20,8 +19,6 @@ class Program
                 {
                     return b[i].CompareTo(a[i]); // b가 큰수일때 1를 반환해서 자리를 바꿈, 작으면 제자리  
                 }
-
-                if (firstDiffValue == a[0] && a[i] != firstDiffValue) firstDiffValue = a[i]; // 처음으로 앞자리 수와 다른 수를 기록해보자.
             }
 
             int index = len; // 비교했을때 같다면 길이가 남은쪽은 추가로 비교하는게 최적일것 같다.
