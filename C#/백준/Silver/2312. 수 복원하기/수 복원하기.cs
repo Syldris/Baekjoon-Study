@@ -24,27 +24,29 @@ class Program
         for (int t = 0; t < testcase; t++)
         {
             int n = int.Parse(sr.ReadLine());
-            List<int> list = new();
+
+            int prev = dp[n];
+            int count = 0;
             while (n != dp[n])
             {
-                list.Add(dp[n]);
-                n /= dp[n];
-            }
-
-            list.Add(n);
-
-            int prev = list[0];
-            int count = 0;
-            foreach (var item in list)
-            {
-                if (item != prev)
+                if (prev != dp[n]) // 전이랑 달라지면 바로 출력
                 {
                     sw.WriteLine($"{prev} {count}");
-                    prev = item;
+                    prev = dp[n];
                     count = 0;
                 }
-                count++;
+                n /= dp[n];
+                count++; // 해당 소인수 분해 횟수
             }
+
+            if (prev != n)
+            {
+                sw.WriteLine($"{prev} {count}");
+                prev = dp[n];
+                count = 0;
+            }
+            count++;
+
             sw.WriteLine($"{prev} {count}");
         }
     }
