@@ -24,11 +24,15 @@ class Program
             query[i] = (line[0] - 1, line[1] - 1, i); // 1Index => 0Index 로 변환
         }
 
-        Array.Sort(query, (a, b) => (a.end.CompareTo(b.end))); // 끝점 기준 정렬
         for (int i = 0; i < m; i++)
         {
             int pos = query[i].start / sqrtN; // start 기반으로 버킷에 담기. 이로써 start가 움직여도 최대 SqrtN번 움직인다.
-            bucket[pos].Add(query[i]); // 버킷안에선 끝점이 단조증가 하도록 정렬한 쿼리를 버킷안에 담음.
+            bucket[pos].Add(query[i]);
+        }
+
+        for (int i = 0; i < bucketCount; i++)
+        {
+            bucket[i].Sort((a, b) => a.end.CompareTo(b.end)); //// 버킷안에선 끝점이 단조증가 하도록 정렬한 쿼리를 버킷안에 담음.
         }
 
         int[] result = new int[m];
@@ -49,12 +53,12 @@ class Program
                     count[arr[currentEnd]]++; // 범위를 확장했으니 count[현재수] = 갯수 +1
                 }
 
-                while(currentEnd > end) // 현재 끝점이 end보다 크면 end를 줄이면서 범위가 축소됨 (버킷이 달라질때 end점 단조깨져서 O(N)만큼 움직여야함)
+                while (currentEnd > end) // 현재 끝점이 end보다 크면 end를 줄이면서 범위가 축소됨 (버킷이 달라질때 end점 단조깨져서 O(N)만큼 움직여야함)
                 {
                     count[arr[currentEnd]]--; // 범위를 좁혔으니 숫자 카운팅 -1
                     if (count[arr[currentEnd]] == 0) value--; // 숫자를 줄여봤을때 0 이면 서로다른수가 -1
                     currentEnd--; // 제거할땐 순서상 제거하고 이동해야함
-                }    
+                }
 
                 while (currentStart > start) // 현재 시작점이 start 보다 크면 줄이면서 start 쪽으로 범위를 확장하기
                 {
