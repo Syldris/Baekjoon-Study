@@ -16,15 +16,19 @@ class Program
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
-        int[] sorted = arr.Distinct().ToArray();
-        Array.Sort(sorted);
-        Dictionary<int, int> dict = new();
-
-        for (int i = 0; i < sorted.Length; i++)
-            dict[sorted[i]] = i; // dict[값] = 순서 형태로 기록
-
+        (int value, int index)[] sorted = new (int, int)[n];
         for (int i = 0; i < n; i++)
-            arr[i] = dict[arr[i]]; // 수 => 순서 좌표압축
+            sorted[i] = (arr[i], i); // 값, 순서 
+        Array.Sort(sorted);
+
+        int rank = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (i > 0 && sorted[i].value > sorted[i - 1].value) // 이전값보다 크면 증가
+                rank++;
+
+            arr[sorted[i].index] = rank;
+        }
 
         int q = int.Parse(sr.ReadLine());
 
