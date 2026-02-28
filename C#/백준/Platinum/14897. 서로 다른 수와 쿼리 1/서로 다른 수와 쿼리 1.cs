@@ -18,8 +18,13 @@ class Program
 
         int[] sorted = arr.Distinct().ToArray();
         Array.Sort(sorted);
+        Dictionary<int, int> dict = new();
+
+        for (int i = 0; i < sorted.Length; i++)
+            dict[sorted[i]] = i; // dict[값] = 순서 형태로 기록
+
         for (int i = 0; i < n; i++)
-            arr[i] = Array.BinarySearch(sorted, arr[i]);
+            arr[i] = dict[arr[i]]; // 수 => 순서 좌표압축
 
         int q = int.Parse(sr.ReadLine());
 
@@ -82,29 +87,21 @@ class Program
 
         int Push(int pos, bool add)
         {
-            int value = arr[pos];
+            int target = arr[pos];
 
             if (add) // 추가하는 쪽
             {
-                if (count[value]++ == 0) // 0개였던 수 증가하면 다른수 갯수 +1
-                {
+                if (count[target]++ == 0) // 0개였던 수 증가하면 다른수 갯수 +1
                     return 1;
-                }
                 else
-                {
                     return 0;
-                }
             }
             else // 제거 하는쪽
             {
-                if (--count[value] == 0) // 제거하고 갯수 0이면 다른수 갯수 -1
-                {
+                if (--count[target] == 0) // 제거하고 갯수 0이면 다른수 갯수 -1
                     return -1;
-                }
                 else
-                {
                     return 0;
-                }
             }
         }
     }
