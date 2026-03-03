@@ -34,10 +34,6 @@ class Program
         for (int i = 6; i < 10; i++)
             result[i] = twoStartZeroEnd[i - 5];
 
-        // sw.WriteLine(string.Join(' ', result));
-        // sw.WriteLine(string.Join(' ', zeroStartTwoEnd));
-        // sw.Write(string.Join(' ', twoStartZeroEnd));
-
         int n = int.Parse(sr.ReadLine());
         if (n % 5 != 1)
         {
@@ -60,9 +56,6 @@ class Program
                 bool option = (arr[0] == 0 && arr[^1] == 2) || (arr[0] == 2 && arr[^1] == 0); // 0 to 2 나 2 to 0 배열만 구해보자.
                 if (value[0] == value[1] && value[1] == value[2] && option)
                 {
-                    // sw.WriteLine("Yes");
-                    // sw.WriteLine(String.Join(' ', arr));
-                    // sw.WriteLine(value[0]);
                     Array.Copy(arr, array, 6);
                     find = true;
                 }
@@ -75,21 +68,13 @@ class Program
 
                 arr[depth] = i;
 
-                int[] curValue = new int[3];
-
-                if (depth > 0)
-                {
-                    value[node] += Math.Abs(i - node);
-                    value[i] += Math.Abs(i - node);
-                }
+                value[node] += Math.Abs(i - node);
+                value[i] += Math.Abs(i - node);
 
                 BackTrack(i, depth + 1, array);
 
-                if (depth > 0)
-                {
-                    value[node] -= Math.Abs(i - node);
-                    value[i] -= Math.Abs(i - node);
-                }
+                value[node] -= Math.Abs(i - node);
+                value[i] -= Math.Abs(i - node);
             }
         }
     }
