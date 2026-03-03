@@ -46,13 +46,10 @@ class Program
         }
 
         sw.WriteLine("Yes");
-        for (int i = 0; i < n - 1; i++)
+        for (int i = 0; i < n; i++)
         {
-            sw.Write($"{result[i % 10]} "); // 공백포함
+            sw.Write($"{result[i % 10]} ");
         }
-
-        sw.Write(result[(n - 1) % 10]); // 공백 미포함
-
 
         void BackTrack(int node, int depth, int[] array) // 백트래킹 결과 n = 6,11,16,21,26,31 에서 성립(x*5+1)모양. value는 각각 4,8,12,16,20,24 (x * 4)모양이다.
         {
