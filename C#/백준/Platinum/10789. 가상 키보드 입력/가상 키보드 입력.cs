@@ -60,9 +60,11 @@ class Program
                 int py = y + dy[i];
                 while (px >= 0 && py >= 0 && px < m && py < n)
                 {
+                    if (count >= visited[px, py, score]) break; // 겹치면 미리 가지치기. 이방향은 px,py 노드에서만 출발해도 괜찮다.
+
                     if (board[px, py] != c) // 다른 키를 만나면 일단 멈춤.
                     {
-                        if (count + 1 < visited[px, py, score]) 
+                        if (count + 1 < visited[px, py, score])
                         {
                             visited[px, py, score] = count + 1;
                             queue.Enqueue((px, py, score, count + 1));
