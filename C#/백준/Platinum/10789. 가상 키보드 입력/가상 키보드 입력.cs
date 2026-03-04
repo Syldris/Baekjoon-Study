@@ -33,6 +33,35 @@ class Program
         int[] dx = new int[] { -1, 1, 0, 0 };
         int[] dy = new int[] { 0, 0, -1, 1 };
 
+        (int x, int y)[,,] jumpTable = new (int, int)[m, n, 4]; // 값과 상관없이 움직일수 있는 위치가 고정이므로 그래프내에서 탐색보단 전처리로 구해놓자 
+        for (int y = 0; y < n; y++)
+        {
+            for (int x = 0; x < m; x++)
+            {
+                char c = board[x, y];
+                for (int i = 0; i < 4; i++)
+                {
+                    jumpTable[x, y, i] = (-1, -1);
+
+                    int px = x + dx[i];
+                    int py = y + dy[i];
+
+                    while (px >= 0 && py >= 0 && px < m && py < n)
+                    {
+                        if (board[px, py] != c) // 다른 키를 만나면 멈춤.
+                        {
+                            jumpTable[x, y, i] = (px, py);
+                            break;
+                        }
+
+                        px += dx[i];
+                        py += dy[i];
+                    }
+                }
+            }
+        }
+
+
         Queue<(int x, int y, int score, int count)> queue = new();
         visited[0, 0, 0] = 0;
         queue.Enqueue((0, 0, 0, 0));
@@ -53,27 +82,15 @@ class Program
                 queue.Enqueue((x, y, score + 1, count + 1));
             }
 
-            char c = board[x, y];
             for (int i = 0; i < 4; i++)
             {
-                int px = x + dx[i];
-                int py = y + dy[i];
-                while (px >= 0 && py >= 0 && px < m && py < n)
+                (int px, int py) = jumpTable[x, y, i];
+                if (px == -1 || py == -1) continue;
+
+                if (count + 1 < visited[px, py, score])
                 {
-                    if (count >= visited[px, py, score]) break; // 겹치면 미리 가지치기. 이방향은 px,py 노드에서만 출발해도 괜찮다.
-
-                    if (board[px, py] != c) // 다른 키를 만나면 일단 멈춤.
-                    {
-                        if (count + 1 < visited[px, py, score])
-                        {
-                            visited[px, py, score] = count + 1;
-                            queue.Enqueue((px, py, score, count + 1));
-                        }
-                        break;
-                    }
-
-                    px += dx[i];
-                    py += dy[i];
+                    visited[px, py, score] = count + 1;
+                    queue.Enqueue((px, py, score, count + 1));
                 }
             }
         }
