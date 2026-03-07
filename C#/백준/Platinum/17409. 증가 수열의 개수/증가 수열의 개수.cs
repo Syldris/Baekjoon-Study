@@ -18,31 +18,15 @@ class Program
         {
             Update(1, 1, n, arr[i], 1, 0); // 길이 1 은 = 1
 
-            //for (int v = 2; v < k; v++)
-            //{
-            //    int count = Query(1, 1, n, 1, arr[i] - 1, v - 1);
-            //    Update(1, 1, n, arr[i], count, v);
-            //}
-
-            for (int v = k - 1; v >= 1; v--) // 마치 배낭문제처럼 큰수=>작은수 순서로 해서 이전 값을 중복계산하지 못하게 하자.
+            for (int v = 1; v < k; v++) // 다시 생각해보니 이전길이를 참고해서 중복으로 업데이트한 다해도 값 탐색범위가 본인-1이라 정방향도 된다. v=2로 실수해서 안된것.
             {
                 int count = Query(1, 1, n, 1, arr[i] - 1, v - 1);
+                if (count == 0) break; // 길이 v-1의 증가 부분 수열이 없으면 v, v+1 v+2 또한 만들수 없다.
                 Update(1, 1, n, arr[i], count, v);
             }
         }
 
         sw.Write(Query(1, 1, n, 1, n, k - 1));
-
-        //for (int v = 1; v < k; v++)
-        //{
-        //    for (int i = 0; i < n; i++)
-        //    {
-        //        int value = Query(1, 1, n, 1, arr[i] - 1, v - 1); // 이전에 나왔던 수중에서 나보다 작은 수 = k-1길이의 이전 부분 증가 수열의 갯수.
-        //        Update(1, 1, n, arr[i], value, v);
-        //    }
-        //}
-
-        //sw.Write(Query(1, 1, n, 1, n, k - 1));
 
         void Update(int node, int start, int end, int index, int value, int k)
         {
