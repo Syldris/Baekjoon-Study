@@ -11,10 +11,7 @@ class Program
         int k = int.Parse(input[1]);
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
-        int[][] tree = new int[n * 4][]; // k = 길이 x 의 증가하는 수열로 DP기록.
-        for (int i = 0; i < n * 4; i++) // 가변배열로 2차원 배열 오버헤드 제거
-            tree[i] = new int[k];
-
+        int[,] tree = new int[n * 4, k]; // k = 길이 x 의 증가하는 수열로 DP기록.
         const int mod = 1000000007;
 
         for (int i = 0; i < n; i++)
@@ -35,11 +32,11 @@ class Program
         {
             if (start == end)
             {
-                tree[node][k] = (tree[node][k] + value) % mod;
+                tree[node, k] = (tree[node, k] + value) % mod;
                 return;
             }
 
-            int mid = (start + end) / 2;
+            int mid = (start + end) >> 1;
 
             if (index <= mid)
             {
@@ -50,7 +47,7 @@ class Program
                 Update((node << 1) + 1, mid + 1, end, index, value, k);
             }
 
-            tree[node][k] = (tree[node << 1][k] + tree[(node << 1) + 1][k]) % mod;
+            tree[node, k] = (tree[node << 1, k] + tree[(node << 1) + 1, k]) % mod;
         }
 
         int Query(int node, int start, int end, int left, int right, int k)
@@ -59,9 +56,9 @@ class Program
                 return 0;
 
             if (left <= start && end <= right)
-                return tree[node][k];
+                return tree[node, k];
 
-            int mid = (start + end) / 2;
+            int mid = (start + end) >> 1;
 
             return (Query(node << 1, start, mid, left, right, k) + Query((node << 1) + 1, mid + 1, end, left, right, k)) % mod;
         }
