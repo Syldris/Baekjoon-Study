@@ -56,8 +56,6 @@ class Program
 
             if (time > visited[x, y]) continue;
 
-            BFS(x, y, time);
-
             for (int i = 0; i < 4; i++)
             {
                 int px = x + dx[i];
@@ -75,6 +73,65 @@ class Program
                 }
             }
         }
+
+        List<int> list = new(Math.Max(n, m));
+
+        for (int y = 0; y < n; y++) // 가로로 정리
+        {
+            int minValue = int.MaxValue;
+            void BuildMovePoint()
+            {
+                foreach (var node in list)
+                {
+                    movePoint[node, y] = Math.Min(minValue, movePoint[node, y]);
+                }
+                list.Clear();
+                minValue = int.MaxValue;
+            }
+
+            for (int x = 0; x < m; x++)
+            {
+                if (board[x, y] == 'I') //벽을 만나면 지금까지 있던 노드들에 대해 최솟값으로 갱신 (수직선상으로 0거리에 갈수있으니)
+                {
+                    BuildMovePoint();
+                }
+                else
+                {
+                    minValue = Math.Min(minValue, visited[x, y]);
+                    list.Add(x);
+                }
+            }
+            BuildMovePoint();
+        }
+
+        for (int x = 0; x < m; x++) // 세로로 정리
+        {
+            int minValue = int.MaxValue;
+            void BuildMovePoint()
+            {
+                foreach (var node in list)
+                {
+                    movePoint[x, node] = Math.Min(minValue, movePoint[x, node]);
+                }
+                list.Clear();
+                minValue = int.MaxValue;
+            }
+
+            for (int y = 0; y < n; y++)
+            {
+                if (board[x, y] == 'I') //벽을 만나면 지금까지 있던 노드들에 대해 최솟값으로 갱신 (수직선상으로 0거리에 갈수있으니)
+                {
+                    BuildMovePoint();
+                }
+                else
+                {
+                    minValue = Math.Min(minValue, visited[x, y]);
+                    list.Add(y);
+                }
+            }
+            BuildMovePoint();
+        }
+
         for (int y = 0; y < n; y++)
         {
             for (int x = 0; x < m; x++)
@@ -118,27 +175,5 @@ class Program
         }
 
         sw.Write("NO");
-
-        void BFS(int startX, int startY, int time)
-        {
-            if (time < movePoint[startX, startY])
-                movePoint[startX, startY] = time;
-
-            for (int dir = 0; dir < 4; dir++)
-            {
-                int len = Math.Max(n, m);
-                for (int i = 1; i <= len; i++)
-                {
-                    int px = startX + dx[dir] * i;
-                    int py = startY + dy[dir] * i;
-
-                    if (px < 0 || py < 0 || px >= m || py >= n || board[px, py] == 'I')
-                        break;
-
-                    if (time < movePoint[px, py])
-                        movePoint[px, py] = time;
-                }
-            }
-        }
     }
 }
