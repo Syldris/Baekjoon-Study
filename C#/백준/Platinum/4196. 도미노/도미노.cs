@@ -38,27 +38,24 @@ class Program
                     DFS(i);
             }
 
-            int[] indegree = new int[n + 1];
-            int[] sccGroupMaxIndegree = new int[sccNumber]; // scc그룹안의 최대 진입차수 값
+            bool[] sccGroupIndegree = new bool[sccNumber + 1]; // scc그룹내으로 진입해오는 도미노여부
 
             for (int node = 1; node <= n; node++)
             {
                 foreach (var next in graph[node])
                 {
-                    if (scc[node] != scc[next]) // scc 그룹이 다르다면
+                    if (scc[node] != scc[next]) // scc 그룹이 같으면 진입차수가 의미가 없다. 어딜 밀어도 같기때문.
                     {
-                        indegree[next]++;
-
-                        sccGroupMaxIndegree[scc[next]] = Math.Max(sccGroupMaxIndegree[scc[next]], indegree[next]);
+                        sccGroupIndegree[scc[next]] = true; // SCC그룹이 다르면 뒤쪽 SCC는 전부 밀리니 안밀어도 됨
                     }
                 }
             }
 
             int result = 0;
 
-            for (int i = 0; i < sccNumber; i++)
+            for (int i = 1; i <= sccNumber; i++)
             {
-                if (sccGroupMaxIndegree[i] == 0)
+                if (!sccGroupIndegree[i]) // 다른 SCC에서 scc그룹내로 난입하는 도미노가 있으면 안밀어도 되고, 없으면 반드시SCC내에서 1개 밀어야한다.
                     result++;
             }
 
@@ -77,9 +74,8 @@ class Program
                     if (visited[next] == 0)
                     {
                         DFS(next);
-                        visited[node] = Math.Min(visited[next], visited[node]);
                     }
-                    else if (inStack[next])
+                    if (inStack[next])
                     {
                         visited[node] = Math.Min(visited[next], visited[node]);
                     }
@@ -93,7 +89,7 @@ class Program
                         int pop = stack.Pop();
                         inStack[pop] = false;
 
-                        scc[pop] = sccNumber;
+                        scc[pop] = sccNumber; // SCC 그룹 매기기
 
                         if (pop == node)
                             break;
