@@ -4,7 +4,7 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         string[] input = sr.ReadLine().Split();
         int n = int.Parse(input[0]);
@@ -68,7 +68,7 @@ class Program
              * False -> True 명제는 애초에 고르지 않았으니 모순이 되지않음.
              * 한마디로 우변을 False로 두는게 모순없이 타당한데, 그래프상 우리가 관계를
              * b -> ㄱa 등으로 두었는데, SCC 넘버는 그래프상 깊이우선으로 안쪽부터 SCC를 확정지으므로
-             * SCC 번호가 낮은게 우변, 즉 번호가 낮은쪽이 False여야한다.
+             * SCC 번호가 낮은게 우변, 즉 번호가 낮은쪽이 True여야한다.
              * 요약하자면 False(높은번호) -> True(낮은번호) 가 되게 간선을 만들자.
              */
 
