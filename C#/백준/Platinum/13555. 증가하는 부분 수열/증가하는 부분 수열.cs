@@ -11,24 +11,23 @@ class Program
         int k = int.Parse(input[1]);
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
+
         const int max = 100000;
-        int[,] tree = new int[max * 4, k];
         const int mod = 5000000;
 
-        for (int i = 0; i < n; i++) // 순서를 생각하면서 해봐야함
-        {
-            int[] temp = new int[k];
-            temp[0] = 1; // 길이 1은 항상 1개
+        int[,] tree = new int[max * 4, k];
 
+        for (int i = 0; i < n; i++) // 순서를 고려해서 왼쪽부터 업데이트 해야함.
+        {
+            Update(1, 1, max, arr[i], 1, 0); // 길이 1 = 1임.
             for (int v = 1; v < k; v++)
             {
-                temp[v] = Query(1, 1, max, 1, arr[i] - 1, v - 1);
-            }
+                // 본인보다 왼쪽에 있으면서 끝이 arr[i]보다 작으며, 길이-1개의 증가하는 수열 갯수
+                int count = Query(1, 1, max, 1, arr[i] - 1, v - 1);
 
-            // 계산이 다 끝난 후에 트리에 한꺼번에 반영
-            for (int v = 0; v < k; v++)
-            {
-                if (temp[v] > 0) Update(1, 1, max, arr[i], temp[v], v);
+                //if (count == 0) break; // 길이 x개 증가하는 부분수열이 0개면 그 이후로도 쭉 0개이므로 끊기.
+
+                Update(1, 1, max, arr[i], count, v); // count갯수만큼 본인에게 길이 v의 증가하는 수열로 이어붙임.
             }
         }
 
