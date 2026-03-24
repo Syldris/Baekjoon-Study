@@ -98,7 +98,7 @@ class Program
         Node Query(int node, int start, int end, int left, int right)
         {
             if (start > right || end < left)
-                return new Node(0, 0, 0);
+                return new Node(-1, 0, 0);
 
             if (left <= start && end <= right)
             {
@@ -110,11 +110,18 @@ class Program
             Node leftNode = Query(node << 1, start, mid, left, right);
             Node rightNode = Query((node << 1) + 1, mid + 1, end, left, right);
 
+            if (leftNode.value == -1)  // 한쪽이 범위밖인 경우.
+                return rightNode;
+
+            else if (rightNode.value == -1)
+                return leftNode;
+
             int value = leftNode.value + rightNode.value;
-            if (leftNode.right == rightNode.left && leftNode.value != 0 && rightNode.value != 0) // 0 0 이 병합되는경우는 제외해야함.
+            if (leftNode.right == rightNode.left)
             {
                 value--;
             }
+
             return new Node(value, leftNode.left, rightNode.right);
         }
     }
