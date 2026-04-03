@@ -6,8 +6,10 @@ class Program
         using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
-        int n = int.Parse(sr.ReadLine());
-        int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
+        int n = Read();
+        int[] arr = new int[n];
+        for(int i = 0; i < n; i++)
+            arr[i] = Read();
 
         long curPower = arr[0];
 
@@ -28,5 +30,31 @@ class Program
         }
 
         sw.Write("Yes");
+
+        int Read()
+        {
+            int c = sr.Read();
+
+            while (c != '-' && (c < '0' || c > '9'))
+                c = sr.Read();
+
+            bool minus = false;
+            int value = 0;
+
+            if (c == '-')
+            {
+                minus = true;
+                c = sr.Read();
+            }
+
+            while ('0' <= c && c <= '9')
+            {
+                value *= 10;
+                value += c - '0';
+                c = sr.Read();
+            }
+
+            return minus ? -value : value;
+        }
     }
 }
