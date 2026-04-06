@@ -20,6 +20,15 @@ class Program
             info[i] = (line[0], line[1], line[2]);
         }
 
+        int[] board = new int[n + 1]; // 칸 => 구역 매핑
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = info[i].start; j <= info[i].end; j++)
+            {
+                board[j] = i + 1;
+            }
+        }
+
         Build(1, 1, m);
 
         while (true)
@@ -59,60 +68,16 @@ class Program
 
         long SolveQuery(int left, int right)
         {
-            int l = lowerBoundEnd(left) + 1; // 0-index => 1-index
-            int r = UpperBoundStart(right); // -1 해주면 구간 마지막 이하까지로 알수있고 +1안더해주는걸로 대체.
-            if (l > r) return 0;
+            int l = board[left];
+            int r = board[right];
             return Query(1, 1, m, l, r);
         }
 
         void SolveUpdate(int left, int right, int value)
         {
-            int l = lowerBoundEnd(left) + 1; // 0-index => 1-index
-            int r = UpperBoundStart(right); // -1 해주면 구간 마지막 이하까지로 알수있고 +1안더해주는걸로 대체.
-            if (l > r) return;
+            int l = board[left];
+            int r = board[right];
             Update(1, 1, m, l, r, value);
-        }
-
-        int lowerBoundEnd(int target) // end >= 구역시작 인 첫번째 인덱스. 이 구간부터 시작이다. 
-        {
-            int start = 0, end = m;
-
-            while (start < end)
-            {
-                int mid = (start + end) >> 1;
-
-                if (info[mid].end < target) // mid가 target보다 작을때만 mid 버리고 오른쪽으로 이동
-                {
-                    start = mid + 1;
-                }
-                else // 같거나 크면 왼쪽으로 이동해봄.
-                {
-                    end = mid;
-                }
-            }
-
-            return start;
-        }
-
-        int UpperBoundStart(int target) // start > 구역 끝인 첫번째 인덱스. -1해주면 초과-1로 이하로 잡을수있다.
-        {
-            int start = 0, end = m;
-
-            while (start < end)
-            {
-                int mid = (start + end) >> 1;
-
-                if (info[mid].start <= target) // mid가 target보다 작거나 같으면 mid 버리고 오른쪽으로 이동
-                {
-                    start = mid + 1;
-                }
-                else // 초과했을때만 왼쪽으로 이동해봄.
-                {
-                    end = mid;
-                }
-            }
-
-            return start;
         }
 
         void Build(int node, int start, int end)
