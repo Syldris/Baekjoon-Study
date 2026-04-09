@@ -1,14 +1,19 @@
 #nullable disable
 
-public readonly struct Node
+public struct Node
 {
-    public readonly long odd;
-    public readonly long even;
+    public long odd;
+    public long even;
 
     public Node(long odd, long even)
     {
         this.odd = odd;
         this.even = even;
+    }
+
+    public static Node operator +(Node a, Node b)
+    {
+        return new Node(a.odd + b.odd, a.even + b.even);
     }
 }
 
@@ -47,9 +52,9 @@ class Program
             if (start == end)
             {
                 if (start % 2 == 1)
-                    tree[node] = new Node(arr[start - 1], 0); // 1index => 0-index
+                    tree[node].odd = arr[start - 1]; // 1index => 0-index
                 else
-                    tree[node] = new Node(0, arr[start - 1]);
+                    tree[node].even = arr[start - 1];
 
                 return;
             }
@@ -58,7 +63,7 @@ class Program
             Build(node << 1, start, mid);
             Build((node << 1) + 1, mid + 1, end);
 
-            tree[node] = new Node(tree[node << 1].odd + tree[(node << 1) + 1].odd, tree[node << 1].even + tree[(node << 1) + 1].even);
+            tree[node] = tree[node << 1] + tree[(node << 1) + 1];
         }
 
         void Update(int node, int start, int end, int index, int value)
@@ -66,11 +71,12 @@ class Program
             if (start == end)
             {
                 if (start % 2 == 1)
-                    tree[node] = new Node(tree[node].odd + value, tree[node].even);
+                    tree[node].odd += value;
                 else
-                    tree[node] = new Node(tree[node].odd, tree[node].even + value);
+                    tree[node].even += value;
                 return;
             }
+
             int mid = (start + end) >> 1;
             if (index <= mid)
             {
@@ -80,7 +86,8 @@ class Program
             {
                 Update((node << 1) + 1, mid + 1, end, index, value);
             }
-            tree[node] = new Node(tree[node << 1].odd + tree[(node << 1) + 1].odd, tree[node << 1].even + tree[(node << 1) + 1].even);
+
+            tree[node] = tree[node << 1] + tree[(node << 1) + 1];
         }
 
         Node Query(int node, int start, int end, int left, int right)
@@ -93,9 +100,7 @@ class Program
 
             int mid = (start + end) >> 1;
 
-            Node leftQuery = Query(node << 1, start, mid, left, right);
-            Node rightQuery = Query((node << 1) + 1, mid + 1, end, left, right);
-            return new Node(leftQuery.odd + rightQuery.odd, leftQuery.even + rightQuery.even);
+            return Query(node << 1, start, mid, left, right) + Query((node << 1) + 1, mid + 1, end, left, right);
         }
     }
 }
