@@ -1,10 +1,9 @@
-
 #nullable disable
 
-public struct Node
+public readonly struct Node
 {
-    public long odd;
-    public long even;
+    public readonly long odd;
+    public readonly long even;
 
     public Node(long odd, long even)
     {
@@ -48,9 +47,9 @@ class Program
             if (start == end)
             {
                 if (start % 2 == 1)
-                    tree[node].odd = arr[start - 1]; // 1index => 0-index
+                    tree[node] = new Node(arr[start - 1], 0); // 1index => 0-index
                 else
-                    tree[node].even = arr[start - 1];
+                    tree[node] = new Node(0, arr[start - 1]);
 
                 return;
             }
@@ -59,8 +58,7 @@ class Program
             Build(node << 1, start, mid);
             Build((node << 1) + 1, mid + 1, end);
 
-            tree[node].odd = tree[node << 1].odd + tree[(node << 1) + 1].odd;
-            tree[node].even = tree[node << 1].even + tree[(node << 1) + 1].even;
+            tree[node] = new Node(tree[node << 1].odd + tree[(node << 1) + 1].odd, tree[node << 1].even + tree[(node << 1) + 1].even);
         }
 
         void Update(int node, int start, int end, int index, int value)
@@ -68,9 +66,9 @@ class Program
             if (start == end)
             {
                 if (start % 2 == 1)
-                    tree[node].odd += value;
+                    tree[node] = new Node(tree[node].odd + value, tree[node].even);
                 else
-                    tree[node].even += value;
+                    tree[node] = new Node(tree[node].odd, tree[node].even + value);
                 return;
             }
             int mid = (start + end) >> 1;
@@ -82,8 +80,7 @@ class Program
             {
                 Update((node << 1) + 1, mid + 1, end, index, value);
             }
-            tree[node].odd = tree[node << 1].odd + tree[(node << 1) + 1].odd;
-            tree[node].even = tree[node << 1].even + tree[(node << 1) + 1].even;
+            tree[node] = new Node(tree[node << 1].odd + tree[(node << 1) + 1].odd, tree[node << 1].even + tree[(node << 1) + 1].even);
         }
 
         Node Query(int node, int start, int end, int left, int right)
