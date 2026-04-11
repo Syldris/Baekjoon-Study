@@ -8,13 +8,11 @@ class Program
 
         int testcase = int.Parse(sr.ReadLine());
 
-        const int Range = 100000;
-        int[] tree = new int[Range * 4];
-
         for (int t = 0; t < testcase; t++)
         {
             int n = int.Parse(sr.ReadLine());
             long result = 0;
+            int[] tree = new int[n * 4];
 
             int[] arr1 = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
             int[] arr2 = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
@@ -29,47 +27,45 @@ class Program
             for (int i = 0; i < n; i++)
             {
                 int index = order[arr2[i]];
-                Update(1, 1, Range, index);
-                result += Query(1, 1, Range, index + 1, Range);
+                Update(1, 1, n, index);
+                result += Query(1, 1, n, index + 1, n);
             }
 
             sw.WriteLine(result);
 
-            Array.Fill(tree, 0);
-        }
-
-        void Update(int node, int start, int end, int index)
-        {
-            if (start == end)
+            void Update(int node, int start, int end, int index)
             {
-                tree[node]++;
-                return;
+                if (start == end)
+                {
+                    tree[node]++;
+                    return;
+                }
+
+                int mid = (start + end) >> 1;
+                if (index <= mid)
+                {
+                    Update(node << 1, start, mid, index);
+                }
+                else
+                {
+                    Update((node << 1) + 1, mid + 1, end, index);
+                }
+
+                tree[node] = tree[node << 1] + tree[(node << 1) + 1];
             }
 
-            int mid = (start + end) >> 1;
-            if (index <= mid)
+            int Query(int node, int start, int end, int left, int right)
             {
-                Update(node << 1, start, mid, index);
+                if (start > right || end < left)
+                    return 0;
+
+                if (left <= start && end <= right)
+                    return tree[node];
+
+                int mid = (start + end) >> 1;
+
+                return Query(node << 1, start, mid, left, right) + Query((node << 1) + 1, mid + 1, end, left, right);
             }
-            else
-            {
-                Update((node << 1) + 1, mid + 1, end, index);
-            }
-
-            tree[node] = tree[node << 1] + tree[(node << 1) + 1];
-        }
-
-        int Query(int node, int start, int end, int left, int right)
-        {
-            if (start > right || end < left)
-                return 0;
-
-            if (left <= start && end <= right)
-                return tree[node];
-
-            int mid = (start + end) >> 1;
-
-            return Query(node << 1, start, mid, left, right) + Query((node << 1) + 1, mid + 1, end, left, right);
         }
     }
 }
