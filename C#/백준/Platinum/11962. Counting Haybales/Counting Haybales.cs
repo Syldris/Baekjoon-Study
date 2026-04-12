@@ -21,7 +21,7 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
 
         string[] input = sr.ReadLine().Split();
         int n = int.Parse(input[0]);
@@ -80,6 +80,7 @@ class Program
                 tree[node].totalValue += value * (end - start + 1);
                 tree[node].minValue += value;
                 lazy[node] += value;
+
                 return;
             }
 
