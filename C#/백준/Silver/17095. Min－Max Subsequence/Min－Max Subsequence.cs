@@ -19,39 +19,20 @@ class Program
         }
 
         int result = int.MaxValue;
+        int lastMinIndex = -1;
+        int lastMaxIndex = -1;
 
         for (int i = 0; i < n; i++)
         {
-            if (arr[i] == min || arr[i] == max)
+            if (arr[i] == min)
+                lastMinIndex = i;
+
+            else if (arr[i] == max)
+                lastMaxIndex = i;
+
+            if (lastMinIndex != -1 && lastMaxIndex != -1)
             {
-                int start = i, end = i + 1;
-
-                while (start < end && end < n)
-                {
-                    // 최소 최대 | 최대 최소 일때 경우검사
-                    if ((arr[start] == min && arr[end] == max) || (arr[start] == max && arr[end] == min))
-                    {
-                        result = Math.Min(result, end - start + 1);
-                        break;
-                    }
-
-                    end++;
-                }
-
-                if (end < n)
-                {
-                    while (start < end)
-                    {
-                        // 최소 최대 | 최대 최소 일때 경우검사
-                        if ((arr[start] == min && arr[end] == max) || (arr[start] == max && arr[end] == min))
-                        {
-                            result = Math.Min(result, end - start + 1);
-                        }
-                        start++; // start end 잡았을때 start 올리면서 검사
-                    }
-                }
-
-                i = end - 1; // start~end 사이까진 조사 끝. end~? 조사
+                result = Math.Min(result, Math.Abs(lastMinIndex - lastMaxIndex) + 1);
             }
         }
 
