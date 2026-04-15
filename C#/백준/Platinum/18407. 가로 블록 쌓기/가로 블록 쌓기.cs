@@ -16,32 +16,51 @@ class Program
         }
 
 
-        Dictionary<int, int> dict = new();
-        List<int> sorted = new();
+        int[] sorted = new int[n * 2];
         for (int i = 0; i < n; i++)
         {
-            sorted.Add(query[i].start);
-            sorted.Add(query[i].end);
+            sorted[i * 2] = query[i].start; // 0 2 4 6 8
+            sorted[i * 2 + 1] = query[i].end; // 1 3 5 7 9
         }
 
-        sorted = sorted.Distinct().ToList();
-        sorted.Sort();
+        int[] order = new int[n * 2];
+        for (int i = 0; i < n * 2; i++)
+        {
+            order[i] = i;
+        }
+
+        // 인덱스를 위의 배열을 통해 정렬. 
+        // 1 1000 100 10 는 1 4 3 2 인덱스로 2번째 작은애는 4번째 인덱스다 등으로 표현. order = index
+
+        Array.Sort(order, (a, b) => (sorted[a].CompareTo(sorted[b])));
 
         int rank = 0;
-        foreach (int item in sorted)
+
+        int prevValue = sorted[order[0]]; // 0번째로 작은수 기록.
+        sorted[order[0]] = ++rank;
+        for (int i = 1; i < n * 2; i++)
         {
-            dict[item] = ++rank; // 값 = 순서로 좌표압축
+            int index = order[i]; // i번째로 작은수의 원래 인덱스.
+
+            if (sorted[index] > prevValue) // i-1번째로 작은수보다 크다면
+            {
+                ++rank;
+            }
+
+            prevValue = sorted[index]; // i번째로 작은수 기록.
+            sorted[index] = rank; // index에 순서 기록.
         }
 
+        for (int i = 0; i < n; i++)
+        {
+            query[i] = (sorted[i * 2], sorted[i * 2 + 1]);
+        }
         int[] tree = new int[rank * 4];
         int[] lazy = new int[rank * 4];
 
         for (int i = 0; i < n; i++)
         {
-            (int start, int end) = query[i];
-
-            int left = dict[start];
-            int right = dict[end]; // 좌표압축으로 불러오기
+            (int left, int right) = query[i];
 
             int height = Query(1, 1, rank, left, right); // left ~ right 밑발판 최대높이구하기.
 
