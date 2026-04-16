@@ -15,21 +15,34 @@ class Program
             query[i] = (line[0], line[1]);
         }
 
-        List<int> sorted = new List<int>();
+        int[] sorted = new int[n * 2];
         for (int i = 0; i < n; i++)
         {
-            sorted.Add(query[i].start);
-            sorted.Add(query[i].start + query[i].size - 1);
+            sorted[i * 2] = query[i].start;
+            sorted[i * 2 + 1] = query[i].start + query[i].size - 1;
         }
 
-        Dictionary<int, int> dict = new();
-        sorted = sorted.Distinct().ToList();
-        sorted.Sort();
+        int[] order = new int[n * 2];
+        for (int i = 0; i < n * 2; i++)
+            order[i] = i;
+
+        Array.Sort(order, (a, b) => sorted[a].CompareTo(sorted[b]));
 
         int rank = 0;
-        for (int i = 0; i < sorted.Count; i++)
+        int prevValue = sorted[order[0]]; // 1번째로 작은 값 저장
+        sorted[order[0]] = ++rank;
+        for (int i = 1; i < n * 2; i++)
         {
-            dict[sorted[i]] = ++rank; // 값 = 순서 매핑
+            int index = order[i]; // i번째로 작은수의 index
+
+            if (sorted[index] > prevValue) // 이전수보다 크면 랭크 1 증가.
+            {
+                ++rank;
+            }
+
+            prevValue = sorted[index];
+            sorted[index] = rank;
+
         }
 
         long[] tree = new long[rank * 4];
@@ -39,8 +52,8 @@ class Program
         {
             (int start, int size) = query[i];
 
-            int left = dict[start];
-            int right = dict[start + size - 1];
+            int left = sorted[i * 2];
+            int right = sorted[i * 2 + 1];
 
             long height = Query(1, 1, rank, left, right); // left ~ right 밑발판 최대높이구하기.
 
