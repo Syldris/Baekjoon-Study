@@ -4,7 +4,7 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
 
         int n = int.Parse(sr.ReadLine());
 
@@ -31,6 +31,7 @@ class Program
         int rank = 0;
         int prevValue = sorted[order[0]]; // 1번째로 작은 값 저장
         sorted[order[0]] = ++rank;
+
         for (int i = 1; i < n * 2; i++)
         {
             int index = order[i]; // i번째로 작은수의 index
@@ -42,7 +43,6 @@ class Program
 
             prevValue = sorted[index];
             sorted[index] = rank;
-
         }
 
         long[] tree = new long[rank * 4];
