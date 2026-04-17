@@ -10,7 +10,7 @@ class Program
         int n = int.Parse(input[0]);
         int c = int.Parse(input[1]);
 
-        int logN = (int)Math.Log(n);
+        int logN = (int)Math.Sqrt(n);
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
