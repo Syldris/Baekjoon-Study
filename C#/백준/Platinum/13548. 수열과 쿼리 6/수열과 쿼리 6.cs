@@ -7,13 +7,13 @@ class Program
         using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
 
         int n = int.Parse(sr.ReadLine());
-        int logN = (int)Math.Log(n) + 1;
+        int sqrtN = (int)Math.Sqrt(n);
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
         int m = int.Parse(sr.ReadLine());
 
-        int bucketsize = (n / logN) + 1;
+        int bucketsize = (n / sqrtN) + 1;
         List<(int index, int start, int end)>[] bucket = new List<(int, int, int)>[bucketsize];
 
         for (int i = 0; i < bucketsize; i++)
@@ -31,7 +31,7 @@ class Program
             int start = line[0];
             int end = line[1];
 
-            bucket[start / logN].Add((i, start, end)); // 시작점을 logN으로 나눠서 버킷안에다 담음.
+            bucket[start / sqrtN].Add((i, start, end)); // 시작점을 logN으로 나눠서 버킷안에다 담음.
         }
 
         for (int i = 0; i < bucketsize; i++)
@@ -115,7 +115,6 @@ class Program
                     max--;
             }
         }
-
 
         for (int i = 0; i < m; i++)
         {
