@@ -4,13 +4,13 @@ class Program
     static void Main()
     {
         using StreamReader sr = new StreamReader(Console.OpenStandardInput(), bufferSize: 1 << 18);
-        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 18);
+        using StreamWriter sw = new StreamWriter(Console.OpenStandardOutput(), bufferSize: 1 << 16);
 
         string[] input = sr.ReadLine().Split();
         int n = int.Parse(input[0]);
         int c = int.Parse(input[1]);
 
-        int logN = (int)Math.Log(n);
+        int logN = (int)Math.Sqrt(n);
 
         int[] arr = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
 
