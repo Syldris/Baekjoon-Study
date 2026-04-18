@@ -27,14 +27,14 @@ class Program
         for (int i = 0; i < m; i++)
         {
             int[] line = Array.ConvertAll(sr.ReadLine().Split(), int.Parse);
-            // 끝점이 단조 증가 or 감소되게끔 정렬하면 버킷 1개당 N 버킷은 logN개니 끝점 NlogN
-            // 시작점은 버킷범위안이므로 최대 logN번만 움직임. 쿼리 갯수 M개일때 MlogN
-            // 고로 시작점 MlogN + 끝점 NlogN + 정렬 NlogN 이다.
+            // 끝점이 단조 증가 or 감소되게끔 정렬하면 버킷 1개당 N 버킷은 SqrtN개니 끝점 NSqrtN
+            // 시작점은 버킷범위안이므로 최대 SqrtN번만 움직임. 쿼리 갯수 M개일때 MSqrtN
+            // 고로 시작점 M SqrtN + 끝점 N SqrtN + 정렬 NlogN 이다.
 
             int start = line[0];
             int end = line[1];
 
-            bucket[start / logN].Add((i, start, end)); // 시작점을 logN으로 나눠서 버킷안에다 담음.
+            bucket[start / logN].Add((i, start, end)); // 시작점을 SqrtN으로 나눠서 버킷안에다 담음.
         }
 
         for (int i = 0; i < bucketsize; i++)
