@@ -36,6 +36,7 @@ public class Solution
                 if (begin[k] != words[i][k])
                 {
                     diff++;
+                    if (diff > 1) break; // 조기종료.
                 }
             }
 
@@ -58,6 +59,7 @@ public class Solution
                     if (words[i][k] != words[j][k])
                     {
                         diff++;
+                        if (diff > 1) break;
                     }
                 }
 
