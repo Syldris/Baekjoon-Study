@@ -22,9 +22,10 @@ public class Solution
     void BackTrack(int depth)
     {
         if (close > open) // 어느 순간에도 닫는 괄호가 여는 괄호보다 많으면 안됨.
-        {
             return;
-        }
+
+        if (open > n || close > n) // 둘중 하나가 n개를 초과하면 n개 n개로 안맞아 떨어지므로 가지치기.
+            return;
 
         if (depth == n * 2)
         {
