@@ -58,7 +58,7 @@ public class Solution
         // x > sqrtN 및 a < sqrtN일때 x * a 는 a * x 에서 이미 검사했다. 
         // 그러므로 sqrtN까지만 검사 해도 됨.
 
-        for (long i = 2; i < sqrtValue; i++)
+        for (int i = 2; i < sqrtValue; i++)
         {
             if (value % i == 0)
                 return false;
