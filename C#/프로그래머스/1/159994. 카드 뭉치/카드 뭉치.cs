@@ -4,8 +4,6 @@ public class Solution
 {
     public string solution(string[] cards1, string[] cards2, string[] goal)
     {
-        string answer = "";
-
         int index1 = 0, index2 = 0;
 
         for (int i = 0; i < goal.Length; i++)
