@@ -37,16 +37,12 @@ public class Solution
 
         while (n > 0)
         {
+            n--; // 1~26으로 계산하던 진법 0~25로 변환.
             long mod = n % 26;
 
-            n /= 26;
-            if (mod == 0) 
-            {
-                sb.Append('z'); // 26번째 z는 나머지 0으로 나오니 에외.
-                n--; // 26/26 = 1 로 나와 26이 az가 되는걸 막기위해 넣음. 27부터 aa.
-            }
+            sb.Append((char)('a' + mod)); // a~z 0~25
 
-            else sb.Append((char)('a' - 1 + mod)); // a~y 1~25
+            n /= 26; // 이후 나누면서 또 다음숫자때 -1 반복 순환.
         }
 
         int textSize = sb.Length;
