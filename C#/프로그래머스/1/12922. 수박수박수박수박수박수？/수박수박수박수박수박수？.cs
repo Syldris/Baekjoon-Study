@@ -6,7 +6,7 @@ public class Solution
         for (int i = 0; i < n; i++)
         {
             if (i % 2 == 0)
-                chars[i] = '수';
+                chars[i] = '수'; 
             else
                 chars[i] = '박';
         }
