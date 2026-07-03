@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 public class Solution
 {
     public int solution(int coin, int[] cards)
@@ -32,6 +33,9 @@ public class Solution
             }
         }
 
+        // 1코인 2장짜리 카드 페어.
+        Queue<(int, int)> twoCoinCardPair = new Queue<(int, int)>();
+
         // 1라운드 부터 시작.
         int answer = 1;
 
@@ -43,37 +47,41 @@ public class Solution
             hoding[card1] = true;
             hoding[card2] = true;
 
-            if (pairCard == 0) // 카드 쌍 0장 되면 보충.
+            if (freeCard[n + 1 - card1] && coin >= 1) // 무료카드랑 해서 0+1 코인으로 카드페어 완성. (언제든지 만들어도 이득)
             {
-                for (int j = 1; j <= n; j++)
-                {
-                    if (coin == 0) break; // 코인 1개짜리는 코인0개될때까지 멈추지않고 사도 될거같다.(2개 짜리보다 항상 이득.)
+                freeCard[n + 1 - card1] = false;
+                hoding[card1] = false;
 
-                    if (freeCard[j] && hoding[n + 1 - j]) // 무료카드 + 지금까지 가져올수 있었던 1코인 카드 1장.
-                    {
-                        freeCard[j] = false;
-                        hoding[n + 1 - j] = false;
+                pairCard++;
+                coin--;
+            }
 
-                        coin--;
-                        pairCard++;
-                    }
-                }
+            if (freeCard[n + 1 - card2] && coin >= 1)
+            {
+                freeCard[n + 1 - card2] = false;
+                hoding[card2] = false;
 
-                if (pairCard == 0 && coin >= 2) // 위에서 무료 카드 1장 포함 카드쌍을 못채운상태. + 코인 2장짜리 카드쌍
-                {
-                    for (int j = 1; j <= n; j++)
-                    {
-                        if (hoding[j] && hoding[n + 1 - j]) // 지금까지 가져올수 있었던 1코인 카드 2장.
-                        {
-                            hoding[j] = false;
-                            hoding[n + 1 - j] = false;
+                pairCard++;
+                coin--;
+            }
 
-                            coin -= 2;
-                            pairCard++;
-                            break; // 코인 2장짜리는 1개만 사고 빨리 다음 카드 2장까지 보면서 무료카드1장 카드쌍이 생기지않나 넘겨본다.
-                        }
-                    }
-                }
+            if (hoding[n + 1 - card1]) // 1+1 코인 쌍 카드페어 큐에 미리 기록.(먼저 만들기 X. 1번 쓰고 다음 카드쌍 체크.)
+            {
+                twoCoinCardPair.Enqueue((card1, n + 1 - card1));
+            }
+            if (hoding[n + 1 - card2])
+            {
+                twoCoinCardPair.Enqueue((card2, n + 1 - card2));
+            }
+
+            if (pairCard == 0 && twoCoinCardPair.Count > 0 && coin >= 2) // 남은 카드쌍이 없고 1+1 카드쌍만 가능할때 코인2장을 써서 1쌍 완성.
+            {
+                (int a, int b) = twoCoinCardPair.Dequeue();
+                hoding[a] = false;
+                hoding[b] = false;
+
+                pairCard++;
+                coin -= 2;
             }
 
             if (pairCard > 0) // 카드 짝이 있다면 제출 후 진행 가능.
