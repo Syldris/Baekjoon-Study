@@ -22,9 +22,11 @@ public class Solution
 
             total[i] = a + b;
 
-            if (a > 0) a--; // 본인 미만의 a에 대해 b값를 요구하는거니 a를 1낮춤.
-
-            score[a] = Math.Max(score[a], b); // 나보다 낮은 a는 b 이상이여야한다. 안그러면 a미만,b 미만 충족.
+            if (a > 0) // a = 0 이라면 본인보다 낮은 a가 없음.
+            {
+                a--; // 본인 미만의 a에 대해 b값를 요구하는거니 a를 1낮춤.
+                score[a] = Math.Max(score[a], b); // 나보다 낮은 a는 b 이상이여야한다. 안그러면 a미만,b 미만 충족.
+            }
         }
 
         for (int i = 99999; i >= 0; i--)
