@@ -14,7 +14,7 @@ public class Solution
 
             value = Math.Min(value, i);
 
-            answer = Math.Max(answer, value); 
+            answer = Math.Max(answer, value);
         }
 
         return answer;
