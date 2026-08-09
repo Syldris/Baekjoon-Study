@@ -39,8 +39,8 @@ public class Solution
     {
         int mlmMoney = money / 10;
         answer[index] += money - mlmMoney;
-
-        if (parent[index] != -1)
+        
+        if (parent[index] != -1 && mlmMoney > 0)
         {
             DFS(parent[index], mlmMoney, parent, answer);
         }
