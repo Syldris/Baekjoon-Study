@@ -34,20 +34,17 @@ public class Solution
         {
             (int startTime, int time) = queue.Dequeue();
 
+            if(curTime < startTime) // 현재시간이 시작시간 전이면 좀 기다림.
+                curTime = startTime;
+
             curTime += time;
 
             answer += curTime - startTime;
 
             for (int i = lastIndex + 1; i < n; i++)
             {
-                if (info[i].startTime <= curTime) // 현재시각이 신청시각이상이라면 후보로 넣기.
+                if (info[i].startTime <= curTime || queue.Count == 0) // 현재시각이 신청시각이상이라면 후보로 넣기. 0이면 기다려서라도 넣음.
                 {
-                    queue.Enqueue((info[i].startTime, info[i].time), (info[i].time, info[i].startTime, info[i].number));
-                    lastIndex = i;
-                }
-                else if (queue.Count == 0) // 0이면 작업 올때까지 기다리다 시작
-                {
-                    curTime = info[i].startTime;
                     queue.Enqueue((info[i].startTime, info[i].time), (info[i].time, info[i].startTime, info[i].number));
                     lastIndex = i;
                 }
@@ -115,7 +112,7 @@ public class PriorityQueue<TElement, TPriority> where TPriority : IComparable<TP
 
             Swap(index, swapIndex);
 
-            index = swapIndex;
+            index = swapIndex; 
         }
 
         return output;
