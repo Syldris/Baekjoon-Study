@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 public class Solution
 {
-    List<(int number, long index)>[] list;
-
     int answer = 0;
     int n;
     long l, r;
+
+    List<(int number, long index)> list = new List<(int number, long index)>();
 
     public int solution(int n, long l, long r)
     {
@@ -15,11 +15,7 @@ public class Solution
         this.r = r;
 
         // 번호, 인덱스
-        list = new List<(int number, long index)>[n + 1];
-        for (int i = 0; i <= n; i++)
-            list[i] = new List<(int number, long index)>();
-
-        list[0].Add((1, 1));
+        list.Add((1, 1));
 
         // 각 칸토어 비트열마다 필요한 구간만 펼쳐 최적화.
         long[,] interval = new long[n + 1, 2];
@@ -45,7 +41,7 @@ public class Solution
     {
         if (depth == n)
         {
-            foreach ((int number, long index) in list[depth])
+            foreach ((int number, long index) in list)
             {
                 if (index < l) continue; // 왼쪽구간보다 작으면 스킵.
                 if (index > r) break; // 오른쪽 구간보다 크면 끝.
@@ -55,7 +51,9 @@ public class Solution
             return;
         }
 
-        foreach ((int number, long index) in list[depth])
+        List<(int number, long index)> nextList = new List<(int number, long index)>();
+
+        foreach ((int number, long index) in list)
         {
             if (index < interval[depth, 0]) continue; // 왼쪽구간보다 작으면 스킵.
             if (index > interval[depth, 1]) break; // 오른쪽 구간보다 크면 끝.
@@ -64,11 +62,15 @@ public class Solution
 
             if (number == 0)
                 for (int i = 0; i < 5; i++)
-                    list[depth + 1].Add((zero[i], nextIndex + i));
+                    nextList.Add((zero[i], nextIndex + i));
             else
                 for (int i = 0; i < 5; i++)
-                    list[depth + 1].Add((one[i], nextIndex + i));
+                    nextList.Add((one[i], nextIndex + i));
         }
+
+        list.Clear();
+        list = nextList;
+
         DFS(depth + 1, interval);
     }
 }
