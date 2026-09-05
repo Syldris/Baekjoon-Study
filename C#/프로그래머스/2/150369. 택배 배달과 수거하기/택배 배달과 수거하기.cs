@@ -18,32 +18,23 @@ public class Solution
 
 
         // 마지막 위치 배달. 수거 위치
-        int deliverieIndex = 0;
-        int pickupIndex = 0;
+        int deliverieIndex = -1;
+        int pickupIndex = -1;
 
         for (int i = n - 1; i >= 0; i--)
         {
-            if (deliverieIndex == 0 && deliveries[i] > 0)
+            if (deliverieIndex == -1 && deliveries[i] > 0)
                 deliverieIndex = i;
 
-            if (pickupIndex == 0 && pickups[i] > 0)
+            if (pickupIndex == -1 && pickups[i] > 0)
                 pickupIndex = i;
 
-            if (deliverieIndex != 0 && pickupIndex != 0)
+            if (deliverieIndex != -1 && pickupIndex != -1)
                 break;
         }
 
-        // 배달 / 수거 끝냈는지 여부
-        bool deliverieClear = false;
-        bool pickupClear = false;
 
-        // 둘다 아무것도 없을떄 넘어가게끔 예외처리.
-        if(deliverieIndex == 0 && deliveries[0] == 0)
-            deliverieClear = true;
-        if(pickupIndex == 0 && pickups[0] == 0)
-            pickupClear = true;
-
-        while (!deliverieClear || !pickupClear)
+        while (deliverieIndex != -1 || pickupIndex != -1)
         {
             answer += (Max(deliverieIndex, pickupIndex) + 1) * 2; // 둘 중 먼 거리까지 왕복으로 이동하게 되어있음.
 
@@ -59,7 +50,7 @@ public class Solution
                 if (deliverieCap >= deliveries[i]) // 더 배달 가능.
                 {
                     deliverieCap -= deliveries[i];
-                    if (i == 0) deliverieClear = true; // 0번집 끝내면 끝.
+                    if (i == 0) deliverieIndex = -1; // 0번집 끝내면 끝.
                 }
                 else // 남은거까지만 배달가능.
                 {
@@ -75,7 +66,7 @@ public class Solution
                 if (pickupCap >= pickups[i])
                 {
                     pickupCap -= pickups[i];
-                    if (i == 0) pickupClear = true;
+                    if (i == 0) pickupIndex = -1;
                 }
                 else
                 {
@@ -84,7 +75,6 @@ public class Solution
                 }
             }
         }
-
 
         return answer;
     }
