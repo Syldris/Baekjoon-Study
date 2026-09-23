@@ -7,14 +7,8 @@ public class Solution
         // 최소공배수는 원소에 대해 x1*x2 / gcd(x1,x2) 성립.
         for (int i = 1; i < arr.Length; i++)
         {
-            int temp = answer;
-
-            temp *= arr[i];
-            temp /= GCD(answer, arr[i]);
-
-            answer = temp;
+            answer = lcm(answer, arr[i]);
         }
-
 
         return answer;
     }
@@ -36,5 +30,10 @@ public class Solution
             b = r;
         }
         return a;
+    }
+
+    int lcm(int a, int b)
+    {
+        return a * b / GCD(a, b);
     }
 }
