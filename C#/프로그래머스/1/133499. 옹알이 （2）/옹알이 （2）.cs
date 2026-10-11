@@ -24,10 +24,8 @@ public class Solution
                 {
                     int len = wordArr[i].Length;
 
-                    // 이전에 쓴 단어와 달라야하며, 인덱스+길이가 텍스트 초과하면 안됨. 반열림구간이니 끝점 textLen까지.
-                    bool isValid = prevWord != i && index + len <= text.Length;
-
-                    if (isValid && word[index..(index + len)].SequenceEqual(wordArr[i])) // 단어 일치 여부 확인.
+                    // 이전에 쓴 단어와 달라야하며. word의 index..의 시작부분이 wordArr과 같아 이을수 있는지 체크.
+                    if (prevWord != i && word[index..].StartsWith(wordArr[i])) // 단어 일치 여부 확인.
                     {
                         prevWord = i;
                         index = index + len;
