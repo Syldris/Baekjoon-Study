@@ -10,7 +10,6 @@ public class Solution
 
         foreach (string text in babbling)
         {
-            ReadOnlySpan<char> word = text.AsSpan();
             bool success = true;
 
             int prevWord = -1; // 이전에 사용한 단어 기록.
@@ -24,14 +23,26 @@ public class Solution
                 {
                     int len = wordArr[i].Length;
 
-                    // 이전에 쓴 단어와 달라야하며. word의 index..의 시작부분이 wordArr과 같아 이을수 있는지 체크.
-                    if (prevWord != i && word[index..].StartsWith(wordArr[i])) // 단어 일치 여부 확인.
+                    if (prevWord == i || index + len > text.Length) continue;
+
+                    bool match = true;
+                    for (int j = 0; j < len; j++)
                     {
-                        prevWord = i;
-                        index = index + len;
+                        if (text[index + j] != wordArr[i][j])
+                        {
+                            match = false;
+                            break;
+                        }
+                    }
+
+                    if (match)
+                    {
                         pass = true;
+                        prevWord = i;
+                        index += len;
                         break;
                     }
+
                 }
 
                 if (!pass) // 단어매칭 실패시 완성불가.
