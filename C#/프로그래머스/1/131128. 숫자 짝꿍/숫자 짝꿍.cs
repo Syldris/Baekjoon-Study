@@ -18,7 +18,7 @@ public class Solution
 
         for (int i = 9; i >= 0; i--) // 1자리 숫자라면, 높은숫자부터 배치하는게 항상 이득
         {
-            sb.Append(new string((char)(i + '0'), Math.Min(countX[i], countY[i])));
+            sb.Append((char)(i + '0'), Math.Min(countX[i], countY[i]));
         }
 
         if (sb.Length == 0) // 없으면 -1
