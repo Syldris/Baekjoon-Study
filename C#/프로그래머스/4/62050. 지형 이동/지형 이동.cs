@@ -3,8 +3,8 @@ using System.Collections.Generic;
 public class Solution
 {
     int n;
-    int[] dx = { -1, 1, 0, 0 };
-    int[] dy = { 0, 0, -1, 1 };
+    int[] dr = { -1, 1, 0, 0 };
+    int[] dc = { 0, 0, -1, 1 };
 
     int[,] group;
     bool[,] visited;
@@ -28,9 +28,9 @@ public class Solution
         {
             for (int c = 0; c < n; c++)
             {
-                if (!visited[c, r])
+                if (!visited[r, c])
                 {
-                    BFS(c, r, height, groupNumber, land);
+                    BFS(r, c, height, groupNumber, land);
                     groupNumber++; // 그룹마다 번호 다르게.
                 }
             }
@@ -38,7 +38,7 @@ public class Solution
 
         Array.Clear(visited);
 
-        PriorityQueue<(int x, int y, int cost), int> queue = new();
+        PriorityQueue<(int r, int c, int cost), int> queue = new();
         queue.Enqueue((0, 0, 0), 0);
 
         bool[] merge = new bool[groupNumber];
@@ -46,15 +46,15 @@ public class Solution
 
         while (queue.Count > 0)
         {
-            (int x, int y, int cost) = queue.Dequeue();
+            (int r, int c, int cost) = queue.Dequeue();
 
-            if (visited[x, y]) continue;
-            visited[x, y] = true;
+            if (visited[r, c]) continue;
+            visited[r, c] = true;
 
-            if (!merge[group[x, y]]) // 미 병합된 상태라면 비용내고 병합완료.
+            if (!merge[group[r, c]]) // 미 병합된 상태라면 비용내고 병합완료.
             {
                 answer += cost;
-                merge[group[x, y]] = true;
+                merge[group[r, c]] = true;
                 mergeSize++;
             }
 
@@ -62,24 +62,24 @@ public class Solution
 
             for (int i = 0; i < 4; i++)
             {
-                int px = x + dx[i];
-                int py = y + dy[i];
+                int pr = r + dr[i];
+                int pc = c + dc[i];
 
-                if (px < 0 || py < 0 || px >= n || py >= n)
+                if (pr < 0 || pc < 0 || pr >= n || pc >= n)
                     continue;
 
                 int moveCost = 0;
 
-                if (group[x, y] != group[px, py]) // 그룹이 서로 다를때.
+                if (group[r, c] != group[pr, pc]) // 그룹이 서로 다를때.
                 {
-                    if (merge[group[px, py]]) continue; // 이미 합병된 그룹이면 비용주고 갈필요 X.
+                    if (merge[group[pr, pc]]) continue; // 이미 합병된 그룹이면 비용주고 갈필요 X.
 
-                    moveCost = Math.Abs(land[x, y] - land[px, py]);
+                    moveCost = Math.Abs(land[r, c] - land[pr, pc]);
                 }
 
-                if (!visited[px, py])
+                if (!visited[pr, pc])
                 {
-                    queue.Enqueue((px, py, moveCost), moveCost); // 항상 작은 비용부터 먼저.
+                    queue.Enqueue((pr, pc, moveCost), moveCost); // 항상 작은 비용부터 먼저.
                 }
             }
         }
@@ -87,30 +87,30 @@ public class Solution
         return answer;
     }
 
-    void BFS(int c, int r, int height, int groupNumber, int[,] land)
+    void BFS(int startR, int startC, int height, int groupNumber, int[,] land)
     {
-        Queue<(int x, int y)> queue = new();
+        Queue<(int r, int c)> queue = new();
 
-        queue.Enqueue((c, r));
-        visited[c, r] = true;
-        group[c, r] = groupNumber;
+        queue.Enqueue((startR, startC));
+        visited[startR, startC] = true;
+        group[startR, startC] = groupNumber;
 
         while (queue.Count > 0)
         {
-            (int x, int y) = queue.Dequeue();
+            (int r, int c) = queue.Dequeue();
             for (int i = 0; i < 4; i++)
             {
-                int px = x + dx[i];
-                int py = y + dy[i];
+                int pr = r + dr[i];
+                int pc = c + dc[i];
 
-                if (px < 0 || py < 0 || px >= n || py >= n) continue;
+                if (pr < 0 || pc < 0 || pr >= n || pc >= n) continue;
 
                 // 미방문 + 높이차 height 이하일때 방문.
-                if (!visited[px, py] && Math.Abs(land[x, y] - land[px, py]) <= height)
+                if (!visited[pr, pc] && Math.Abs(land[r, c] - land[pr, pc]) <= height)
                 {
-                    visited[px, py] = true;
-                    group[px, py] = groupNumber;
-                    queue.Enqueue((px, py));
+                    visited[pr, pc] = true;
+                    group[pr, pc] = groupNumber;
+                    queue.Enqueue((pr, pc));
                 }
             }
         }
