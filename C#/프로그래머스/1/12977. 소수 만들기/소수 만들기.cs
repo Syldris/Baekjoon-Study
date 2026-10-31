@@ -17,6 +17,7 @@ class Solution
 
         for (int i = 2; i * i <= SIZE; i++)
         {
+            if (!isPrime[i]) continue; // 이미 소수가 아니면 i의 배수는 전부 소수가 아니게 제거되어있음.
             for (int j = 2; i * j <= SIZE; j++)
             {
                 isPrime[i * j] = false;
