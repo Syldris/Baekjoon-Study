@@ -19,7 +19,7 @@ public class Solution
                 order = (s[i] - 'a' + n) % 26;
                 arr[i] = (char)(order + 'a');
             }
-            else // 대문지
+            else // 대문자
             {
                 order = (s[i] - 'A' + n) % 26;
                 arr[i] = (char)(order + 'A');
