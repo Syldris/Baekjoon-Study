@@ -116,7 +116,8 @@ public class Solution
     // 인자: 현재패널번호, 방문 비트마스크, 비용, 진입차수, 위성정렬 다음노드, 패널간의 거리, 비트마스킹경로별 비용
     void DFS(int curPanel, int bitMask, int cost, int[] indegree, List<int>[] nextNodes, int[,] panelDist, int[,] bestCost)
     {
-        if (cost > bestCost[bitMask, curPanel]) return; // 가지치기.
+        if (cost >= bestCost[bitMask, curPanel]) return; // 가지치기.
+        if (cost >= answer) return;
 
         bestCost[bitMask, curPanel] = cost;
 
