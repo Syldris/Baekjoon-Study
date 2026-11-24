@@ -16,21 +16,21 @@ class Program
 
         for (int i = 0; i < n; i++)
         {
-            string team = sr.ReadLine();
+            string teamName = sr.ReadLine();
 
             int teamSize = int.Parse(sr.ReadLine());
-            List<string> mamberList = new();
+
+            teamMember.Add(teamName, new List<string>());
 
             for (int j = 0; j < teamSize; j++)
             {
                 string membername = sr.ReadLine();
 
-                mamberList.Add(membername);
-                memberToGroup.Add(membername, team); // 맴버이름 => 그룹
+                teamMember[teamName].Add(membername); // 그룹 이름 => 맴버 리스트 추가.
+                memberToGroup.Add(membername, teamName); // 맴버이름 => 그룹
             }
 
-            mamberList.Sort(); // 사전순 정렬.
-            teamMember.Add(team, mamberList); // 팀 => 그룹 이름 리스트.
+            teamMember[teamName].Sort(); // 사전순 정렬.
         }
 
         for (int i = 0; i < m; i++)
@@ -46,7 +46,9 @@ class Program
                 }
             }
             else
+            {
                 sw.WriteLine(memberToGroup[text]); // 맴버 이름으로 그룹이름 출력.
+            }
         }
     }
 }
